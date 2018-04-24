@@ -1,0 +1,23 @@
+<!--
+  Generated template for the AfazeresPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <custom-header [titulo]="title"></custom-header>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <div *ngFor="let item of itens" ion-item>
+      <h2>Teste | {{item}}/05/18</h2>
+      <p>Descrição</p>
+      <button ion-button item-end>
+        <ion-icon name="checkmark"></ion-icon>
+        Finalizar
+      </button>
+    </div>
+  </ion-list>
+</ion-content>

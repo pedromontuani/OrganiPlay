@@ -1,0 +1,1 @@
+O presente projeto visa ao desenvolvimento de um sistema organizador pessoal gamificado, ou seja, que utiliza mecânicas de recompensas para estimular os usuários a fazerem suas atividides cotidianas, além de auxiliar na adoção ou cessão de hábitos.

@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
-
-import { AboutPage } from '../about/about';
-import { ContactPage } from '../contact/contact';
-import { HomePage } from '../home/home';
+import { MenuController } from 'ionic-angular';
+import { HabitosPage } from '../habitos/habitos';
+import { AfazeresPage } from '../afazeres/afazeres';
+import { RecompensasPage } from '../recompensas/recompensas';
 
 @Component({
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
 
-  tab1Root = HomePage;
-  tab2Root = AboutPage;
-  tab3Root = ContactPage;
+  tab1Root = HabitosPage;
+  tab2Root = AfazeresPage
+  tab3Root = RecompensasPage;
 
-  constructor() {
-
+  constructor(public menuCtrl: MenuController) {
+    menuCtrl.enable(true, "user-menu");
   }
 }
