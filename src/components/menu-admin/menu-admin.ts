@@ -2,18 +2,17 @@ import { Component, Input } from '@angular/core';
 import { AlertController, App, MenuController, NavController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../../pages/login/login';
-
 /**
- * Generated class for the CustomHeaderComponent component.
+ * Generated class for the MenuAdminComponent component.
  *
  * See https://angular.io/api/core/Component for more info on Angular
  * Components.
  */
 @Component({
-  selector: 'custom-header',
-  templateUrl: 'custom-header.html'
+  selector: 'menu-admin',
+  templateUrl: 'menu-admin.html'
 })
-export class CustomHeaderComponent{
+export class MenuAdminComponent{
 
   @Input() titulo: string;
   protected navCtrl: NavController;
@@ -26,7 +25,7 @@ export class CustomHeaderComponent{
   ) {
 
   }
-
+  
   onLogout(): void {
     this.navCtrl = this.app.getActiveNavs()[0];
     this.alertCtrl.create({
@@ -49,5 +48,6 @@ export class CustomHeaderComponent{
         ]
     }).present();
   }
+  
 
 }

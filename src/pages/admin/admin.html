@@ -1,0 +1,38 @@
+<ion-header>
+  <admin-header></admin-header>
+
+  <ion-toolbar>
+    <ion-segment [(ngModel)] = "view">
+      <ion-segment-button value="users">
+        Usuários
+      </ion-segment-button>
+      <ion-segment-button value="mundos">
+        Mundos
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="filterItens($event)"></ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+  <div [ngSwitch] = "view">
+    <ion-list *ngSwitchCase="'users'">
+      <div *ngFor="let user of (users | async)">
+        <button ion-item (click)="onUserOpen(chat)">
+          <h2>{{user.username}}</h2>
+        </button>
+      </div>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'mundos'">
+      <button ion-item *ngFor="let mundo of (mundos | async)" (click)="onMundoOpen(user)">
+          {{mundo.name}}
+      </button>
+    </ion-list>
+  </div>
+
+</ion-content>
