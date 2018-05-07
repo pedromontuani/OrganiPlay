@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { AlertController, App, MenuController, NavController } from 'ionic-angular';
+import { AlertController, App, MenuController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { LoginPage } from '../../pages/login/login';
+import { BaseComponent } from '../base.component';
 
 /**
  * Generated class for the CustomHeaderComponent component.
@@ -13,10 +13,9 @@ import { LoginPage } from '../../pages/login/login';
   selector: 'custom-header',
   templateUrl: 'custom-header.html'
 })
-export class CustomHeaderComponent{
+export class CustomHeaderComponent extends BaseComponent{
 
   @Input() titulo: string;
-  protected navCtrl: NavController;
 
   constructor(
     public alertCtrl: AlertController,
@@ -24,30 +23,7 @@ export class CustomHeaderComponent{
     public menuCtrl: MenuController,
     public authProvider: AuthProvider,
   ) {
-
-  }
-
-  onLogout(): void {
-    this.navCtrl = this.app.getActiveNavs()[0];
-    this.alertCtrl.create({
-        message: 'Do you want to quit?',
-        buttons: [
-            {
-                text: 'Yes',
-                handler: () => {
-                    this.authProvider.logout()
-                        .then(() => {
-                            this.navCtrl.setRoot(LoginPage);
-                            this.menuCtrl.enable(false, 'user-menu');
-                            this.menuCtrl.enable(false, 'menu-admin');
-                        });
-                }
-            },
-            {
-                text: 'No'
-            }
-        ]
-    }).present();
+    super(alertCtrl, authProvider, app, menuCtrl);
   }
 
 }

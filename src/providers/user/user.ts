@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { BaseProvider } from '../base/base';
 
-import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { User } from '../../models/user.model';
 import { AuthProvider } from '../auth/auth';
 
@@ -11,7 +11,6 @@ import { AuthProvider } from '../auth/auth';
 
 @Injectable()
 export class UserProvider extends BaseProvider {
-
 
   currentUser: Observable<User>;
   currentUserObject: AngularFireObject<User>;
@@ -27,13 +26,20 @@ export class UserProvider extends BaseProvider {
   }
 
   create(user:User, uid: string): Promise<void>{
-    return this.db.object('/users/padrao/'+uid)
+    user = new User(
+      user.name,
+      user.username,
+      user.email,
+      "",
+      "player"
+    );
+    return this.db.object('/users/'+uid)
       .set(user)
       .catch(this.handlePromiseError);
   }
 
   userExists(username: string): Observable<boolean>{
-    return this.db.list('/users/padrao', ref => ref.orderByChild("username").equalTo(username)
+    return this.db.list('/users', ref => ref.orderByChild("username").equalTo(username)
     ).valueChanges()
     .map((users: User[]) => {
       return users.length > 0;

@@ -1,5 +1,5 @@
 <ion-content>
-  <user-info></user-info>
+    <user-info [user]="currentUser" [isMenu]="true"></user-info>
   <ion-list>
     <button ion-item icon-right detail-none menuClose="user-menu" (click)="onProfile()">
       Perfil

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { AlertController, App, MenuController, NavController } from 'ionic-angular';
+import { Component, Input } from '@angular/core';
+import { AlertController, App, MenuController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { LoginPage } from '../../pages/login/login';
+import { BaseComponent } from '../base.component';
+import { User } from '../../models/user.model';
 
 /**
  * Generated class for the UserMenuComponent component.
@@ -13,10 +14,10 @@ import { LoginPage } from '../../pages/login/login';
   selector: 'user-menu',
   templateUrl: 'user-menu.html'
 })
-export class UserMenuComponent {
+export class UserMenuComponent extends BaseComponent{
 
   text: string;
-  protected navCtrl: NavController;
+  @Input('user') currentUser: User;
 
   constructor(
     public alertCtrl: AlertController,
@@ -24,35 +25,12 @@ export class UserMenuComponent {
     public menuCtrl: MenuController,
     public authProvider: AuthProvider,
   ) {
-    console.log('Hello UserMenuComponent Component');
+    super(alertCtrl, authProvider, app, menuCtrl);
     this.text = 'Hello World';
   }
 
   onProfile() {
     console.log('Hello UserMenuComponent Component');
-  }
-
-  onLogout(): void {
-    this.navCtrl = this.app.getActiveNavs()[0];
-    this.alertCtrl.create({
-        message: 'Do you want to quit?',
-        buttons: [
-            {
-                text: 'Yes',
-                handler: () => {
-                    this.authProvider.logout()
-                        .then(() => {
-                            this.navCtrl.setRoot(LoginPage);
-                            this.menuCtrl.enable(false, 'user-menu');
-                            this.menuCtrl.enable(false, 'menu-admin');
-                        });
-                }
-            },
-            {
-                text: 'No'
-            }
-        ]
-    }).present();
   }
 
 }

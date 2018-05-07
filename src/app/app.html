@@ -1,9 +1,9 @@
 <ion-menu [content]="content" enabled="false" id="user-menu">
-    <user-menu></user-menu>
+    <user-menu [user]="currentUser"></user-menu>
 </ion-menu>
 
 <ion-menu [content]="content" enabled="false" id="menu-admin">
-    <menu-admin></menu-admin>
+    <menu-admin [user]="currentUser"></menu-admin>
   </ion-menu>
 
 <ion-nav #content [root]="rootPage"></ion-nav>

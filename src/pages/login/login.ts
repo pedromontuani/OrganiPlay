@@ -7,6 +7,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { UserProvider } from '../../providers/user/user';
 import { AdminPage } from '../admin/admin';
 import { User } from '../../models/user.model';
+import { AdminProvider } from '../../providers/admin/admin';
 
 /**
  * Generated class for the LoginPage page.
@@ -30,7 +31,8 @@ export class LoginPage {
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public formBuilder: FormBuilder, 
-    public navParams: NavParams
+    public navParams: NavParams,
+    public adminProvider: AdminProvider
   ) {
 
     this.loginForm = this.formBuilder.group({
@@ -52,6 +54,7 @@ export class LoginPage {
             .subscribe((user: User) =>{
               if(user.type == "adm"){
                 this.navCtrl.setRoot(AdminPage);
+                this.adminProvider.getUsers();
               } else {
                 this.navCtrl.setRoot(TabsPage);
               }

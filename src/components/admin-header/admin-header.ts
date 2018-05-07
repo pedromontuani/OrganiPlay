@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController, App, MenuController, NavController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../../pages/login/login';
-
+import { BaseComponent } from '../base.component';
 /**
  * Generated class for the AdminHeaderComponent component.
  *
@@ -13,10 +13,9 @@ import { LoginPage } from '../../pages/login/login';
   selector: 'admin-header',
   templateUrl: 'admin-header.html'
 })
-export class AdminHeaderComponent{
+export class AdminHeaderComponent extends BaseComponent{
 
   titulo: string;
-  protected navCtrl: NavController;
 
   constructor(
     public alertCtrl: AlertController,
@@ -24,31 +23,8 @@ export class AdminHeaderComponent{
     public menuCtrl: MenuController,
     public authProvider: AuthProvider,
   ) {
-    console.log('Hello AdminHeaderComponent Component');
+    super(alertCtrl, authProvider, app, menuCtrl);
     this.titulo = 'Administrador';
-  }
-
-  onLogout(): void {
-    this.navCtrl = this.app.getActiveNavs()[0];
-    this.alertCtrl.create({
-        message: 'Do you want to quit?',
-        buttons: [
-            {
-                text: 'Yes',
-                handler: () => {
-                    this.authProvider.logout()
-                        .then(() => {
-                            this.navCtrl.setRoot(LoginPage);
-                            this.menuCtrl.enable(false, 'user-menu');
-                            this.menuCtrl.enable(false, 'menu-admin');
-                        });
-                }
-            },
-            {
-                text: 'No'
-            }
-        ]
-    }).present();
   }
 
 }

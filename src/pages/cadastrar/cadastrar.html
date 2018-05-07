@@ -29,6 +29,10 @@
       <ion-input type="password" placeholder="Senha" formControlName="password" minlength="6"></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-input type="password" placeholder="Confirmar senha" formControlName="passwordConfirm" minlength="6"></ion-input>
+    </ion-item>
+
     <br>
     <button ion-button color="primary" block type="submit" [disabled]="signUpForm.invalid">Cadastrar</button>
     
