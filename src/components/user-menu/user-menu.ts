@@ -3,6 +3,7 @@ import { AlertController, App, MenuController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { BaseComponent } from '../base.component';
 import { User } from '../../models/user.model';
+import { AdmEditarUsuarioPage } from '../../pages/adm-editar-usuario/adm-editar-usuario';
 
 /**
  * Generated class for the UserMenuComponent component.
@@ -18,6 +19,7 @@ export class UserMenuComponent extends BaseComponent{
 
   text: string;
   @Input('user') currentUser: User;
+  @Input('uid') currentUserUid: string;
 
   constructor(
     public alertCtrl: AlertController,
@@ -30,7 +32,8 @@ export class UserMenuComponent extends BaseComponent{
   }
 
   onProfile() {
-    console.log('Hello UserMenuComponent Component');
+    this.navCtrl = this.app.getActiveNavs()[0];
+    this.navCtrl.push(AdmEditarUsuarioPage, {uid : this.currentUserUid});
   }
 
 }

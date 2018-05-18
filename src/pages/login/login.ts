@@ -8,6 +8,7 @@ import { UserProvider } from '../../providers/user/user';
 import { AdminPage } from '../admin/admin';
 import { User } from '../../models/user.model';
 import { AdminProvider } from '../../providers/admin/admin';
+import { BasePage } from '../base/base';
 
 /**
  * Generated class for the LoginPage page.
@@ -21,7 +22,7 @@ import { AdminProvider } from '../../providers/admin/admin';
   selector: 'page-login',
   templateUrl: 'login.html',
 })
-export class LoginPage {
+export class LoginPage extends BasePage{
   public loginForm: FormGroup;
 
   constructor(
@@ -34,7 +35,7 @@ export class LoginPage {
     public navParams: NavParams,
     public adminProvider: AdminProvider
   ) {
-
+    super(alertCtrl, loadingCtrl);
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -54,7 +55,7 @@ export class LoginPage {
             .subscribe((user: User) =>{
               if(user.type == "adm"){
                 this.navCtrl.setRoot(AdminPage);
-                this.adminProvider.getUsers();
+                this.adminProvider.getUsers(this.authProvider.userUID);
               } else {
                 this.navCtrl.setRoot(TabsPage);
               }
@@ -64,21 +65,6 @@ export class LoginPage {
         loading.dismiss();
         this.showAlert(error);
       });
-  }
-
-  private showLoading(): Loading{
-    let loading: Loading = this.loadingCtrl.create({
-      content: "Aguarde..."
-    });
-    loading.present();
-    return loading;
-  }
-
-  private showAlert(message: string){
-    this.alertCtrl.create({
-      message: message,
-      buttons: ['Ok']
-    }).present();
   }
 
   onSignUp() {

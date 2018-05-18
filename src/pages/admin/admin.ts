@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
 import { UserProvider } from '../../providers/user/user';
 import { AdminProvider } from '../../providers/admin/admin';
+import { AdmEditarUsuarioPage } from '../adm-editar-usuario/adm-editar-usuario';
 
 /**
  * Generated class for the AdminPage page.
@@ -18,7 +19,7 @@ import { AdminProvider } from '../../providers/admin/admin';
   templateUrl: 'admin.html',
 })
 export class AdminPage {
-  users: Observable<User[]>;
+  users;
   mundos: Observable<User>;
   view: string = "users";
   
@@ -37,15 +38,15 @@ export class AdminPage {
   }
 
   ionViewWillLoad(){
-    this.users = this.adminProvider.users;
+    this.users = this.adminProvider.usersList;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AdminPage');
   }
 
-  onUserClick(){
-    console.log('ionViewDidLoad AdminPage');
+  onUserClick(user: User){
+    this.navCtrl.push(AdmEditarUsuarioPage, {uid : user.$key});
   }
 
   addUsuario(){
@@ -55,5 +56,32 @@ export class AdminPage {
   addMundo(){
     console.log("Mundo");
   }
+
+  filterItens(event: any) {
+    let searchTerm: string = event.target.value;
+
+    if(searchTerm){
+      switch(this.view){
+        case "mundos":
+         // this.chats = this.chats.map((chats: Chat[])=>{
+        //    return chats.filter((chat: Chat)=>{
+         //     return (chat.title.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+         //   });
+        //  });
+          break;
+        case "users":
+          this.users = this.users.map((users: User[])=>{
+            return users.filter((user: User)=>{
+              return (user.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+            });
+          });
+          break;
+      }
+    } else {
+      this.users = this.adminProvider.usersList;
+     // this.chats = this.chatService.chats;
+    }
+  }
+
 
 }

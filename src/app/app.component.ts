@@ -17,7 +17,7 @@ import { User } from '../models/user.model';
 export class MyApp {
   rootPage:any;
   currentUser: User;
-
+  currentUserUid: string;
   constructor(
     platform: Platform, 
     statusBar: StatusBar, 
@@ -31,12 +31,12 @@ export class MyApp {
       if (authUser) {
         authProvider.setUid();
         userProvider.getUserById(authProvider.userUID);
-
         userProvider.isAdmin.then(() => {
           this.rootPage = AdminPage;
-          adminProvider.getUsers();
+          adminProvider.getUsers(authUser.uid);
         }).catch(() => {
           this.rootPage = TabsPage;
+          this.currentUserUid = authProvider.userUID;
         });
         userProvider.currentUser.subscribe((user: User) => {
           this.currentUser = user;

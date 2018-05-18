@@ -23,7 +23,7 @@
     <ion-list *ngSwitchCase="'users'">
 
       <div *ngFor="let user of (users | async)">
-        <button ion-item (click)="onUserClick()" detail-push>
+        <button ion-item (click)="onUserClick(user)" detail-push>
           <h2>{{user.username}}</h2>
           <p>{{user.email}}</p>
         </button>

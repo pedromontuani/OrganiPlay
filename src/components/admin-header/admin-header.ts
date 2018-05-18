@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { AlertController, App, MenuController, NavController } from 'ionic-angular';
+import { AlertController, App, MenuController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { LoginPage } from '../../pages/login/login';
 import { BaseComponent } from '../base.component';
 /**
  * Generated class for the AdminHeaderComponent component.

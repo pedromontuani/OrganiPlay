@@ -30,7 +30,7 @@ export class UserProvider extends BaseProvider {
       user.name,
       user.username,
       user.email,
-      "",
+      undefined,
       "player"
     );
     return this.db.object('/users/'+uid)
@@ -51,8 +51,8 @@ export class UserProvider extends BaseProvider {
     this.currentUser = this.currentUserObject.valueChanges();
   }
 
-  edit(user: {name: string, username: string, photo: string}): Promise<void> {
-    return this.currentUserObject
+  editUser(user: User, uid: string): Promise<void>{
+    return this.db.object(`/users/${uid}`)
       .update(user)
       .catch(this.handlePromiseError);
   }

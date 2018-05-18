@@ -1,8 +1,10 @@
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs';
+import { BaseProvider } from '../base/base';
+import { firebase } from 'firebase/database';
 
 /*
   Generated class for the AdminProvider provider.
@@ -11,18 +13,29 @@ import { Observable } from 'rxjs';
   and Angular DI.
 */
 @Injectable()
-export class AdminProvider {
-  users: Observable<User[]>
+export class AdminProvider extends BaseProvider{
+
+  usersList: Observable<User[]>;
 
   constructor(
     public http: Http,
     public db: AngularFireDatabase
   ) {
+    super();
     console.log('Hello AdminProvider Provider');
   }
 
-  getUsers() {
-    this.users = this.db.list<User>('/users').valueChanges();
+  getUsers(uidToExclude: string) {
+    this.usersList = this.mapListKeys(this.db.list<User>('/users', 
+    (ref: firebase.database.Reference) => ref.orderByChild('username')))
+      .map((users: User[]) => {      
+        return users.filter((user: User) => user.$key !== uidToExclude);
+      });
+  }
+
+  getSingleUser(uid: string): Observable<User>{
+    return this.db.object<User>(`/users/${uid}`)
+      .valueChanges();
   }
 
 }

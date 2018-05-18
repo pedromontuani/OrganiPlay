@@ -26,6 +26,7 @@ import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { MenuAdminComponent } from '../components/menu-admin/menu-admin';
+import { AdmEditarUsuarioPage } from '../pages/adm-editar-usuario/adm-editar-usuario';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -49,7 +50,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     UserInfoComponent,
     UserMenuComponent,
     AfazeresPage,
-    RecompensasPage
+    RecompensasPage,
+    AdmEditarUsuarioPage
   ],
   imports: [
     HttpModule,
@@ -68,7 +70,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     LoginPage,
     CadastrarPage,
     AfazeresPage,
-    RecompensasPage
+    RecompensasPage,
+    AdmEditarUsuarioPage
   ],
   providers: [
     StatusBar,

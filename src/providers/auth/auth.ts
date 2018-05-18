@@ -2,13 +2,14 @@ import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { BaseProvider } from '../base/base';
+import { MenuController } from 'ionic-angular';
 
 @Injectable()
 export class AuthProvider extends BaseProvider{
 
   userUID: string;
 
-  constructor(public auth: AngularFireAuth, public http: Http) {
+  constructor(public auth: AngularFireAuth, public http: Http, public menuCtrl: MenuController) {
     super();
   }
 
@@ -25,6 +26,8 @@ export class AuthProvider extends BaseProvider{
   }
 
   logout(): Promise<void>{
+    this.menuCtrl.enable(false, "user-menu");
+    this.menuCtrl.enable(false, "menu-admin");
     return this.auth.auth.signOut();
   }
 

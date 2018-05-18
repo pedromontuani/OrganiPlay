@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Perfil do Usuário</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <user-info [user]="user"></user-info>
+
+  <form (ngSubmit)="onSubmit(); $event.preventDefault()" *ngIf="canEdit" #profileForm="ngForm">
+    <ion-item>
+      <ion-input type="text" 
+        placeholder="Nome" name="name" 
+        [(ngModel)]="user.name" 
+        required minlength="3">
+      </ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-input type="text" 
+        placeholder="Username" name="username" 
+        [(ngModel)]="user.username" 
+        required minlength="3">
+      </ion-input>
+    </ion-item>
+    <button ion-button block type="submit" [disabled]="profileForm.form.invalid">Salvar</button>
+  </form>
+  <button ion-button block color="danger">Excluir</button>
+</ion-content>

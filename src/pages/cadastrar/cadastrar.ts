@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TabsPage } from '../tabs/tabs';
 import { AuthProvider } from '../../providers/auth/auth';
 import { UserProvider } from '../../providers/user/user';
+import { BasePage } from '../base/base';
 
 /**
  * Generated class for the CadastrarPage page.
@@ -18,7 +19,7 @@ import { UserProvider } from '../../providers/user/user';
   selector: 'page-cadastrar',
   templateUrl: 'cadastrar.html',
 })
-export class CadastrarPage {
+export class CadastrarPage extends BasePage{
   public signUpForm: FormGroup;
   constructor(
     public navCtrl: NavController,
@@ -29,6 +30,7 @@ export class CadastrarPage {
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController
   ) {
+    super(alertCtrl, loadingCtrl);
     this.signUpForm = this.formBuilder.group({
       name: ['', Validators.required],
       username: ['', Validators.required],
@@ -79,21 +81,6 @@ export class CadastrarPage {
       this.showAlert("As senhas não coincidem.");
     }
 
-  }
-
-  private showLoading(): Loading {
-    let loading: Loading = this.loadingCtrl.create({
-      content: "Aguarde..."
-    });
-    loading.present();
-    return loading;
-  }
-
-  private showAlert(message: string) {
-    this.alertCtrl.create({
-      message: message,
-      buttons: ['Ok']
-    }).present();
   }
 
 }
