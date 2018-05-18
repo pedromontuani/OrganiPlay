@@ -15,7 +15,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class HabitosPage {
   public title: string = "Hábitos";
-  public itens: string[] = ["Estudar Matemática","Roer as Unhas","Estalar os Dedos","Procrastinar","Hábito Teste 05","Hábito Teste 06","Hábito Teste 07","Hábito Teste 08"];
+  public itens1: string[] = ["Hábito Teste 05","Hábito Teste 06","Hábito Teste 07","Hábito Teste 08"];
+  public itens2: string[] = ["Dormir Tarde","Roer as Unhas","Estalar os Dedos","Procrastinar"];
+  public descricao: string[] = ["descicao 1","descricao 2"];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

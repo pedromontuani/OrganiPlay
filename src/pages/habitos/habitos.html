@@ -11,16 +11,27 @@
 
 <ion-content padding>  
 	<ion-list>
-    <div *ngFor="let item of itens" ion-item text-center>
-    	<button ion-button item-start>
-        <ion-icon name="add"></ion-icon>
+    <div *ngFor="let item of itens1; let desc of descricao" ion-item text-center>
+      <ion-icon name="thumbs-up" color="info" large item-start></ion-icon>
+      <h2 id="bom">{{item}}</h2>
+      <button id="botao" ion-button color="info" item-end icon-only small>
+          <ion-icon name="add-circle"></ion-icon>
       </button>
-      <h2>{{item}}</h2>
-      <p>Descrição</p>
-      <button ion-button color="danger" item-end (click) = "onItem(item)">
-        <ion-icon name="remove"></ion-icon>
+      <button id="botao" ion-button color="danger" icon-only item-end small>
+        <ion-icon name="remove-circle"></ion-icon>
+      </button>  
+    </div>
+  </ion-list>
+  <ion-list>
+    <div *ngFor="let item of itens2; let desc of descricao" ion-item text-center>
+      <ion-icon name="thumbs-down" color="danger" large item-start></ion-icon>
+      <h2 id="ruim">{{item}}</h2>
+      <button id="botao" ion-button color="info" item-end icon-only small>
+          <ion-icon name="add-circle"></ion-icon>
       </button>
-      
+      <button id="botao" ion-button color="danger" icon-only item-end small>
+        <ion-icon name="remove-circle"></ion-icon>
+      </button>  
     </div>
   </ion-list>
 </ion-content>
