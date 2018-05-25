@@ -12,7 +12,17 @@
     </ion-toolbar>
 </ion-header>
 
-
 <ion-content padding>
+  <ion-list>
+    <div *ngFor="let item of itens;" ion-item>
+      <h2>{{item}}</h2>
+      <button ion-button item-end>
+        <ion-icon name="checkmark"></ion-icon>
+        Ok
+      </button>
+      <ion-icon name="cash" icon-only large>{{preco}}</ion-icon>
+      <ion-icon name="snow" icon-only large>{{gema}}</ion-icon>
 
+    </div>
+  </ion-list>
 </ion-content>

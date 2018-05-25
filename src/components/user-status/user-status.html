@@ -1,4 +1,7 @@
 <ion-list no-lines>
+  <div id="icone">
+        <ion-icon name="contact"></ion-icon>
+    </div>
   <ion-item>
     <ion-icon name="heart" item-start></ion-icon>
     <div class="progress-outer">
@@ -7,7 +10,8 @@
       </div>
     </div>
     <div item-end>
-      <ion-icon name="usd"> <p>{{status.coins}}</p></ion-icon>
+      <ion-icon name="cash" icon-only></ion-icon>
+      <p>{{status.coins}}</p>
     </div>
   </ion-item>
 
@@ -17,6 +21,10 @@
       <div class="progress-inner" [style.width]="status.xp + '%'">
         {{ status.xp }}%
       </div>
+    </div>
+    <div item-end>
+      <ion-icon name="snow"></ion-icon>
+      <p>{{status.gems}}</p>
     </div>
   </ion-item>
 </ion-list>

@@ -15,12 +15,13 @@
 <ion-content padding>
   <ion-list>
     <div *ngFor="let item of itens" ion-item>
-      <h2>Teste | {{item}}/05/18</h2>
+      <h2>Teste | <ion-icon name="calendar" icon-only large></ion-icon> {{item}}/05/18</h2>
       <p>Descrição</p>
       <button ion-button item-end>
         <ion-icon name="checkmark"></ion-icon>
         Finalizar
       </button>
+
     </div>
   </ion-list>
 </ion-content>

@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <custom-header [titulo]="title"></custom-header>
-  <ion-toolbar>
+  <ion-toolbar>    
       <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
     </ion-toolbar>
 </ion-header>
@@ -14,9 +14,10 @@
 
 <ion-content padding>  
 	<ion-list>
-    <div *ngFor="let item of itens1; let desc of descricao" ion-item text-center>
+    <div *ngFor="let item of itens1; let descricao of desc" ion-item text-center>
       <ion-icon name="thumbs-up" color="info" large item-start></ion-icon>
       <h2 id="bom">{{item}}</h2>
+      {{descricao}}
       <button id="botao" ion-button color="info" item-end icon-only small>
           <ion-icon name="add-circle"></ion-icon>
       </button>
