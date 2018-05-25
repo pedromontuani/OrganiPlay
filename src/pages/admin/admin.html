@@ -24,7 +24,10 @@
 
       <div *ngFor="let user of (users | async)">
         <button ion-item (click)="onUserClick(user)" detail-push>
-          <h2>{{user.username}}</h2>
+          <ion-avatar item-start>
+            <img class="round" [src]="user.photo || 'assets/imgs/no-photo.jpg'">
+          </ion-avatar>
+          <h2>{{user.name}}</h2>
           <p>{{user.email}}</p>
         </button>
 
@@ -39,16 +42,16 @@
   </div>
 
   <div [ngSwitch]="view">
-      <ion-fab bottom right >
-          <button ion-fab (click)="addUsuario()" *ngSwitchCase="'users'">
-            <ion-icon name="add"></ion-icon>
-          </button>
+    <ion-fab bottom right>
+      <button ion-fab (click)="addUsuario()" *ngSwitchCase="'users'">
+        <ion-icon name="add"></ion-icon>
+      </button>
 
-          <button ion-fab (click)="addMundo()" *ngSwitchCase="'mundos'">
-              <ion-icon name="add"></ion-icon>
-            </button>
-        </ion-fab>
+      <button ion-fab (click)="addMundo()" *ngSwitchCase="'mundos'">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-fab>
   </div>
- 
+
 
 </ion-content>

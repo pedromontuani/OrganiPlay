@@ -1,0 +1,22 @@
+<ion-list no-lines>
+  <ion-item>
+    <ion-icon name="heart" item-start></ion-icon>
+    <div class="progress-outer">
+      <div class="progress-inner" [style.width]="status.hp + '%'">
+        {{ status.hp }}%
+      </div>
+    </div>
+    <div item-end>
+      <ion-icon name="usd"> <p>{{status.coins}}</p></ion-icon>
+    </div>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="star" item-start></ion-icon>
+    <div class="progress-outer">
+      <div class="progress-inner" [style.width]="status.xp + '%'">
+        {{ status.xp }}%
+      </div>
+    </div>
+  </ion-item>
+</ion-list>

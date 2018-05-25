@@ -46,6 +46,7 @@ export class AdminPage {
   }
 
   onUserClick(user: User){
+    console.log(user);
     this.navCtrl.push(AdmEditarUsuarioPage, {uid : user.$key});
   }
 

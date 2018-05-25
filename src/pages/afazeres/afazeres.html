@@ -6,6 +6,9 @@
 -->
 <ion-header>
   <custom-header [titulo]="title"></custom-header>
+  <ion-toolbar>
+      <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
+    </ion-toolbar>
 </ion-header>
 
 

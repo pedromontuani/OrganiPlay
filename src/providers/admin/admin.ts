@@ -27,7 +27,7 @@ export class AdminProvider extends BaseProvider{
 
   getUsers(uidToExclude: string) {
     this.usersList = this.mapListKeys(this.db.list<User>('/users', 
-    (ref: firebase.database.Reference) => ref.orderByChild('username')))
+    (ref: firebase.database.Reference) => ref.orderByChild('name')))
       .map((users: User[]) => {      
         return users.filter((user: User) => user.$key !== uidToExclude);
       });

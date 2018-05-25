@@ -27,6 +27,10 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { MenuAdminComponent } from '../components/menu-admin/menu-admin';
 import { AdmEditarUsuarioPage } from '../pages/adm-editar-usuario/adm-editar-usuario';
+import { UserStatusComponent } from '../components/user-status/user-status';
+import { NovaRecompensaPage } from '../pages/nova-recompensa/nova-recompensa';
+import { NovoAfazerPage } from '../pages/novo-afazer/novo-afazer';
+import { NovoHabitoPage } from '../pages/novo-habito/novo-habito';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -51,7 +55,11 @@ const firebaseAppConfig: FirebaseAppConfig = {
     UserMenuComponent,
     AfazeresPage,
     RecompensasPage,
-    AdmEditarUsuarioPage
+    AdmEditarUsuarioPage,
+    UserStatusComponent,
+    NovaRecompensaPage,
+    NovoAfazerPage,
+    NovoHabitoPage
   ],
   imports: [
     HttpModule,
@@ -71,7 +79,10 @@ const firebaseAppConfig: FirebaseAppConfig = {
     CadastrarPage,
     AfazeresPage,
     RecompensasPage,
-    AdmEditarUsuarioPage
+    AdmEditarUsuarioPage,
+    NovaRecompensaPage,
+    NovoAfazerPage,
+    NovoHabitoPage
   ],
   providers: [
     StatusBar,

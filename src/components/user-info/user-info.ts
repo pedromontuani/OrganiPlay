@@ -9,6 +9,7 @@ export class UserInfoComponent {
 
   @Input() isMenu: boolean = false;
   @Input() user: User;
+  heart: string = "heart";
 
   constructor() {
     console.log('Hello UserInfoComponent Component');

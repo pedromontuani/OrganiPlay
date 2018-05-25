@@ -4,4 +4,5 @@
   </ion-avatar>
   <h2 text-center>{{user.name}}</h2>
   <p text-center>@{{user.username}}</p>
+  <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
 </div>

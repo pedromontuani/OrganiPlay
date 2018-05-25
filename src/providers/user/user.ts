@@ -6,6 +6,7 @@ import { BaseProvider } from '../base/base';
 import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { User } from '../../models/user.model';
 import { AuthProvider } from '../auth/auth';
+import { Status } from '../../models/status.model';
 
 
 
@@ -30,10 +31,10 @@ export class UserProvider extends BaseProvider {
       user.name,
       user.username,
       user.email,
-      undefined,
-      "player"
+      "player",
+      new Status(0, 100, 100, 0)
     );
-    return this.db.object('/users/'+uid)
+    return this.db.object(`/users/${uid}`)
       .set(user)
       .catch(this.handlePromiseError);
   }
@@ -48,6 +49,8 @@ export class UserProvider extends BaseProvider {
 
   getUserById(uid: string) {
     this.currentUserObject = this.db.object(`/users/${uid}`);
+    this.currentUserObject.valueChanges().first().subscribe((user: User) => {
+    });
     this.currentUser = this.currentUserObject.valueChanges();
   }
 
