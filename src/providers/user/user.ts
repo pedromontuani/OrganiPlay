@@ -7,6 +7,9 @@ import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { User } from '../../models/user.model';
 import { AuthProvider } from '../auth/auth';
 import { Status } from '../../models/status.model';
+import { HabitosPage } from '../../pages/habitos/habitos';
+import { AfazeresPage } from '../../pages/afazeres/afazeres';
+import { RecompensasPage } from '../../pages/recompensas/recompensas';
 
 
 
@@ -15,15 +18,15 @@ export class UserProvider extends BaseProvider {
 
   currentUser: Observable<User>;
   currentUserObject: AngularFireObject<User>;
+  userSubscribe: User;
   type: string;
 
   constructor(
     public db: AngularFireDatabase,
     public http: Http,
-    public authService: AuthProvider
+    public authService: AuthProvider,
   ) {
     super();
-
   }
 
   create(user:User, uid: string): Promise<void>{
@@ -49,7 +52,8 @@ export class UserProvider extends BaseProvider {
 
   getUserById(uid: string) {
     this.currentUserObject = this.db.object(`/users/${uid}`);
-    this.currentUserObject.valueChanges().first().subscribe((user: User) => {
+    this.currentUserObject.valueChanges().subscribe((user: User) => {
+      this.userSubscribe = user;
     });
     this.currentUser = this.currentUserObject.valueChanges();
   }
@@ -58,6 +62,10 @@ export class UserProvider extends BaseProvider {
     return this.db.object(`/users/${uid}`)
       .update(user)
       .catch(this.handlePromiseError);
+  }
+
+  updateStatus(status: Status, uid: string): Promise<void>{
+    return this.db.object(`/users/${uid}/status`).update(status);
   }
 
   get isAdmin(): Promise<boolean> {

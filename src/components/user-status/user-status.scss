@@ -1,6 +1,6 @@
 user-status {
 
-    .progress-outer {
+    #hp.progress-outer {
         width: 96%;
         margin: 10px 2%;
         padding: 3px;
@@ -9,19 +9,49 @@ user-status {
         border: 1px solid #dcdcdc;
         color: #fff;
         border-radius: 20px;
+
+        .progress-inner {
+            min-width: 1%;
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 5px;
+            border-radius: 20px;
+            background-color: map-get($colors, danger);
+        }
+    }
+
+    #xp.progress-outer {
+        width: 96%;
+        margin: 10px 2%;
+        padding: 3px;
+        text-align: center;
+        background-color: #f4f4f4;
+        border: 1px solid #dcdcdc;
+        color: #fff;
+        border-radius: 20px;
+
+        .progress-inner {
+            min-width: 1%;
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 5px;
+            border-radius: 20px;
+            background-color: map-get($colors, xp);
+        }
     }
  
-    .progress-inner {
-        min-width: 1%;
-        white-space: nowrap;
-        overflow: hidden;
-        padding: 5px;
-        border-radius: 20px;
-        background-color: map-get($colors, secondary);
-    }
+    
     #icone{
         font-size:100px;
         margin-left:40%;
+    }
+
+    ion-item {
+        background-color: rgba(0, 0, 0, 0) !important;
+        #icone-dinheiro {
+            padding-right: 15px;
+        }
+        height: 30px;
     }
 
 }

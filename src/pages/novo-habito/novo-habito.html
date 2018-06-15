@@ -7,12 +7,50 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>novo-habito</ion-title>
+    <ion-title>Novo Hábito</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <h1 text-center>
+    <ion-icon name="person" class="icon-auth" color="primary"></ion-icon>
+  </h1>
+  <form (ngSubmit)="onSubmit(); $event.preventDefault()" [formGroup]="novoHabitoForm">
+    <ion-item>
+      <ion-label>Hábito</ion-label>
+      <ion-input type="text" formControlName="habito"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Descrição</ion-label>
+      <ion-textarea formControlName="descricao"></ion-textarea>
+    </ion-item>
+    <ion-item radio-group>
+      <ion-label>Tipo</ion-label>
+      <ion-select formControlName="tipo">
+        <ion-option value="Desejável" selected>Desejável</ion-option>
+        <ion-option value="Indesejável">Indesejável</ion-option>
+      </ion-select>  
+    </ion-item>
+    <ion-item>
+      <ion-label>Nível</ion-label>
+      <ion-select formControlName="nivel">
+        <ion-option value="Fácil" selected>Fácil</ion-option>
+        <ion-option value="Médio">Médio</ion-option>
+        <ion-option value="Difícil">Difícil</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Data de Inicío</ion-label>
+      <ion-input type="date" text-right formControlName="dataInicio"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Data do Fim</ion-label>
+      <ion-input type="date" text-right formControlName="dataFim"></ion-input>
+    </ion-item>
+    <br><br>
+    <button type="submit" ion-button block [disabled]="novoHabitoForm.invalid">Salvar</button>
 
+  </form>
 </ion-content>

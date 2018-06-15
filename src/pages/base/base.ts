@@ -1,9 +1,10 @@
-import { Loading, AlertController, LoadingController } from 'ionic-angular';
+import { Loading, AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 export abstract class BasePage {
     constructor(
         public alertCtrl: AlertController,
-        public loadingCtrl: LoadingController
+        public loadingCtrl: LoadingController,
+        public toastCtrl: ToastController
     ){
 
     }
@@ -20,6 +21,16 @@ export abstract class BasePage {
             message: message,
             buttons: ['Ok']
         }).present();
+    }
+
+    protected showToast(mensagem: string){
+        let toast = this.toastCtrl.create({
+            message: mensagem,
+            duration: 3000,
+            position: 'bottom'
+        });
+
+        toast.present();
     }
 
 }

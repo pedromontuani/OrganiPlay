@@ -14,10 +14,10 @@ import { BasePage } from '../base/base';
 
 @IonicPage()
 @Component({
-  selector: 'page-adm-editar-usuario',
-  templateUrl: 'adm-editar-usuario.html',
+  selector: 'page-editar-perfil',
+  templateUrl: 'editar-perfil.html',
 })
-export class AdmEditarUsuarioPage extends BasePage{
+export class EditarPerfilPage extends BasePage{
   user: User;
   userUid: string;
   canEdit: boolean = false;

@@ -31,6 +31,8 @@ import { UserStatusComponent } from '../components/user-status/user-status';
 import { NovaRecompensaPage } from '../pages/nova-recompensa/nova-recompensa';
 import { NovoAfazerPage } from '../pages/novo-afazer/novo-afazer';
 import { NovoHabitoPage } from '../pages/novo-habito/novo-habito';
+import { EditarPerfilPage } from '../pages/editar-perfil/editar-perfil';
+import { HabitosProvider } from '../providers/habitos/habitos';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -59,7 +61,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     UserStatusComponent,
     NovaRecompensaPage,
     NovoAfazerPage,
-    NovoHabitoPage
+    NovoHabitoPage,
+    EditarPerfilPage
   ],
   imports: [
     HttpModule,
@@ -82,7 +85,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AdmEditarUsuarioPage,
     NovaRecompensaPage,
     NovoAfazerPage,
-    NovoHabitoPage
+    NovoHabitoPage,
+    EditarPerfilPage
   ],
   providers: [
     StatusBar,
@@ -90,7 +94,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AdminProvider,
     AuthProvider,
-    UserProvider
+    UserProvider,
+    HabitosProvider
   ]
 })
 export class AppModule {}

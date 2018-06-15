@@ -18,15 +18,28 @@ import { Status } from '../../models/status.model';
 })
 export class AfazeresPage {
   public title: string = "Afazeres";
-  public itens: string[] = ["01","02","03","04","05","06","07","08","09","10"];
-  public user: User = new User("Fulano", "fulano", "fulano@fulano.com", "player", new Status(100, 100, 100, 10));
+  public itens: string[] = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"];
+  public user: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public userProvider: UserProvider) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public userProvider: UserProvider
+  ) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AfazeresPage');
+  ionViewWillLoad() {
+    this.user = this.userProvider.userSubscribe;
+    this.sync();
   }
-  
+
+  sync() {
+    this.userProvider.currentUserObject
+      .valueChanges()
+      .subscribe((user: User) => {
+        this.user = user;
+      });
+  }
+
 
 }

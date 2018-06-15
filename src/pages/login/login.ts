@@ -35,7 +35,7 @@ export class LoginPage extends BasePage{
     public navParams: NavParams,
     public adminProvider: AdminProvider
   ) {
-    super(alertCtrl, loadingCtrl);
+    super(alertCtrl, loadingCtrl, undefined);
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]

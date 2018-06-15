@@ -6,36 +6,44 @@
 -->
 <ion-header>
   <custom-header [titulo]="title"></custom-header>
-  <ion-toolbar>    
-      <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
-    </ion-toolbar>
+  <ion-toolbar>
+    <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
+  </ion-toolbar>
+  <ion-toolbar text-right>
+    <button ion-button (click)="novoHabito()" outline>Novo hábito</button>
+  </ion-toolbar>
 </ion-header>
 
 
-<ion-content padding>  
-	<ion-list>
-    <div *ngFor="let item of itens1; let descricao of desc" ion-item text-center>
-      <ion-icon name="thumbs-up" color="info" large item-start></ion-icon>
-      <h2 id="bom">{{item}}</h2>
-      {{descricao}}
-      <button id="botao" ion-button color="info" item-end icon-only small>
+<ion-content padding>
+  <ion-list>
+    <div *ngFor="let habitoDesejavel of (habitos | async)">
+      <div *ngIf="habitoDesejavel.tipo == 'Desejável'" ion-item text-center>
+        <ion-icon name="thumbs-up" color="info" large item-start></ion-icon>
+        <h2 id="bom">{{habitoDesejavel.habito}}</h2>
+        {{habitoDesejavel.descricao}}
+        <button id="botao" ion-button color="info" item-end icon-only small (click)="interagir(habitoDesejavel)">
           <ion-icon name="add-circle"></ion-icon>
-      </button>
-      <button id="botao" ion-button color="danger" icon-only item-end small>
-        <ion-icon name="remove-circle"></ion-icon>
-      </button>  
+        </button>
+        <button id="botao" ion-button color="danger" icon-only item-end small (click)="interagir(habitoDesejavel)">
+          <ion-icon name="remove-circle"></ion-icon>
+        </button>
+      </div>
     </div>
   </ion-list>
   <ion-list>
-    <div *ngFor="let item of itens2; let desc of descricao" ion-item text-center>
-      <ion-icon name="thumbs-down" color="danger" large item-start></ion-icon>
-      <h2 id="ruim">{{item}}</h2>
-      <button id="botao" ion-button color="info" item-end icon-only small>
+    <div *ngFor="let habitoIndesejavel of (habitos | async)">
+      <div *ngIf="habitoIndesejavel.tipo == 'Indesejável'" ion-item text-center>
+        <ion-icon name="thumbs-down" color="danger" large item-start></ion-icon>
+        <h2 id="ruim">{{habitoIndesejavel.habito}}</h2>
+        {{habitoIndesejavel.descricao}}
+        <button id="botao" ion-button color="info" item-end icon-only small (click)="interagir(habitoIndesejavel)">
           <ion-icon name="add-circle"></ion-icon>
-      </button>
-      <button id="botao" ion-button color="danger" icon-only item-end small>
-        <ion-icon name="remove-circle"></ion-icon>
-      </button>  
+        </button>
+        <button id="botao" ion-button color="danger" icon-only item-end small (click)="interagir(habitoIndesejavel)">
+          <ion-icon name="remove-circle"></ion-icon>
+        </button>
+      </div>
     </div>
   </ion-list>
 </ion-content>

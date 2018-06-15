@@ -30,7 +30,7 @@ export class CadastrarPage extends BasePage{
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController
   ) {
-    super(alertCtrl, loadingCtrl);
+    super(alertCtrl, loadingCtrl, undefined);
     this.signUpForm = this.formBuilder.group({
       name: ['', Validators.required],
       username: ['', Validators.required],

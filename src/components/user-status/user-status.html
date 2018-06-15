@@ -1,30 +1,23 @@
 <ion-list no-lines>
-  <div id="icone">
-        <ion-icon name="contact"></ion-icon>
-    </div>
   <ion-item>
-    <ion-icon name="heart" item-start></ion-icon>
-    <div class="progress-outer">
+    <ion-icon name="heart" color="danger" item-start></ion-icon>
+    <div class="progress-outer" id="hp">
       <div class="progress-inner" [style.width]="status.hp + '%'">
         {{ status.hp }}%
       </div>
     </div>
-    <div item-end>
-      <ion-icon name="cash" icon-only></ion-icon>
-      <p>{{status.coins}}</p>
-    </div>
   </ion-item>
 
   <ion-item>
-    <ion-icon name="star" item-start></ion-icon>
-    <div class="progress-outer">
+    <ion-icon name="star" color="xp" item-start></ion-icon>
+    <div class="progress-outer" id="xp">
       <div class="progress-inner" [style.width]="status.xp + '%'">
         {{ status.xp }}%
       </div>
     </div>
     <div item-end>
-      <ion-icon name="snow"></ion-icon>
-      <p>{{status.gems}}</p>
+      <ion-icon name="cash" id="icone-dinheiro" color="cash"> {{status.coins}} </ion-icon>
+      <ion-icon name="snow" color="gems"> {{status.gems}} </ion-icon>
     </div>
   </ion-item>
 </ion-list>
