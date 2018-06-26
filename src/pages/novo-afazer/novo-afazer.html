@@ -7,12 +7,48 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>novo-afazer</ion-title>
+    <ion-title>Nova Tarefa</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <h1 text-center>
+    <ion-icon name="list" class="icon-list" color="primary"></ion-icon>
+  </h1>
+  <form (ngSubmit)="onSubmit(); $event.preventDefault()" [formGroup]="novoAfazerForm">
+    <ion-item>
+      <ion-label>Afazer</ion-label>
+      <ion-input type="text" formControlName="afazer"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Descrição</ion-label>
+      <ion-textarea formControlName="descricao"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>Nível</ion-label>
+      <ion-select formControlName="nivel">
+        <ion-option value="Fácil" selected>Fácil</ion-option>
+        <ion-option value="Médio">Médio</ion-option>
+        <ion-option value="Difícil">Difícil</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Data da Finalização</ion-label>
+      <ion-input type="date" text-right formControlName="dataFim"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Associar recompensa</ion-label>
+      <ion-select formControlName="recompensa">
+        <ion-option value="Fácil" selected>Fácil</ion-option>
+        <ion-option value="Médio">Médio</ion-option>
+        <ion-option value="Difícil">Difícil</ion-option>
+      </ion-select>
+    </ion-item>
+    <br>
+    <br>
+    <button type="submit" ion-button block [disabled]="novoAfazerForm.invalid">Salvar</button>
 
+  </form>
 </ion-content>

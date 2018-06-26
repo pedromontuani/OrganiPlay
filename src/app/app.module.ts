@@ -33,6 +33,7 @@ import { NovoAfazerPage } from '../pages/novo-afazer/novo-afazer';
 import { NovoHabitoPage } from '../pages/novo-habito/novo-habito';
 import { EditarPerfilPage } from '../pages/editar-perfil/editar-perfil';
 import { HabitosProvider } from '../providers/habitos/habitos';
+import { AfazeresProvider } from '../providers/afazeres/afazeres';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -70,7 +71,9 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AngularFireModule.initializeApp(firebaseAppConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, {
+      tabsHideOnSubPages: true
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -95,7 +98,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AdminProvider,
     AuthProvider,
     UserProvider,
-    HabitosProvider
+    HabitosProvider,
+    AfazeresProvider
   ]
 })
 export class AppModule {}

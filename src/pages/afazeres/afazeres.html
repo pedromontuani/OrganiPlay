@@ -7,17 +7,21 @@
 <ion-header>
   <custom-header [titulo]="title"></custom-header>
   <ion-toolbar>
-      <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
-    </ion-toolbar>
+    <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
+  </ion-toolbar>
+  <ion-toolbar text-right>
+    <button ion-button (click)="novoAfazer()" outline>Nova Tarefa</button>
+  </ion-toolbar>
 </ion-header>
 
 
 <ion-content padding>
   <ion-list>
-    <div *ngFor="let item of itens" ion-item>
-      <h2>Teste | <ion-icon name="calendar" icon-only large></ion-icon> {{item}}/05/18</h2>
-      <p>Descrição</p>
-      <button ion-button item-end>
+    <div *ngFor="let afazer of (afazeres | async)" ion-item>
+      <h2>{{afazer.afazer}} |
+        <ion-icon name="calendar" icon-only large></ion-icon> {{afazer.dataFim}}</h2>
+      <p>{{afazer.descricao}}</p>
+      <button ion-button item-end (click)="finalizarTarefa(afazer)">
         <ion-icon name="checkmark"></ion-icon>
         Finalizar
       </button>

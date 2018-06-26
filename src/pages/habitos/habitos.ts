@@ -71,7 +71,7 @@ export class HabitosPage extends BasePage{
       status.hp -= 10;
       this.userProvider.updateStatus(status, this.authProvider.userUID)
         .then(() => {
-          this.showToast("Você ganhou XP e Moedas!");
+          this.showToast("Você perdeu 10 pontos de vida...");
         })
         .catch(() => {
           this.showToast("Erro...");
