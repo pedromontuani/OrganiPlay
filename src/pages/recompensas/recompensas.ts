@@ -3,6 +3,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Status } from '../../models/status.model';
 import { User } from '../../models/user.model';
 import { UserProvider } from '../../providers/user/user';
+import { NovaRecompensaPage } from '../nova-recompensa/nova-recompensa';
+import { Observable } from 'rxjs/Observable';
+import { Recompensa } from '../../models/recompensa.model';
+import { RecompensasProvider } from '../../providers/recompensas/recompensas';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the RecompensasPage page.
@@ -18,20 +23,21 @@ import { UserProvider } from '../../providers/user/user';
 })
 export class RecompensasPage {
   public title: string = "Recompensas";
-  public itens: String[] = ["Viajar para a Europa", "Cumprir 15 Tarefas", "Ter resultados na Academia", "Não morrer"]
-  public prices: String[] = ["1500", "350", "430", "500"]
-  public gems: String[] = ["150", "35", "43", "50"]
+  public recompensas: Observable<Recompensa[]>
   public user: User;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public userProvider: UserProvider
+    public userProvider: UserProvider,
+    public recompensasProvider: RecompensasProvider,
+    public authProvider: AuthProvider
   ) {
   }
 
   ionViewWillLoad() {
     this.user = this.userProvider.userSubscribe;
     this.sync();
+    this.recompensas = this.recompensasProvider.getRecompensasObservable(this.authProvider.userUID);
   }
 
   sync() {
@@ -40,5 +46,9 @@ export class RecompensasPage {
       .subscribe((user: User) => {
         this.user = user;
       });
+  }
+
+  novaRecompensa() {
+    this.navCtrl.push(NovaRecompensaPage);
   }
 }

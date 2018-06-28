@@ -7,12 +7,58 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>nova-recompensa</ion-title>
+    <ion-title>Nova Recompensa</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <h1 text-center>
+    <ion-icon name="trophy" class="icon-trophy" color="primary"></ion-icon>
+  </h1>
+  <form (ngSubmit)="onSubmit(); $event.preventDefault()" [formGroup]="novaRecompensaForm">
+    <ion-item>
+      <ion-label>Recompensa</ion-label>
+      <ion-input type="text" formControlName="recompensa"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Descrição</ion-label>
+      <ion-textarea formControlName="descricao"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>Requisitos</ion-label>
+      <ion-select multiple="true" (ionChange)="mostrarCampos($event)">
+        <ion-option value="valor" selected>Valor</ion-option>
+        <ion-option value="nivel">Nível</ion-option>
+        <ion-option value="tarefas">Tarefa</ion-option>        
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="campoNivel">
+      <ion-label>Nível mínimo</ion-label>
+      <ion-input type="number" text-right formControlName="nivel"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="campoTarefas">
+      <ion-label>Tarefa necessária</ion-label>
+      <ion-select formControlName="afazer">
+        <ion-option *ngFor="let tarefa of (tarefas | async)" [value]="tarefa.$key">{{tarefa.afazer}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="campoValor">
+      <ion-label>Moedas</ion-label>
+      <ion-input type="number" text-right formControlName="moedas" placeholder="0"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="campoValor">
+      <ion-label>Gemas</ion-label>
+      <ion-input type="number" text-right formControlName="gemas" placeholder="0"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="campoValor">
+      <ion-label>Dinheiro</ion-label>
+      <ion-input type="number" text-right formControlName="dinheiro" placeholder="R$ 0.00"></ion-input>
+    </ion-item>
+    <br>
+    <br>
+    <button type="submit" ion-button block [disabled]="novaRecompensaForm.invalid">Salvar</button>
 
+  </form>
 </ion-content>

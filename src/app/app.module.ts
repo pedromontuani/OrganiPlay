@@ -34,6 +34,7 @@ import { NovoHabitoPage } from '../pages/novo-habito/novo-habito';
 import { EditarPerfilPage } from '../pages/editar-perfil/editar-perfil';
 import { HabitosProvider } from '../providers/habitos/habitos';
 import { AfazeresProvider } from '../providers/afazeres/afazeres';
+import { RecompensasProvider } from '../providers/recompensas/recompensas';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -99,7 +100,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AuthProvider,
     UserProvider,
     HabitosProvider,
-    AfazeresProvider
+    AfazeresProvider,
+    RecompensasProvider
   ]
 })
 export class AppModule {}

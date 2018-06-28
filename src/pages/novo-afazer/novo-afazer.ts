@@ -33,8 +33,8 @@ export class NovoAfazerPage extends BasePage {
         afazer: [this.afazer.afazer, [Validators.required]],
         descricao: [this.afazer.descricao],
         nivel: [this.afazer.nivel, [Validators.required]],
-        dataFim: [this.afazer.dataFim],
-        recompensa: [this.afazer.recompensa]
+        dataFim: [this.afazer.dataFim]
+        //recompensa: [this.afazer.recompensa]
       });
       this.edit = false;
     } else {
@@ -42,8 +42,8 @@ export class NovoAfazerPage extends BasePage {
         afazer: ['', [Validators.required]],
         descricao: [],
         nivel: ['Fácil', [Validators.required]],
-        dataFim: [],
-        recompensa: []
+        dataFim: []
+        //recompensa: []
       });
       this.uid = this.authProvider.userUID;
     }

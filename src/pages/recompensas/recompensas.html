@@ -8,21 +8,23 @@
 
   <custom-header [titulo]="title"></custom-header>
   <ion-toolbar>
-      <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
-    </ion-toolbar>
+    <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
+  </ion-toolbar>
+  <ion-toolbar text-right>
+    <button ion-button (click)="novaRecompensa()" outline>Nova Recompensa</button>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ion-list>
-    <div *ngFor="let item of itens;" ion-item>
-      <h2>{{item}}</h2>
-      <button ion-button item-end>
-        <ion-icon name="checkmark"></ion-icon>
-        Ok
-      </button>
-      <ion-icon name="cash" icon-only large>{{preco}}</ion-icon>
-      <ion-icon name="snow" icon-only large>{{gema}}</ion-icon>
+    <button *ngFor="let recompensa of (recompensas | async)" ion-item>
+      <h2>{{recompensa.recompensa}}</h2>
+      <ion-icon name="list" icon-only large *ngIf="recompensa.afazer"></ion-icon>
+      <ion-icon name="cash" icon-only large *ngIf="recompensa.moedas"></ion-icon>
+      <ion-icon name="snow" icon-only large *ngIf="recompensa.gemas"></ion-icon>
+      <ion-icon name="cash" icon-only large *ngIf="recompensa.dinehiro"></ion-icon>
+      <ion-icon name="snow" icon-only large *ngIf="recompensa.nivel"></ion-icon>
 
-    </div>
+    </button>
   </ion-list>
 </ion-content>

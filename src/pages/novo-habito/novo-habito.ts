@@ -45,11 +45,11 @@ export class NovoHabitoPage extends BasePage {
     } else {
       this.novoHabitoForm = this.formBuilder.group({
         habito: ['', [Validators.required]],
-        descricao: [''],
+        descricao: [],
         tipo: ['Desejável', [Validators.required]],
         nivel: ['Fácil', [Validators.required]],
-        dataInicio: [''],
-        dataFim: ['']
+        dataInicio: [],
+        dataFim: []
       });
       this.uid = this.authProvider.userUID;
     }
