@@ -37,9 +37,7 @@ export class NovoHabitoPage extends BasePage {
         habito: [this.habito.habito, [Validators.required]],
         descricao: [this.habito.descricao],
         tipo: [this.habito.tipo, [Validators.required]],
-        nivel: [this.habito.nivel, [Validators.required]],
-        dataInicio: [this.habito.dataInicio],
-        dataFim: [this.habito.dataFim]
+        nivel: [this.habito.nivel, [Validators.required]]
       });
       this.edit = false;
     } else {
@@ -47,9 +45,7 @@ export class NovoHabitoPage extends BasePage {
         habito: ['', [Validators.required]],
         descricao: [],
         tipo: ['Desejável', [Validators.required]],
-        nivel: ['Fácil', [Validators.required]],
-        dataInicio: [],
-        dataFim: []
+        nivel: ['Fácil', [Validators.required]]
       });
       this.uid = this.authProvider.userUID;
     }

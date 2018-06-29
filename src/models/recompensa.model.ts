@@ -3,6 +3,7 @@ export class Recompensa {
     constructor(
         public recompensa: string,
         public descricao: string,
+        public icon: string,
         public nivel: string,
         public afazer: string,
         public moedas: number,

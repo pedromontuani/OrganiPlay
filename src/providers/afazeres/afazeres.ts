@@ -12,24 +12,36 @@ import { Afazer } from '../../models/afazer.model';
   and Angular DI.
 */
 @Injectable()
-export class AfazeresProvider extends BaseProvider{
+export class AfazeresProvider extends BaseProvider {
 
   constructor(public http: Http, public db: AngularFireDatabase) {
     super();
   }
 
-  novoAfazer(habito: Afazer, uid: string): Promise<void>{
-    return this.db.list(`/afazeres/${uid}`) 
-      .push(habito).transaction(() => {}, () => {})
-        .catch(this.handlePromiseError);
+  novoAfazer(habito: Afazer, uid: string): Promise<void> {
+    return this.db.list(`/afazeres/${uid}`)
+      .push(habito).transaction(() => { }, () => { })
+      .catch(this.handlePromiseError);
   }
 
-  finalizarAfazer(key: string, uid: string): Promise<void>{
-    return this.db.object(`/afazeres/${uid}/${key}`).remove();
+  finalizarAfazer(key: string, uid: string): Promise<void> {
+    let finalizado: boolean = true;
+    return this.db.object(`/afazeres/${uid}/${key}`).update({finalizado : finalizado})
+      .catch(this.handlePromiseError)
+  }
+
+  deletarTarefa(key: string, uid: string): Promise<void> {
+    return this.db.object(`/afazeres/${uid}/${key}`).remove()
+      .catch(this.handlePromiseError);
   }
 
   getAfazeresObservable(uid: string): Observable<Afazer[]> {
     return this.mapListKeys(this.db.list(`/afazeres/${uid}`))
+      .catch(this.handlePromiseError);
+  }
+
+  getAfazerObservable(key: string, uid: string): Observable<Afazer> {
+    return this.mapObjectKey(this.db.object(`afazeres/${uid}/${key}`))
       .catch(this.handlePromiseError);
   }
 }

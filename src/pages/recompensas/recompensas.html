@@ -9,22 +9,22 @@
   <custom-header [titulo]="title"></custom-header>
   <ion-toolbar>
     <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
-  </ion-toolbar>
-  <ion-toolbar text-right>
-    <button ion-button (click)="novaRecompensa()" outline>Nova Recompensa</button>
+    <div text-right>
+      <button ion-button (click)="novaRecompensa()" outline>Nova Recompensa</button>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ion-list>
-    <button *ngFor="let recompensa of (recompensas | async)" ion-item>
+    <button *ngFor="let recompensa of (recompensas | async)" ion-item text-wrap (press)="showActionSheet(recompensa)" (click)="showRecompensa(recompensa)">
+      <ion-icon [name]="recompensa.icon" icon-only item-start *ngIf="recompensa.icon"></ion-icon>
       <h2>{{recompensa.recompensa}}</h2>
-      <ion-icon name="list" icon-only large *ngIf="recompensa.afazer"></ion-icon>
-      <ion-icon name="cash" icon-only large *ngIf="recompensa.moedas"></ion-icon>
-      <ion-icon name="snow" icon-only large *ngIf="recompensa.gemas"></ion-icon>
-      <ion-icon name="cash" icon-only large *ngIf="recompensa.dinehiro"></ion-icon>
-      <ion-icon name="snow" icon-only large *ngIf="recompensa.nivel"></ion-icon>
-
+      <ion-icon class="icon tarefa" name="list" large *ngIf="recompensa.afazer" item-end></ion-icon>
+      <ion-icon class="icon moedas" name="cash" large *ngIf="recompensa.moedas" item-end></ion-icon>
+      <ion-icon class="icon gemas" name="snow" large *ngIf="recompensa.gemas" item-end></ion-icon>
+      <ion-icon class="icon dinheiro" name="cash" large *ngIf="recompensa.dinheiro" item-end></ion-icon>
+      <ion-icon class="icon podium" name="podium" large *ngIf="recompensa.nivel" item-end></ion-icon>
     </button>
   </ion-list>
 </ion-content>

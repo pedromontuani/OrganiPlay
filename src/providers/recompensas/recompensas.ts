@@ -25,6 +25,11 @@ export class RecompensasProvider extends BaseProvider{
         .catch(this.handlePromiseError);
   }
 
+  excluirRecompensa(key: string, uid: string): Promise<void> {
+    return this.db.object(`/recompensas/${uid}/${key}`).remove()
+      .catch(this.handlePromiseError);
+  }
+
   getRecompensasObservable(uid: string): Observable<Recompensa[]> {
     return this.mapListKeys(this.db.list(`/recompensas/${uid}`));
   }

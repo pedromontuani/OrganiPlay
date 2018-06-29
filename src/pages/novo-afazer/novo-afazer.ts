@@ -7,6 +7,7 @@ import { HabitosProvider } from '../../providers/habitos/habitos';
 import { AuthProvider } from '../../providers/auth/auth';
 import { AfazeresProvider } from '../../providers/afazeres/afazeres';
 import { Afazer } from '../../models/afazer.model';
+import { IconsList } from '../../models/icons.model';
 
 @IonicPage()
 @Component({
@@ -19,6 +20,8 @@ export class NovoAfazerPage extends BasePage {
   uid: string;
   edit: boolean = false;
   afazer: Afazer;
+  icons: any;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -31,22 +34,24 @@ export class NovoAfazerPage extends BasePage {
     if (this.edit) {
       this.novoAfazerForm = this.formBuilder.group({
         afazer: [this.afazer.afazer, [Validators.required]],
-        descricao: [this.afazer.descricao],
+        icon: [this.afazer.icon, [Validators.required]],
         nivel: [this.afazer.nivel, [Validators.required]],
         dataFim: [this.afazer.dataFim]
-        //recompensa: [this.afazer.recompensa]
       });
       this.edit = false;
     } else {
       this.novoAfazerForm = this.formBuilder.group({
         afazer: ['', [Validators.required]],
-        descricao: [],
+        icon: ['add', [Validators.required]],
         nivel: ['Fácil', [Validators.required]],
         dataFim: []
-        //recompensa: []
       });
       this.uid = this.authProvider.userUID;
     }
+  }
+
+  ionViewWillLoad(){
+    this.icons = new IconsList().returnIcons();
   }
 
   onSubmit() {

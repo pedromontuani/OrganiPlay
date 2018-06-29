@@ -24,6 +24,11 @@ export class HabitosProvider extends BaseProvider{
         .catch(this.handlePromiseError);
   }
 
+  deletarHabito(key: string, uid: string): Promise<void> {
+    return this.db.object(`/habitos/${uid}/${key}`).remove()
+      .catch(this.handlePromiseError);
+  }
+
   getHabitosObservable(uid: string): Observable<Habito[]> {
     return this.mapListKeys(this.db.list(`/habitos/${uid}`));
   }

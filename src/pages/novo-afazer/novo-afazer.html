@@ -19,12 +19,16 @@
   </h1>
   <form (ngSubmit)="onSubmit(); $event.preventDefault()" [formGroup]="novoAfazerForm">
     <ion-item>
-      <ion-label>Afazer</ion-label>
+      <ion-label>Tarefa</ion-label>
       <ion-input type="text" formControlName="afazer"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Descrição</ion-label>
-      <ion-textarea formControlName="descricao"></ion-textarea>
+      <ion-label>Icone</ion-label>
+      <ion-select formControlName="icon">
+        <ion-option *ngFor="let icon of icons" [value]="icon">
+          {{icon}}
+        </ion-option>
+      </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>Nível</ion-label>
@@ -36,7 +40,7 @@
     </ion-item>
     <ion-item>
       <ion-label>Data da Finalização</ion-label>
-      <ion-input type="date" text-right formControlName="dataFim"></ion-input>
+      <ion-datetime displayFormat="DD/MM/YYYY" placeholder="DD/MM/AAAA" text-right formControlName="dataFim"></ion-datetime>
     </ion-item>
    <!-- <ion-item>
       <ion-label>Associar recompensa</ion-label>

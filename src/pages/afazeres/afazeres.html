@@ -8,24 +8,26 @@
   <custom-header [titulo]="title"></custom-header>
   <ion-toolbar>
     <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
-  </ion-toolbar>
-  <ion-toolbar text-right>
-    <button ion-button (click)="novoAfazer()" outline>Nova Tarefa</button>
+    <div text-right>
+      <button ion-button (click)="novoAfazer()" outline>Nova Tarefa</button>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content padding>
   <ion-list>
-    <div *ngFor="let afazer of (afazeres | async)" ion-item>
-      <h2>{{afazer.afazer}} |
-        <ion-icon name="calendar" icon-only large></ion-icon> {{afazer.dataFim}}</h2>
-      <p>{{afazer.descricao}}</p>
-      <button ion-button item-end (click)="finalizarTarefa(afazer)">
-        <ion-icon name="checkmark"></ion-icon>
-        Finalizar
-      </button>
+    <button *ngFor="let afazer of (afazeres | async)" ion-item (click)="finalizarTarefa(afazer)" [ngClass]="{'riscado': afazer.finalizado}" (press)="showActionSheet(afazer)">
+      <ion-icon class="main-icon" [name]="afazer.icon" icon-only item-start *ngIf="afazer.icon"></ion-icon>
+      <h2>{{afazer.afazer}}</h2>
+      <h2 *ngIf="afazer.dataFim">
+        <ion-icon name="calendar" icon-only large></ion-icon> {{afazer.dataFim | date: 'dd/MM/yyyy'}} 
+      </h2>
+      <div item-end class="check-holder">
+        <ion-icon name="checkmark" class="check" icon-only *ngIf="afazer.finalizado"></ion-icon>
+        <ion-icon name="checkmark" class="check unchecked" icon-only *ngIf="!afazer.finalizado"></ion-icon>
+      </div>
 
-    </div>
+    </button>
   </ion-list>
 </ion-content>

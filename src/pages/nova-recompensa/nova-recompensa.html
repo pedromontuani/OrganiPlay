@@ -27,6 +27,14 @@
       <ion-textarea formControlName="descricao"></ion-textarea>
     </ion-item>
     <ion-item>
+        <ion-label>Icone</ion-label>
+        <ion-select formControlName="icon">
+          <ion-option *ngFor="let icon of icons" [value]="icon">
+            {{icon}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+    <ion-item>
       <ion-label>Requisitos</ion-label>
       <ion-select multiple="true" (ionChange)="mostrarCampos($event)">
         <ion-option value="valor" selected>Valor</ion-option>

@@ -4,8 +4,6 @@ export class Habito {
         public habito: string,
         public tipo: string,
         public descricao: string,
-        public nivel: string,
-        public dataInicio: any,
-        public dataFim: any
+        public nivel: string
     ){}
 }

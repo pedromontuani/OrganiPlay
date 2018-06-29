@@ -8,6 +8,7 @@ import { BasePage } from '../base/base';
 import { RecompensasProvider } from '../../providers/recompensas/recompensas';
 import { Afazer } from '../../models/afazer.model';
 import { Observable } from 'rxjs/Observable';
+import { IconsList } from '../../models/icons.model';
 
 /**
  * Generated class for the NovaRecompensaPage page.
@@ -23,6 +24,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class NovaRecompensaPage extends BasePage {
 
+  icons: string[];
   novaRecompensaForm: FormGroup;
   uid: string;
   edit: boolean = false;
@@ -30,7 +32,7 @@ export class NovaRecompensaPage extends BasePage {
   campoNivel: boolean = false;
   campoTarefas: boolean = false;
   campoValor: boolean = true;
-  tarefas: Observable<Afazer[]>
+  tarefas: Observable<Afazer[]>;
 
   constructor(
     public navCtrl: NavController,
@@ -46,6 +48,7 @@ export class NovaRecompensaPage extends BasePage {
       this.novaRecompensaForm = this.formBuilder.group({
         recompensa: [this.recompensa.recompensa, [Validators.required]],
         descricao: [this.recompensa.descricao],
+        icon: [this.recompensa.icon, [Validators.required]],
         nivel: [this.recompensa.nivel, [Validators.required]],
         afazer: [this.recompensa.afazer],
         moedas: [this.recompensa.moedas],
@@ -57,6 +60,7 @@ export class NovaRecompensaPage extends BasePage {
       this.novaRecompensaForm = this.formBuilder.group({
         recompensa: ['', [Validators.required]],
         descricao: [],
+        icon: ['add', [Validators.required]],
         nivel: [],
         afazer: [],
         moedas: [],
@@ -69,6 +73,7 @@ export class NovaRecompensaPage extends BasePage {
 
   ionViewWillLoad(){
     this.tarefas = this.afazeresProvider.getAfazeresObservable(this.uid);
+    this.icons = new IconsList().returnIcons();
   }
 
   onSubmit() {
@@ -100,4 +105,6 @@ export class NovaRecompensaPage extends BasePage {
       this.campoValor = false;
     }
   }
+
+  
 }
