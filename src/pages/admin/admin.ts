@@ -80,7 +80,6 @@ export class AdminPage {
       }
     } else {
       this.users = this.adminProvider.usersList;
-     // this.chats = this.chatService.chats;
     }
   }
 

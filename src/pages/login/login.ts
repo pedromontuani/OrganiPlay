@@ -55,7 +55,7 @@ export class LoginPage extends BasePage{
             .subscribe((user: User) =>{
               if(user.type == "adm"){
                 this.navCtrl.setRoot(AdminPage);
-                this.adminProvider.getUsers(this.authProvider.userUID);
+                this.adminProvider.getUsers();
               } else {
                 this.navCtrl.setRoot(TabsPage);
               }

@@ -41,17 +41,16 @@
     </ion-list>
   </div>
 
-  <div [ngSwitch]="view">
-    <ion-fab bottom right>
-      <button ion-fab (click)="addUsuario()" *ngSwitchCase="'users'">
-        <ion-icon name="add"></ion-icon>
-      </button>
-
-      <button ion-fab (click)="addMundo()" *ngSwitchCase="'mundos'">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-fab>
-  </div>
-
-
 </ion-content>
+
+<div [ngSwitch]="view">
+  <ion-fab bottom right>
+    <button ion-fab (click)="addUsuario()" *ngSwitchCase="'users'">
+      <ion-icon name="add"></ion-icon>
+    </button>
+
+    <button ion-fab (click)="addMundo()" *ngSwitchCase="'mundos'">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</div>

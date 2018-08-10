@@ -10,13 +10,6 @@ import { Observable } from 'rxjs/Observable';
 import { AuthProvider } from '../../providers/auth/auth';
 import { BasePage } from '../base/base';
 
-/**
- * Generated class for the AfazeresPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-afazeres',
@@ -24,7 +17,7 @@ import { BasePage } from '../base/base';
 })
 export class AfazeresPage extends BasePage {
   public title: string = "Tarefas";
-  public afazeres: Observable<Afazer[]>
+  public afazeres: Observable<Afazer[]>;
   public user: User;
 
   constructor(
@@ -41,13 +34,13 @@ export class AfazeresPage extends BasePage {
     super(alertCtrl, undefined, toastCtrl);
   }
 
-  ionViewWillLoad() {
+  private ionViewWillLoad(): void {
     this.user = this.userProvider.userSubscribe;
     this.sync();
     this.afazeres = this.afazeresProvider.getAfazeresObservable(this.authProvider.userUID);
   }
 
-  sync() {
+  private sync() {
     this.userProvider.currentUserObject
       .valueChanges()
       .subscribe((user: User) => {
@@ -55,11 +48,11 @@ export class AfazeresPage extends BasePage {
       });
   }
 
-  public novoAfazer() {
+  private novoAfazer(): void {
     this.navCtrl.push(NovoAfazerPage);
   }
 
-  public finalizarTarefa(afazer: Afazer) {
+  private finalizarTarefa(afazer: Afazer): void {
     if (!afazer.finalizado) {
       this.alertCtrl.create({
         message: "Deseja finalizar esta tarefa?",
@@ -78,12 +71,13 @@ export class AfazeresPage extends BasePage {
     }
   }
 
-  validarFinalizacao(afazer: Afazer) {
+  private validarFinalizacao(afazer: Afazer): void {
     let status: Status = this.user.status;
     let xp: number;
     let coins: number;
     let hp;
     let penalizacao: boolean;
+
     if (afazer.nivel == "Fácil") {
       xp = 20;
       coins = 10;
@@ -128,8 +122,8 @@ export class AfazeresPage extends BasePage {
     this.afazeresProvider.finalizarAfazer(afazer.$key, this.authProvider.userUID);
   }
 
-  showActionSheet(afazer: Afazer) {
-    let actionSheet = this.actionSheetCtrl.create({
+  private showActionSheet(afazer: Afazer): void {
+    this.actionSheetCtrl.create({
       buttons: [
         {
           text: 'Excluir',
@@ -161,9 +155,7 @@ export class AfazeresPage extends BasePage {
           }
         }
       ]
-    });
- 
-    actionSheet.present();
+    }).present();
   }
 
 }

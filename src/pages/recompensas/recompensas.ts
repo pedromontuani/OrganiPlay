@@ -44,13 +44,13 @@ export class RecompensasPage extends BasePage {
     super(alertCtrl, loadingCtrl, toastCtrl);
   }
 
-  ionViewWillLoad() {
+  private ionViewWillLoad(): void {
     this.user = this.userProvider.userSubscribe;
     this.sync();
     this.recompensas = this.recompensasProvider.getRecompensasObservable(this.authProvider.userUID);
   }
 
-  sync() {
+  private sync(): void {
     this.userProvider.currentUserObject
       .valueChanges()
       .subscribe((user: User) => {
@@ -58,20 +58,20 @@ export class RecompensasPage extends BasePage {
       });
   }
 
-  novaRecompensa() {
+  private novaRecompensa(): void {
     this.navCtrl.push(NovaRecompensaPage);
   }
 
-  showRecompensa(recompensa: Recompensa) {
+  private showRecompensa(recompensa: Recompensa): void {
     let requisitos: string = '';
     let afazer: Afazer;
 
-    if (recompensa.moedas || recompensa.gemas) {
-      requisitos = requisitos += `Moedas: ${recompensa.moedas}`
-      if (recompensa.gemas) {
-        requisitos = requisitos + `Gemas: ${recompensa.gemas}<br>`;
-      }
+    if (recompensa.moedas) {
+      requisitos = requisitos += `Moedas: ${recompensa.moedas}<br>`;
+    }
 
+    if (recompensa.gemas) {
+      requisitos = requisitos + `Gemas: ${recompensa.gemas}<br>`;
     }
 
     if (recompensa.dinheiro) {
@@ -79,7 +79,7 @@ export class RecompensasPage extends BasePage {
     }
 
     if (recompensa.nivel) {
-      requisitos = requisitos += `Nível: ${recompensa.nivel}`;
+      requisitos = requisitos += `Nível: ${recompensa.nivel}<br>`;
     }
 
     if (recompensa.afazer) { // atraso necessário para recuperar os dados do firebase
@@ -87,45 +87,16 @@ export class RecompensasPage extends BasePage {
       this.afazeresProvider.getAfazerObservable(recompensa.afazer, this.authProvider.userUID)
         .first().subscribe((tarefa: Afazer) => {
           afazer = tarefa;
-          console.log(tarefa);
           requisitos = requisitos += `Tarefa: ${afazer.afazer}<br>`;
-          this.alertCtrl.create({
-            title: recompensa.recompensa,
-            message: `${recompensa.descricao}<br><br>Requisitos:<br>${requisitos}`,
-            buttons: [
-              {
-                text: "Obter recompensa",
-                handler: () => {
-                  this.redeem(recompensa);
-                }
-              },
-              {
-                text: "Cancelar"
-              }
-            ]
-          }).present();
+          this.showAlertRecompensa(recompensa, requisitos);
           loading.dismiss();
         });
     } else {
-      this.alertCtrl.create({
-        title: recompensa.recompensa,
-        message: `${recompensa.descricao}<br><br>Requisitos:<br>${requisitos}`,
-        buttons: [
-          {
-            text: "Obter recompensa",
-            handler: () => {
-              this.redeem(recompensa);
-            }
-          },
-          {
-            text: "Cancelar"
-          }
-        ]
-      }).present();
+      this.showAlertRecompensa(recompensa, requisitos);
     }
   }
 
-  redeem(recompensa: Recompensa) {
+  private redeem(recompensa: Recompensa): void {
     let canRedeem: boolean = true;
     let status = this.user.status;
     let xpBonus: number = 50;
@@ -184,7 +155,7 @@ export class RecompensasPage extends BasePage {
     }
   }
 
-  showActionSheet(recompensa: Recompensa) {
+  private showActionSheet(recompensa: Recompensa): void {
     let actionSheet = this.actionSheetCtrl.create({
       buttons: [
         {
@@ -223,5 +194,23 @@ export class RecompensasPage extends BasePage {
     });
 
     actionSheet.present();
+  }
+
+  private showAlertRecompensa(recompensa: Recompensa, requisitos: string): void {
+    this.alertCtrl.create({
+      title: recompensa.recompensa,
+      message: `${recompensa.descricao}<br><br>Requisitos:<br>${requisitos}`,
+      buttons: [
+        {
+          text: "Obter recompensa",
+          handler: () => {
+            this.redeem(recompensa);
+          }
+        },
+        {
+          text: "Cancelar"
+        }
+      ]
+    }).present();
   }
 }

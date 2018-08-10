@@ -12,20 +12,27 @@
 
   <form (ngSubmit)="onSubmit(); $event.preventDefault()" *ngIf="canEdit" #profileForm="ngForm">
     <ion-item>
-      <ion-input type="text" 
-        placeholder="Nome" name="name" 
-        [(ngModel)]="user.name" 
-        required minlength="3">
+      <ion-label>Nome</ion-label>
+      <ion-input type="text" name="name" [(ngModel)]="user.name" required minlength="3">
       </ion-input>
     </ion-item>
-    
+
     <ion-item>
-      <ion-input type="text" 
-        placeholder="Username" name="username" 
-        [(ngModel)]="user.username" 
-        required minlength="3">
+      <ion-label>Username</ion-label>
+      <ion-input type="text" name="username" [(ngModel)]="user.username" required minlength="3">
       </ion-input>
     </ion-item>
+
+    <ion-item>
+      <ion-label>Tipo</ion-label>
+      <ion-select name="type" [(ngModel)]="user.type" required>
+        <ion-option value="player">Jogador</ion-option>
+        <ion-option value="gamemaster">GameMaster</ion-option>
+        <ion-option value="adm">Administrador</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <br>
     <button ion-button block type="submit" [disabled]="profileForm.form.invalid">Salvar</button>
   </form>
   <button ion-button block color="danger">Excluir conta</button>

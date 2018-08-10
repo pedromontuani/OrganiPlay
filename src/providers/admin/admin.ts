@@ -25,11 +25,11 @@ export class AdminProvider extends BaseProvider{
     console.log('Hello AdminProvider Provider');
   }
 
-  getUsers(uidToExclude: string) {
+  getUsers() {
     this.usersList = this.mapListKeys(this.db.list<User>('/users', 
     (ref: firebase.database.Reference) => ref.orderByChild('name')))
       .map((users: User[]) => {      
-        return users.filter((user: User) => user.$key !== uidToExclude);
+        return users.filter((user: User) => user.type !== "adm");
       });
   }
 

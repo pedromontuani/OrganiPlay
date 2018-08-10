@@ -31,3 +31,15 @@ a.item:not([detail-none]) .item-inner,
   background-size: 14px 14px;
   padding-right: 32px;
 }
+
+  ion-toolbar.toolbar-ios {
+    padding-top: 15px;
+
+    button {
+      margin-bottom: 10px;
+    }
+  }
+
+  .toolbar-ios .segment-ios {
+    top: 15px;
+}

@@ -33,7 +33,7 @@ export class MyApp {
         userProvider.getUserById(authProvider.userUID);
         userProvider.isAdmin.then(() => {
           this.rootPage = AdminPage;
-          adminProvider.getUsers(authUser.uid);
+          adminProvider.getUsers();
         }).catch(() => {
           this.rootPage = TabsPage;
           this.currentUserUid = authProvider.userUID;

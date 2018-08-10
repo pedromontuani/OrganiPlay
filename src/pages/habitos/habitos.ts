@@ -118,7 +118,7 @@ export class HabitosPage extends BasePage {
   }
 
   showActionSheet(habito: Habito) {
-    let actionSheet = this.actionSheetCtrl.create({
+    this.actionSheetCtrl.create({
       buttons: [
         {
           text: 'Excluir',
@@ -150,9 +150,7 @@ export class HabitosPage extends BasePage {
           }
         }
       ]
-    });
-
-    actionSheet.present();
+    }).present();
   }
 
 }
