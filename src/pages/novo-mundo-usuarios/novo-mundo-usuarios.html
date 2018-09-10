@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Novo mundo<span><br>Selecionar jogadores</span></ion-title>
+  </ion-navbar>
+
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="filterItens($event)"></ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngIf="players">
+    <button ion-item *ngFor="let player of (players | async)" (click)="onPlayerClick(player)" [id]="player.username">
+      <ion-avatar item-start>
+        <img class="round" [src]="player.photo || 'assets/imgs/no-photo.jpg'">
+      </ion-avatar>
+      <h2>{{player.username}}</h2>
+      <p>{{player.name}}</p>
+      <ion-icon icon-only item-end name='checkmark-circle' *ngIf="playersSelecionados.indexOf(player) != -1"></ion-icon>
+    </button>
+  </div>
+</ion-content>
+
+
+<ion-fab bottom right>
+  <button ion-fab (click)="proximaPagina()" [disabled]="playersCount">
+    <ion-icon name="arrow-forward"></ion-icon>
+  </button>
+</ion-fab>

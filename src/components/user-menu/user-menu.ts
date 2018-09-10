@@ -5,6 +5,7 @@ import { BaseComponent } from '../base.component';
 import { User } from '../../models/user.model';
 import { AdmEditarUsuarioPage } from '../../pages/adm-editar-usuario/adm-editar-usuario';
 import { EditarPerfilPage } from '../../pages/editar-perfil/editar-perfil';
+import { MundosPage } from '../../pages/mundos/mundos';
 
 /**
  * Generated class for the UserMenuComponent component.
@@ -35,6 +36,11 @@ export class UserMenuComponent extends BaseComponent{
   onProfile() {
     this.navCtrl = this.app.getActiveNavs()[0];
     this.navCtrl.push(EditarPerfilPage, {uid : this.currentUserUid});
+  }
+
+  onMundos() {
+    this.navCtrl = this.app.getActiveNavs()[0];
+    this.navCtrl.push(MundosPage);
   }
 
 }

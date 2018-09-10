@@ -46,11 +46,12 @@ export class NovoAfazerPage extends BasePage {
         nivel: ['Fácil', [Validators.required]],
         dataFim: []
       });
-      this.uid = this.authProvider.userUID;
+      
     }
   }
 
   ionViewWillLoad(){
+    this.uid = this.authProvider.userUID;
     this.icons = new IconsList().returnIcons();
   }
 

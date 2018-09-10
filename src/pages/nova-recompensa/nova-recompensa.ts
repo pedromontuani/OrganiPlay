@@ -67,12 +67,13 @@ export class NovaRecompensaPage extends BasePage {
         gemas: [],
         dinheiro: []
       });
-      this.uid = this.authProvider.userUID;
+      
     }
   }
 
   ionViewWillLoad(){
     this.tarefas = this.afazeresProvider.getAfazeresObservable(this.uid);
+    this.uid = this.authProvider.userUID;
     this.icons = new IconsList().returnIcons();
   }
 

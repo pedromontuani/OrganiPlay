@@ -46,9 +46,12 @@ export class NovoHabitoPage extends BasePage {
         descricao: [],
         tipo: ['Desejável', [Validators.required]],
         nivel: ['Fácil', [Validators.required]]
-      });
-      this.uid = this.authProvider.userUID;
+      }); 
     }
+  }
+
+  ionViewWillLoad() {
+    this.uid = this.authProvider.userUID;
   }
 
   onSubmit() {

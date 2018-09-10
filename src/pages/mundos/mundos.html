@@ -1,13 +1,57 @@
-
 <ion-header>
 
   <ion-navbar>
     <ion-title>Mundos</ion-title>
   </ion-navbar>
-
+  <ion-toolbar *ngIf="isGM">
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="mundos">
+        Mundos
+      </ion-segment-button>
+      <ion-segment-button value="meusMundos">
+        Meus mundos
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar> 
 </ion-header>
 
 
 <ion-content padding>
 
+  <div [ngSwitch]="view" *ngIf="isGM">
+    <ion-list *ngSwitchCase="'mundos'">
+      <ion-list>
+        <button ion-item *ngFor="let mundo of (mundos | async)" (click)="onClickMundo(mundo)">
+          <ion-avatar item-start>
+            <img [src]="mundo.iconURL || 'assets/imgs/no-photo-world.jpg'">
+          </ion-avatar>
+          <h2>{{mundo.mundo}}</h2>
+        </button>
+      </ion-list>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'meusMundos'">
+      <ion-list>
+        <button ion-item *ngFor="let mundoGM of (meusMundos | async)" (click)="onClickMundoGM(mundoGM)">
+          <ion-icon [name]="mundoGM.icon || 'globe'" icon-only item-start></ion-icon>
+          <h2>{{mundoGM.mundo}}</h2>
+        </button>
+      </ion-list>
+    </ion-list>
+  </div>
+
+  <ion-list *ngIf="!isGM">
+    <button ion-item *ngFor="let mundo of (mundos | async)" (click)="onClickMundo(mundo)">
+      <ion-icon [name]="mundo.icon || 'globe'" icon-only item-start></ion-icon>
+      <h2>{{mundo.mundo}}</h2>
+    </button>
+  </ion-list>
+
+
 </ion-content>
+
+<ion-fab bottom right *ngIf="isGM">
+  <button ion-fab (click)="addMundo()">
+    <ion-icon name="add"></ion-icon>
+  </button>
+</ion-fab>

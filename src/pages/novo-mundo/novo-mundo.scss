@@ -1,0 +1,38 @@
+page-novo-mundo {
+
+    ion-scroll[scrollX] {
+        white-space: nowrap;
+        height: 100px;
+        overflow: hidden;
+    
+        .scroll-item {
+          display: inline-block;
+          text-align: center;
+          align-items: center;
+        }
+        
+        .align-content {
+            float: center;
+            text-align: center;
+            align-items: center;
+            margin-right: 30px;
+        }
+
+        ion-avatar img {
+            margin: auto;
+        }
+
+        
+      }
+    
+      ion-scroll[scroll-avatar]{
+        height: 100px;
+      }
+    
+      /* Hide ion-content scrollbar */
+      ::-webkit-scrollbar{
+        display:none;
+      }
+    
+
+}

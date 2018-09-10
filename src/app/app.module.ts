@@ -36,6 +36,10 @@ import { HabitosProvider } from '../providers/habitos/habitos';
 import { AfazeresProvider } from '../providers/afazeres/afazeres';
 import { RecompensasProvider } from '../providers/recompensas/recompensas';
 import { MundosProvider } from '../providers/mundos/mundos';
+import { MundosPage } from '../pages/mundos/mundos';
+import { NovoMundoPage } from '../pages/novo-mundo/novo-mundo';
+import { NovoMundoUsuariosPage } from '../pages/novo-mundo-usuarios/novo-mundo-usuarios';
+import { GerenciarMundoGmPage } from '../pages/gerenciar-mundo-gm/gerenciar-mundo-gm';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -65,7 +69,11 @@ const firebaseAppConfig: FirebaseAppConfig = {
     NovaRecompensaPage,
     NovoAfazerPage,
     NovoHabitoPage,
-    EditarPerfilPage
+    EditarPerfilPage,
+    MundosPage,
+    NovoMundoPage,
+    NovoMundoUsuariosPage,
+    GerenciarMundoGmPage
   ],
   imports: [
     HttpModule,
@@ -91,7 +99,11 @@ const firebaseAppConfig: FirebaseAppConfig = {
     NovaRecompensaPage,
     NovoAfazerPage,
     NovoHabitoPage,
-    EditarPerfilPage
+    EditarPerfilPage,
+    MundosPage,
+    NovoMundoPage,
+    NovoMundoUsuariosPage,
+    GerenciarMundoGmPage
   ],
   providers: [
     StatusBar,
