@@ -41,6 +41,7 @@ export class AdmEditarUsuarioPage extends BasePage{
   }
 
   onSubmit(){
+    this.user.username = this.user.username.toLowerCase();
     this.userProvider.editUser(this.user, this.userUid)
       .then(() => {
         this.navCtrl.pop();

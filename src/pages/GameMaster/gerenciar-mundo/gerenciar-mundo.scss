@@ -1,0 +1,22 @@
+page-gerenciar-mundo {
+    .tarefas{
+        ion-icon{
+            margin-right: 5px;
+        }
+    
+        h2, .main-icon {
+            color: map-get($colors, primary);
+        }
+    
+        .dataFim{
+            text-align: right;
+        }
+    
+        .riscado {
+            text-decoration: line-through;
+        }
+    }
+      
+    
+    
+}

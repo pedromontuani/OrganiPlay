@@ -69,12 +69,13 @@ export class NovaRecompensaPage extends BasePage {
       });
       
     }
-  }
-
-  ionViewWillLoad(){
     this.tarefas = this.afazeresProvider.getAfazeresObservable(this.uid);
     this.uid = this.authProvider.userUID;
     this.icons = new IconsList().returnIcons();
+  }
+
+  ionViewWillLoad(){
+    
   }
 
   onSubmit() {

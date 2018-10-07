@@ -41,17 +41,24 @@ export class MyApp {
         userProvider.currentUser.subscribe((user: User) => {
           this.currentUser = user;
         });
+        platform.ready().then(() => {
+          // Okay, so the platform is ready and our plugins are available.
+          // Here you can do any higher level native things you might need.
+          statusBar.styleDefault();
+          splashScreen.hide();
+        });
       } else {
         this.rootPage = LoginPage;
+        platform.ready().then(() => {
+          // Okay, so the platform is ready and our plugins are available.
+          // Here you can do any higher level native things you might need.
+          statusBar.styleDefault();
+          splashScreen.hide();
+        });
       }
     });    
 
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
-    });
+    
 
   }
 

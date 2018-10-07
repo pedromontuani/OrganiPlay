@@ -5,6 +5,6 @@ export class Mundo {
         public descricao: string,
         public gmUID: string,
         public icon: string,
-        public players: string[]
+        public players: string
     ){}
 }

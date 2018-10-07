@@ -26,7 +26,10 @@
 
 
 <ion-fab bottom right>
-  <button ion-fab (click)="proximaPagina()" [disabled]="playersCount">
+  <button ion-fab (click)="proximaPagina()" [disabled]="playersCount" *ngIf="!isAddPlayers">
     <ion-icon name="arrow-forward"></ion-icon>
+  </button>
+  <button ion-fab (click)="addJogadores()" [disabled]="playersCount" *ngIf="isAddPlayers">
+    <ion-icon name="checkmark"></ion-icon>
   </button>
 </ion-fab>

@@ -34,13 +34,13 @@ export class AfazeresPage extends BasePage {
     super(alertCtrl, undefined, toastCtrl);
   }
 
-  private ionViewWillLoad(): void {
+  ionViewWillLoad(): void {
     this.user = this.userProvider.userSubscribe;
     this.sync();
     this.afazeres = this.afazeresProvider.getAfazeresObservable(this.authProvider.userUID);
   }
 
-  private sync() {
+  sync() {
     this.userProvider.currentUserObject
       .valueChanges()
       .subscribe((user: User) => {
@@ -48,11 +48,11 @@ export class AfazeresPage extends BasePage {
       });
   }
 
-  private novoAfazer(): void {
+  novoAfazer(): void {
     this.navCtrl.push(NovoAfazerPage);
   }
 
-  private finalizarTarefa(afazer: Afazer): void {
+  finalizarTarefa(afazer: Afazer): void {
     if (!afazer.finalizado) {
       this.alertCtrl.create({
         message: "Deseja finalizar esta tarefa?",
@@ -71,7 +71,7 @@ export class AfazeresPage extends BasePage {
     }
   }
 
-  private validarFinalizacao(afazer: Afazer): void {
+  validarFinalizacao(afazer: Afazer): void {
     let status: Status = this.user.status;
     let xp: number;
     let coins: number;
@@ -122,7 +122,7 @@ export class AfazeresPage extends BasePage {
     this.afazeresProvider.finalizarAfazer(afazer.$key, this.authProvider.userUID);
   }
 
-  private showActionSheet(afazer: Afazer): void {
+  showActionSheet(afazer: Afazer): void {
     this.actionSheetCtrl.create({
       buttons: [
         {

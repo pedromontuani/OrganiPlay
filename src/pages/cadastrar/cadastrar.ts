@@ -42,7 +42,7 @@ export class CadastrarPage extends BasePage{
 
   onSubmit() {
     let formUser = this.signUpForm.value;
-
+    formUser.username = formUser.username.toString().toLowerCase();
     if (formUser.password == formUser.passwordConfirm) {
       let loading: Loading = this.showLoading();
       delete formUser.passwordConfirm;

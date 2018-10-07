@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      {{mundo.mundo}}
+    </ion-title>
+  </ion-navbar>
+
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="tarefas">
+        Tarefas
+      </ion-segment-button>
+      <ion-segment-button value="jogadores">
+        Jogadores
+      </ion-segment-button>
+      <ion-segment-button value="recompensas">
+        Recompensas
+      </ion-segment-button>
+    </ion-segment>
+
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar placeholder="Pesquisar" (ionInput)="filterItens($event)" *ngIf="view == 'tarefas'"></ion-searchbar>
+    <ion-searchbar placeholder="Pesquisar" (ionInput)="filterItens($event)" *ngIf="view == 'jogadores'"></ion-searchbar>
+    <ion-searchbar placeholder="Pesquisar" (ionInput)="filterItens($event)" *ngIf="view == 'recompensas'"></ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <div [ngSwitch]="view">
+
+    <div *ngSwitchCase="'tarefas'" class="tarefas">
+      <ion-list id="no-detail">
+        <button *ngFor="let tarefa of (tarefas | async)" ion-item (click)="onClickTarefa(tarefa)" [ngClass]="{'riscado': isComprovada(tarefa)}">
+          <ion-icon class="main-icon" [name]="tarefa.icon" icon-only item-start *ngIf="tarefa.icon"></ion-icon>
+          <h2>{{tarefa.tarefa}}</h2>
+         <h2 *ngIf="tarefa.dataFim">
+            <ion-icon name="calendar" icon-only large></ion-icon> {{tarefa.dataFim | date: 'dd/MM/yyyy'}}
+          </h2>
+          <p *ngIf="tarefa.descricao">{{tarefa.descricao}}</p>
+          <div item-end class="check-holder">
+            <ion-icon name="checkmark" class="check" icon-only *ngIf="isComprovada(tarefa)"></ion-icon>
+            <ion-icon name="checkmark" class="check unchecked" icon-only *ngIf="!isComprovada(tarefa)"></ion-icon>
+          </div>
+        </button>
+      </ion-list>
+    </div>
+
+    <div *ngSwitchCase="'jogadores'">
+      <ion-list *ngIf="playersList">
+        <button ion-item *ngFor="let player of (playersList | async)" (press)="showActionSheetPlayer(player)">
+          <ion-avatar item-start>
+            <img class="round" [src]="player.photo || 'assets/imgs/no-photo.jpg'">
+          </ion-avatar>
+          <h2>{{player.username}}</h2>
+          <p>{{player.name}}</p>
+        </button>
+      </ion-list>
+    </div>
+
+    <div *ngSwitchCase="'recompensas'">
+      <ion-list>
+
+      </ion-list>
+    </div>
+  </div>
+
+</ion-content>

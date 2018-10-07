@@ -1,0 +1,84 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+      {{mundo.mundo}}
+    </ion-title>
+  </ion-navbar>
+
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="tarefas">
+        Tarefas
+      </ion-segment-button>
+      <ion-segment-button value="jogadores">
+        Jogadores
+      </ion-segment-button>
+      <ion-segment-button value="gerenciar">
+        Gerenciar
+      </ion-segment-button>
+    </ion-segment>
+
+  </ion-toolbar>
+
+  <ion-toolbar style="padding: 0px;">
+    <ion-item style="background-color: transparent;" no-lines>
+      <ion-searchbar placeholder="Pesquisar" (ionInput)="filterItens($event)" *ngIf="view == 'tarefas'"></ion-searchbar>
+      <button item-end ion-fab (click)="addTarefa()" *ngIf="view == 'tarefas'">
+        <ion-icon name="add"></ion-icon>
+      </button>
+
+      <ion-searchbar placeholder="Pesquisar" (ionInput)="filterItens($event)" *ngIf="view == 'jogadores'"></ion-searchbar>
+      <button placeholder="Pesquisar" item-end ion-fab (click)="addUsuarios()" *ngIf="view == 'jogadores'">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-item>
+
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <div [ngSwitch]="view">
+
+    <div *ngSwitchCase="'tarefas'" class="tarefas">
+      <ion-list id="no-detail">
+        <button *ngFor="let tarefa of (tarefas | async)" ion-item (click)="onClickTarefa(tarefa)" [ngClass]="{'riscado': tarefa.finalizado}"
+          (press)="showActionSheetTarefa(tarefa)">
+          <ion-icon class="main-icon" [name]="tarefa.icon" icon-only item-start *ngIf="tarefa.icon"></ion-icon>
+          <h2>{{tarefa.tarefa}}</h2>
+          <h2 *ngIf="tarefa.dataFim">
+            <ion-icon name="calendar" icon-only large></ion-icon> {{tarefa.dataFim | date: 'dd/MM/yyyy'}}
+          </h2>
+          <p *ngIf="tarefa.descricao">{{tarefa.descricao}}</p>
+        </button>
+      </ion-list>
+    </div>
+
+    <div *ngSwitchCase="'jogadores'">
+      <ion-list *ngIf="playersList">
+        <button ion-item *ngFor="let player of (playersList | async)" (press)="showActionSheetPlayer(player)">
+          <ion-avatar item-start>
+            <img class="round" [src]="player.photo || 'assets/imgs/no-photo.jpg'">
+          </ion-avatar>
+          <h2>{{player.username}}</h2>
+          <p>{{player.name}}</p>
+          <!-- Botão trash substituido por click-and-hold
+          <button ion-button icon-only item-end *ngIf="gmsUID.indexOf(currentUserUID) != -1">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+          -->
+        </button>
+      </ion-list>
+    </div>
+
+    <div *ngSwitchCase="'gerenciar'">
+      <ion-list>
+
+      </ion-list>
+    </div>
+  </div>
+
+</ion-content>

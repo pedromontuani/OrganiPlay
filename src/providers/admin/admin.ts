@@ -38,4 +38,10 @@ export class AdminProvider extends BaseProvider{
       .valueChanges();
   }
 
+  getUserByUid(uid: string): Observable<User>{
+    return this.mapObjectKey(
+      this.db.object<User>(`/users/${uid}`)
+    );
+  }
+
 }

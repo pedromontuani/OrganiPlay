@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BasePage } from '../base/base';
-import { MundosProvider } from '../../providers/mundos/mundos';
-import { AuthProvider } from '../../providers/auth/auth';
-import { IconsList } from '../../models/icons.model';
-import { User } from '../../models/user.model';
+import { BasePage } from '../../base/base';
+import { MundosProvider } from '../../../providers/mundos/mundos';
+import { AuthProvider } from '../../../providers/auth/auth';
+import { IconsList } from '../../../models/icons.model';
+import { User } from '../../../models/user.model';
 
 /**
  * Generated class for the NovoMundoPage page.
@@ -46,13 +46,14 @@ export class NovoMundoPage extends BasePage{
     this.uid = this.navParams.get("uid");
     this.players = this.navParams.get("players");
     this.icons = new IconsList().returnIcons();
+    let playersUidsTemp: string[] = [];
     this.players.forEach(player => {
-      this.playersUidString += player.$key + " ";
+      playersUidsTemp.push(player.$key);
     });
+    this.playersUidString = playersUidsTemp.join(" ");
   }
 
   onSubmit() {
-    
     let valores = this.novoMundoForm.value;
     valores.gmUID = this.uid;
     valores.players = this.playersUidString;

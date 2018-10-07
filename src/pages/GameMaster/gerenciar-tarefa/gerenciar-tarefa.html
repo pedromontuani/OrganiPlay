@@ -1,0 +1,60 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Envios de tarefas</ion-title>
+  </ion-navbar>
+
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="pendentes">
+        Pendentes
+      </ion-segment-button>
+      <ion-segment-button value="aprovados">
+        Aprovados
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+    <div [hidden]="view !== 'pendentes'">
+      <ion-list [virtualScroll]="(playersList | async)">
+        <div *virtualItem="let player" style="width: 100%">
+          <button ion-item *ngIf="comprovado(player) == false">
+            <ion-avatar item-start>
+              <img class="round" [src]="player.photo || 'assets/imgs/no-photo.jpg'">
+            </ion-avatar>
+            <h2>{{player.username}}</h2>
+            <p>{{player.name}}</p>
+            <button id="botao" ion-button color="info" item-end icon-only small (click)="aprovar(player)">
+              <ion-icon name="add-circle"></ion-icon>
+            </button>
+            <button id="botao" ion-button color="danger" icon-only item-end small (click)="reprovar(player)">
+              <ion-icon name="remove-circle"></ion-icon>
+            </button>
+            <ion-thumbnail item-end *ngIf="tarefa.comprovacao" (click)="pickImage(player)">
+              <ion-img [src]="getPhotoSrc(player)" [cache]="true"></ion-img>
+            </ion-thumbnail>  
+          </button>
+        </div>
+      </ion-list>
+    </div>
+
+    <div [hidden]="view !== 'aprovados'">
+      <ion-list>
+        <div *ngFor="let player of (playersList | async)" style="width: 100%" [id]="player.$key">
+          <button ion-item *ngIf="comprovado(player) == true">
+            <ion-avatar item-start>
+              <img class="round" [src]="player.photo || 'assets/imgs/no-photo.jpg'">
+            </ion-avatar>
+            <h2>{{player.username}}</h2>
+            <p>{{player.name}}</p>
+            <ion-thumbnail item-end *ngIf="tarefa.comprovacao" (click)="pickImage(player)">
+              <ion-img [src]="getPhotoSrc(player)"></ion-img>
+            </ion-thumbnail>
+          </button>
+        </div>
+      </ion-list>
+    </div>
+</ion-content>

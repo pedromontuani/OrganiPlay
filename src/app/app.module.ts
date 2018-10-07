@@ -3,6 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HttpModule } from '@angular/http';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { Camera } from '@ionic-native/camera';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 import { HabitosPage } from '../pages/habitos/habitos';
 import { AfazeresPage } from '../pages/afazeres/afazeres';
@@ -37,9 +41,12 @@ import { AfazeresProvider } from '../providers/afazeres/afazeres';
 import { RecompensasProvider } from '../providers/recompensas/recompensas';
 import { MundosProvider } from '../providers/mundos/mundos';
 import { MundosPage } from '../pages/mundos/mundos';
-import { NovoMundoPage } from '../pages/novo-mundo/novo-mundo';
-import { NovoMundoUsuariosPage } from '../pages/novo-mundo-usuarios/novo-mundo-usuarios';
-import { GerenciarMundoGmPage } from '../pages/gerenciar-mundo-gm/gerenciar-mundo-gm';
+import { NovoMundoPage } from '../pages/GameMaster/novo-mundo/novo-mundo';
+import { NovoMundoUsuariosPage } from '../pages/GameMaster/novo-mundo-usuarios/novo-mundo-usuarios';
+import { GerenciarMundoPage } from '../pages/GameMaster/gerenciar-mundo/gerenciar-mundo';
+import { NovaTarefaMundoPage } from '../pages/GameMaster/nova-tarefa-mundo/nova-tarefa-mundo';
+import { AcessarMundoPage } from '../pages/acessar-mundo/acessar-mundo';
+import { GerenciarTarefaPage } from '../pages/GameMaster/gerenciar-tarefa/gerenciar-tarefa';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -73,7 +80,10 @@ const firebaseAppConfig: FirebaseAppConfig = {
     MundosPage,
     NovoMundoPage,
     NovoMundoUsuariosPage,
-    GerenciarMundoGmPage
+    GerenciarMundoPage,
+    NovaTarefaMundoPage,
+    AcessarMundoPage,
+    GerenciarTarefaPage
   ],
   imports: [
     HttpModule,
@@ -103,7 +113,10 @@ const firebaseAppConfig: FirebaseAppConfig = {
     MundosPage,
     NovoMundoPage,
     NovoMundoUsuariosPage,
-    GerenciarMundoGmPage
+    GerenciarMundoPage,
+    NovaTarefaMundoPage,
+    AcessarMundoPage,
+    GerenciarTarefaPage
   ],
   providers: [
     StatusBar,
@@ -115,7 +128,11 @@ const firebaseAppConfig: FirebaseAppConfig = {
     HabitosProvider,
     AfazeresProvider,
     RecompensasProvider,
-    MundosProvider
+    MundosProvider,
+    AndroidPermissions,
+    ImagePicker,
+    PhotoViewer,
+    Camera
   ]
 })
 export class AppModule {}
