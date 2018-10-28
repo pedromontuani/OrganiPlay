@@ -7,6 +7,8 @@ import { Afazer } from '../../../models/afazer.model';
 import { AuthProvider } from '../../../providers/auth/auth';
 import { IconsList } from '../../../models/icons.model';
 import { MundosProvider } from '../../../providers/mundos/mundos';
+import { NovaRecompensaMundoPage } from '../nova-recompensa-mundo/nova-recompensa-mundo';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Generated class for the NovaTarefaMundoPage page.
@@ -30,6 +32,7 @@ export class NovaTarefaMundoPage extends BasePage {
   $keyMundo: string;
   recompensa: boolean;
   comprovacao: boolean = false;
+  tarefas: Observable<Afazer[]>;
 
   constructor(
     public navCtrl: NavController,
@@ -42,7 +45,7 @@ export class NovaTarefaMundoPage extends BasePage {
     super(alertCtrl, undefined, undefined);
     if (this.edit) {
       this.novaTarefaForm = this.formBuilder.group({
-        tarefa: [this.afazer.afazer, [Validators.required]],
+        afazer: [this.afazer.afazer, [Validators.required]],
         descricao: [this.afazer.descricao],
         icon: [this.afazer.icon, [Validators.required]],
         nivel: [this.afazer.nivel, [Validators.required]],
@@ -51,7 +54,7 @@ export class NovaTarefaMundoPage extends BasePage {
       this.edit = false;
     } else {
       this.novaTarefaForm = this.formBuilder.group({
-        tarefa: ['', [Validators.required]],
+        afazer: ['', [Validators.required]],
         descricao: [],
         icon: ['add', [Validators.required]],
         nivel: ['Fácil', [Validators.required]],

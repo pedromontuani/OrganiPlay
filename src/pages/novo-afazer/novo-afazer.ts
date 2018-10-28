@@ -56,7 +56,18 @@ export class NovoAfazerPage extends BasePage {
   }
 
   onSubmit() {
-    this.afazeresProvider.novoAfazer(this.novoAfazerForm.value, this.uid)
+    let value = this.novoAfazerForm.value;
+    let data = new Date(value.dataFim);
+    value.dataFim = new Date(
+      data.getFullYear(),
+      data.getMonth(),
+      data.getDate(),
+      data.getHours()+3,
+      data.getMinutes()
+    ).toISOString();
+    console.log(value.dataFim);
+    console.log(new Date(Date.now()));
+    this.afazeresProvider.novoAfazer(value, this.uid)
       .then(() => {
         this.navCtrl.pop();
       })

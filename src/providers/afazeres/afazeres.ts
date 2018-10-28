@@ -27,7 +27,7 @@ export class AfazeresProvider extends BaseProvider {
   finalizarAfazer(key: string, uid: string): Promise<void> {
     let finalizado: boolean = true;
     return this.db.object(`/afazeres/${uid}/${key}`).update({finalizado : finalizado})
-      .catch(this.handlePromiseError)
+      .catch(this.handlePromiseError);
   }
 
   deletarTarefa(key: string, uid: string): Promise<void> {

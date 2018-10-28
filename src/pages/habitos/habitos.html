@@ -37,10 +37,10 @@
         <ion-icon name="thumbs-down" color="danger" large item-start></ion-icon>
         <h2 id="ruim">{{habitoIndesejavel.habito}}</h2>
         <p>{{habitoIndesejavel.descricao}}</p>
-        <button id="botao" ion-button color="info" item-end icon-only small (click)="penalizar(habitoIndesejavel)">
+        <button id="botao" ion-button color="danger" item-end icon-only small (click)="penalizar(habitoIndesejavel)">
           <ion-icon name="add-circle"></ion-icon>
         </button>
-        <button id="botao" ion-button color="danger" icon-only item-end small (click)="bonificar(habitoIndesejavel)">
+        <button id="botao" ion-button color="info" icon-only item-end small (click)="bonificar(habitoIndesejavel)">
           <ion-icon name="remove-circle"></ion-icon>
         </button>
       </button>

@@ -197,20 +197,39 @@ export class RecompensasPage extends BasePage {
   }
 
   private showAlertRecompensa(recompensa: Recompensa, requisitos: string): void {
-    this.alertCtrl.create({
-      title: recompensa.recompensa,
-      message: `${recompensa.descricao}<br><br>Requisitos:<br>${requisitos}`,
-      buttons: [
-        {
-          text: "Obter recompensa",
-          handler: () => {
-            this.redeem(recompensa);
+    if(recompensa.descricao){
+      this.alertCtrl.create({
+        title: recompensa.recompensa,
+        message: `${recompensa.descricao}<br><br>Requisitos:<br>${requisitos}`,
+        buttons: [
+          {
+            text: "Obter recompensa",
+            handler: () => {
+              this.redeem(recompensa);
+            }
+          },
+          {
+            text: "Cancelar"
           }
-        },
-        {
-          text: "Cancelar"
-        }
-      ]
-    }).present();
+        ]
+      }).present();
+    } else {
+      this.alertCtrl.create({
+        title: recompensa.recompensa,
+        message: `Requisitos:<br>${requisitos}`,
+        buttons: [
+          {
+            text: "Obter recompensa",
+            handler: () => {
+              this.redeem(recompensa);
+            }
+          },
+          {
+            text: "Cancelar"
+          }
+        ]
+      }).present();
+    }
+    
   }
 }

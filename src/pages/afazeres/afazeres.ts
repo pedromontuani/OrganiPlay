@@ -94,13 +94,33 @@ export class AfazeresPage extends BasePage {
 
     if(afazer.dataFim) {
       let dateNow = new Date(Date.now());
-      let originalDate = new Date(afazer.dataFim);
-      if(originalDate.getDate()+1 < dateNow.getDate()) {
+      dateNow = new Date(
+        dateNow.getFullYear(),
+        dateNow.getMonth(),
+        dateNow.getDate(),23,59);
+      let originalDate = new Date(Date.parse(afazer.dataFim));
+      originalDate = new Date(
+        originalDate.getFullYear(),
+        originalDate.getMonth(),
+        originalDate.getDate(),23,59);
+
+        console.log(originalDate);
+        console.log(dateNow);
+
+      if(originalDate < dateNow) {
         status.hp -= hp;
         status.xp += xp/2;
         status.coins += coins/2;
         penalizacao = true;
+      } else {
+        status.xp += xp;
+        status.coins += coins;
+        penalizacao = false;
       }
+    } else {
+      status.xp += xp;
+      status.coins += coins;
+      penalizacao = false;
     }
 
     if(status.hp < 0) {
@@ -114,12 +134,16 @@ export class AfazeresPage extends BasePage {
         } else {
           this.showToast(`Você ganhou ${xp} XP e ${coins} moedas!`);
         }
+        
+        this.afazeresProvider.finalizarAfazer(afazer.$key, this.authProvider.userUID)
+          .catch(err => {
+            console.log(err);
+          }); 
       })
-      .catch(() => {
+      .catch(err => {
         this.showToast("Erro... Tente novamente");
+        console.log(err);
       });
-
-    this.afazeresProvider.finalizarAfazer(afazer.$key, this.authProvider.userUID);
   }
 
   showActionSheet(afazer: Afazer): void {

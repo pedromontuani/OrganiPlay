@@ -37,8 +37,8 @@
       <ion-list id="no-detail">
         <button *ngFor="let tarefa of (tarefas | async)" ion-item (click)="onClickTarefa(tarefa)" [ngClass]="{'riscado': isComprovada(tarefa)}">
           <ion-icon class="main-icon" [name]="tarefa.icon" icon-only item-start *ngIf="tarefa.icon"></ion-icon>
-          <h2>{{tarefa.tarefa}}</h2>
-         <h2 *ngIf="tarefa.dataFim">
+          <h2>{{tarefa.afazer}}</h2>
+          <h2 *ngIf="tarefa.dataFim">
             <ion-icon name="calendar" icon-only large></ion-icon> {{tarefa.dataFim | date: 'dd/MM/yyyy'}}
           </h2>
           <p *ngIf="tarefa.descricao">{{tarefa.descricao}}</p>

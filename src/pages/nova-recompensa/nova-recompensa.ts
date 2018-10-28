@@ -69,8 +69,8 @@ export class NovaRecompensaPage extends BasePage {
       });
       
     }
-    this.tarefas = this.afazeresProvider.getAfazeresObservable(this.uid);
     this.uid = this.authProvider.userUID;
+    this.tarefas = this.afazeresProvider.getAfazeresObservable(this.uid);
     this.icons = new IconsList().returnIcons();
   }
 

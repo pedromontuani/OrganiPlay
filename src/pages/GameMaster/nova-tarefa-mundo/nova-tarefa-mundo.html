@@ -20,7 +20,7 @@
   <form (ngSubmit)="onSubmit(); $event.preventDefault()" [formGroup]="novaTarefaForm">
     <ion-item>
       <ion-label>Tarefa</ion-label>
-      <ion-input type="text" formControlName="tarefa"></ion-input>
+      <ion-input type="text" formControlName="afazer"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Descrição</ion-label>
@@ -52,17 +52,10 @@
     <ion-label>Necessita comprovação?</ion-label>
     <ion-toggle [(ngModel)]="comprovacao"></ion-toggle>
   </ion-item>
-  <ion-item>
-    <ion-label>Recompensa</ion-label>
-    <ion-toggle [(ngModel)]="recompensa"></ion-toggle>
-  </ion-item>
 </ion-content>
 
 <ion-fab bottom right>
-  <button ion-fab (click)="novaRecompensa()" *ngIf="recompensa" [disabled]="novaTarefaForm.invalid">
-    <ion-icon name="arrow-forward"></ion-icon>
-  </button>
-  <button id="submitBtn" ion-fab (click)="novaTarefa()" *ngIf="!recompensa" [disabled]="novaTarefaForm.invalid">
+  <button id="submitBtn" ion-fab (click)="novaTarefa()" [disabled]="novaTarefaForm.invalid">
     <ion-icon name="checkmark"></ion-icon>
   </button>
 </ion-fab>

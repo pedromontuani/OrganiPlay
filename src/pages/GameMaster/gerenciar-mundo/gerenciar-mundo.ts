@@ -10,6 +10,7 @@ import { BasePage } from '../../base/base';
 import { NovaTarefaMundoPage } from '../nova-tarefa-mundo/nova-tarefa-mundo';
 import { Afazer } from '../../../models/afazer.model';
 import { GerenciarTarefaPage } from '../gerenciar-tarefa/gerenciar-tarefa';
+import { NovaRecompensaMundoPage } from '../nova-recompensa-mundo/nova-recompensa-mundo';
 
 
 @IonicPage()
@@ -117,7 +118,15 @@ export class GerenciarMundoPage extends BasePage {
   addTarefa() {
     this.navCtrl.push(
       NovaTarefaMundoPage,
-      { keyMundo: this.mundo.$key },
+      { keyMundo: this.mundo.$key, tarefas: this.tarefas },
+      { animate: true, animation: 'slide', direction: 'forward' }
+    );
+  }
+
+  addRecompensa() {
+    this.navCtrl.push(
+      NovaRecompensaMundoPage,
+      { keyMundo: this.mundo.$key, tarefas: this.tarefas },
       { animate: true, animation: 'slide', direction: 'forward' }
     );
   }

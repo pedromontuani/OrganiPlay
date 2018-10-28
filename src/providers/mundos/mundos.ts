@@ -9,6 +9,7 @@ import { Afazer } from '../../models/afazer.model';
 import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 import { SubmissaoTarefa } from '../../models/submissao-tarefa.model';
+import { RecompensaMundo } from '../../models/recompensa-mundo.model';
 /*
   Generated class for the MundosProvider provider.
 
@@ -159,6 +160,12 @@ export class MundosProvider extends BaseProvider {
   deleteComprovacao($keyTarefa: string, $keyMundo: string, uid: string): Promise<void>{
     return this.db.object(`/afazeres/mundos/${$keyMundo}/${$keyTarefa}/submissoes/${uid}`)
       .remove()
+      .catch(this.handlePromiseError);
+  }
+
+  novaRecompensa($keyMundo: string, recompensa: RecompensaMundo): Promise<void> {
+    return this.db.object(`/recompensas/mundos/${$keyMundo}`)
+      .set(recompensa)
       .catch(this.handlePromiseError);
   }
 

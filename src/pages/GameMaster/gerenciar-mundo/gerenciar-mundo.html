@@ -14,8 +14,8 @@
       <ion-segment-button value="jogadores">
         Jogadores
       </ion-segment-button>
-      <ion-segment-button value="gerenciar">
-        Gerenciar
+      <ion-segment-button value="recompensas">
+        Recompensas
       </ion-segment-button>
     </ion-segment>
 
@@ -30,6 +30,11 @@
 
       <ion-searchbar placeholder="Pesquisar" (ionInput)="filterItens($event)" *ngIf="view == 'jogadores'"></ion-searchbar>
       <button placeholder="Pesquisar" item-end ion-fab (click)="addUsuarios()" *ngIf="view == 'jogadores'">
+        <ion-icon name="add"></ion-icon>
+      </button>
+
+      <ion-searchbar placeholder="Pesquisar" (ionInput)="filterItens($event)" *ngIf="view == 'recompensas'"></ion-searchbar>
+      <button placeholder="Pesquisar" item-end ion-fab (click)="addRecompensa()" *ngIf="view == 'recompensas'">
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-item>
@@ -48,7 +53,7 @@
         <button *ngFor="let tarefa of (tarefas | async)" ion-item (click)="onClickTarefa(tarefa)" [ngClass]="{'riscado': tarefa.finalizado}"
           (press)="showActionSheetTarefa(tarefa)">
           <ion-icon class="main-icon" [name]="tarefa.icon" icon-only item-start *ngIf="tarefa.icon"></ion-icon>
-          <h2>{{tarefa.tarefa}}</h2>
+          <h2>{{tarefa.afazer}}</h2>
           <h2 *ngIf="tarefa.dataFim">
             <ion-icon name="calendar" icon-only large></ion-icon> {{tarefa.dataFim | date: 'dd/MM/yyyy'}}
           </h2>
@@ -65,16 +70,11 @@
           </ion-avatar>
           <h2>{{player.username}}</h2>
           <p>{{player.name}}</p>
-          <!-- Botão trash substituido por click-and-hold
-          <button ion-button icon-only item-end *ngIf="gmsUID.indexOf(currentUserUID) != -1">
-            <ion-icon name="trash"></ion-icon>
-          </button>
-          -->
         </button>
       </ion-list>
     </div>
 
-    <div *ngSwitchCase="'gerenciar'">
+    <div *ngSwitchCase="'recompensas'">
       <ion-list>
 
       </ion-list>

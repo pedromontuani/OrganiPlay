@@ -1,0 +1,74 @@
+<!--
+  Generated template for the NovaRecompensaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Nova Recompensa</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h1 text-center>
+    <div>
+      <ion-avatar (click)="showActionSheetFoto()">
+        <ion-icon *ngIf="!imagem" name="images" class="icon-images" color="primary"></ion-icon>
+        <img *ngIf="imagem" [src]="'data:image/jpeg;base64,' + imagem">
+        <ion-icon name="add-circle" class="icon-add" color="add"></ion-icon>
+      </ion-avatar>
+    </div>
+  </h1>
+  <form (ngSubmit)="onSubmit(); $event.preventDefault()" [formGroup]="novaRecompensaForm">
+    <ion-item>
+      <ion-label>Recompensa</ion-label>
+      <ion-input type="text" formControlName="recompensa"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Descrição</ion-label>
+      <ion-textarea formControlName="descricao"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>Quantidade</ion-label>
+      <ion-input type="number" formControlName="qtd" min="0"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Requisitos</ion-label>
+      <ion-select multiple="true" (ionChange)="mostrarCampos($event)">
+        <ion-option value="valor" selected>Valor</ion-option>
+        <ion-option value="nivel">Nível</ion-option>
+        <ion-option value="tarefas">Tarefa</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="campoNivel">
+      <ion-label>Nível mínimo</ion-label>
+      <ion-input type="number" text-right formControlName="nivel"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="campoTarefas">
+      <ion-label>Tarefa necessária</ion-label>
+      <ion-select formControlName="afazer" id="campoTarefas">
+        <ion-option *ngFor="let tarefa of (tarefas | async)" [value]="tarefa.$key">{{tarefa.afazer}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="campoValor">
+      <ion-label>Moedas</ion-label>
+      <ion-input type="number" text-right formControlName="moedas" placeholder="0"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="campoValor">
+      <ion-label>Gemas</ion-label>
+      <ion-input type="number" text-right formControlName="gemas" placeholder="0"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="campoValor">
+      <ion-label>Dinheiro</ion-label>
+      <ion-input type="number" text-right formControlName="dinheiro" placeholder="R$ 0.00"></ion-input>
+    </ion-item>
+    <br>
+    <br>
+    <button type="submit" ion-button block [disabled]="novaRecompensaForm.invalid">Salvar</button>
+
+  </form>
+</ion-content>

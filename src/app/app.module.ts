@@ -47,6 +47,7 @@ import { GerenciarMundoPage } from '../pages/GameMaster/gerenciar-mundo/gerencia
 import { NovaTarefaMundoPage } from '../pages/GameMaster/nova-tarefa-mundo/nova-tarefa-mundo';
 import { AcessarMundoPage } from '../pages/acessar-mundo/acessar-mundo';
 import { GerenciarTarefaPage } from '../pages/GameMaster/gerenciar-tarefa/gerenciar-tarefa';
+import { NovaRecompensaMundoPage } from '../pages/GameMaster/nova-recompensa-mundo/nova-recompensa-mundo';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -83,7 +84,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     GerenciarMundoPage,
     NovaTarefaMundoPage,
     AcessarMundoPage,
-    GerenciarTarefaPage
+    GerenciarTarefaPage,
+    NovaRecompensaMundoPage
   ],
   imports: [
     HttpModule,
@@ -116,7 +118,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     GerenciarMundoPage,
     NovaTarefaMundoPage,
     AcessarMundoPage,
-    GerenciarTarefaPage
+    GerenciarTarefaPage,
+    NovaRecompensaMundoPage
   ],
   providers: [
     StatusBar,

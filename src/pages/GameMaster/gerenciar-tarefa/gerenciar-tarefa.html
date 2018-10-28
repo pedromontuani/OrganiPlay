@@ -51,7 +51,7 @@
             <h2>{{player.username}}</h2>
             <p>{{player.name}}</p>
             <ion-thumbnail item-end *ngIf="tarefa.comprovacao" (click)="pickImage(player)">
-              <ion-img [src]="getPhotoSrc(player)"></ion-img>
+              <img [src]="getPhotoSrc(player)">
             </ion-thumbnail>
           </button>
         </div>
