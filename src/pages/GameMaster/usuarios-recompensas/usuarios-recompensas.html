@@ -1,0 +1,26 @@
+<!--
+  Generated template for the UsuariosRecompensasPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{recompensa}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list *ngIf="playersList">
+    <button ion-item *ngFor="let player of (playersList | async)">
+      <ion-avatar item-start>
+        <img class="round" [src]="player.photo || 'assets/imgs/no-photo.jpg'">
+      </ion-avatar>
+      <h2>{{player.username}}</h2>
+      <p>{{player.name}}</p>
+    </button>
+  </ion-list>
+</ion-content>

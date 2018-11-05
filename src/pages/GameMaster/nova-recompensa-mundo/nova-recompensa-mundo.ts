@@ -1,18 +1,16 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ActionSheetController, Platform } from 'ionic-angular';
-import { Recompensa } from '../../../models/recompensa.model';
+import { IonicPage, NavController, NavParams, AlertController, ActionSheetController, Platform, ModalController, LoadingController, ToastController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AfazeresProvider } from '../../../providers/afazeres/afazeres';
 import { AuthProvider } from '../../../providers/auth/auth';
 import { BasePage } from '../../base/base';
-import { RecompensasProvider } from '../../../providers/recompensas/recompensas';
 import { Afazer } from '../../../models/afazer.model';
 import { Observable } from 'rxjs/Observable';
-import { IconsList } from '../../../models/icons.model';
 import { MundosProvider } from '../../../providers/mundos/mundos';
 import { RecompensaMundo } from '../../../models/recompensa-mundo.model';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { IconsModalPage } from '../../Modals/icons-modal/icons-modal';
 
 /**
  * Generated class for the NovaRecompensaPage page.
@@ -38,6 +36,7 @@ export class NovaRecompensaMundoPage extends BasePage {
   campoValor: boolean = true;
   tarefas: Observable<Afazer[]>;
   imagem: string;
+  icone: string = "images";
 
   constructor(
     public navCtrl: NavController,
@@ -50,9 +49,12 @@ export class NovaRecompensaMundoPage extends BasePage {
     public actionSheetCtrl: ActionSheetController,
     public platform: Platform,
     public androidPermissions: AndroidPermissions,
-    public camera: Camera
+    public camera: Camera,
+    public modalCtrl: ModalController,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController
   ) {
-    super(alertCtrl, undefined, undefined);
+    super(alertCtrl, loadingCtrl, undefined);
     if (this.edit) {
       this.novaRecompensaForm = this.formBuilder.group({
         recompensa: [this.recompensa.recompensa, [Validators.required]],
@@ -69,7 +71,7 @@ export class NovaRecompensaMundoPage extends BasePage {
       this.novaRecompensaForm = this.formBuilder.group({
         recompensa: ['', [Validators.required]],
         descricao: [],
-        qtd: ['', [Validators.min]],
+        qtd: [],
         nivel: [],
         afazer: [],
         moedas: [],
@@ -82,19 +84,6 @@ export class NovaRecompensaMundoPage extends BasePage {
     this.tarefas = this.navParams.get("tarefas");
   }
 
-
-  onSubmit() {
-    let recompensa: RecompensaMundo = this.novaRecompensaForm.value;
-
-    this.mundosProvider.novaRecompensa(this.$keyMundo, recompensa)
-      .then(() => {
-        this.navCtrl.removeView(this.navCtrl.getPrevious());
-        this.navCtrl.pop();
-      })
-      .catch((error: Error) => {
-        this.showAlert(error.message);
-      });
-  }
 
   mostrarCampos(events: any) {
     if (events.indexOf("nivel") != -1) {
@@ -130,7 +119,6 @@ export class NovaRecompensaMundoPage extends BasePage {
         },
         {
           text: 'Escolher da galeria',
-          role: 'cancel',
           icon: !this.platform.is('ios') ? 'images' : null,
           handler: () => {
             this.getPhotoPermission('album');
@@ -138,10 +126,9 @@ export class NovaRecompensaMundoPage extends BasePage {
         },
         {
           text: 'Usar ícone',
-          role: 'cancel',
-          icon: !this.platform.is('ios') ? 'images' : null,
+          icon: !this.platform.is('ios') ? 'add' : null,
           handler: () => {
-            this.getPhotoPermission('icon');
+            this.getIcon();
           }
         }
       ]
@@ -180,17 +167,76 @@ export class NovaRecompensaMundoPage extends BasePage {
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       sourceType: source == 'camera' ? this.camera.PictureSourceType.CAMERA : this.camera.PictureSourceType.PHOTOLIBRARY,
+      correctOrientation: true,
       targetHeight: 1080,
       targetWidth: 1080
     }
     this.camera.getPicture(options).then((imageData) => {
-      this.imagem = imageData;
+      if(imageData){
+        this.imagem = imageData;
+        this.icone = null;
+      }
     }, (err) => {
       console.log(err);
     }).catch((err) => {
       console.log(err);
       this.showAlert("Você deve conceder permissão ao uso da câmera");
     });
+  }
+
+  getIcon() {
+    let modalIcons = this.modalCtrl.create(IconsModalPage, {}, {cssClass : 'modal'});
+    modalIcons.onDidDismiss(data => {
+      if(data) {
+      this.icone = data.icon;
+      this.imagem = null;
+      } 
+    });
+    modalIcons.present();
+  }
+
+  onSubmit() {
+    let loading = this.showLoading();
+    let recompensa: RecompensaMundo = this.novaRecompensaForm.value;
+
+    if(this.imagem) {
+      let keyRecompensa: string;
+      this.mundosProvider.novaRecompensa(this.$keyMundo, recompensa)
+        .transaction(() => {}, (err,b,snapshot) => {
+          keyRecompensa = snapshot.key;
+        })
+        .then(() => {
+          this.mundosProvider.enviarFotoRecompensa(this.$keyMundo, keyRecompensa, this.imagem)
+            .then(() => {
+              loading.dismiss();
+              this.navCtrl.removeView(this.navCtrl.getPrevious());
+              this.navCtrl.pop();
+            })
+            .catch(() => {
+              loading.dismiss();
+              this.showToast("Ocorreu um erro... tente novamente");
+            });
+        })
+        .catch(err => {
+          loading.dismiss();
+          console.log(err);
+          this.showToast("Ocorreu um erro... tente novamente");
+        });
+    } else {
+      recompensa.icon = this.icone;
+      this.mundosProvider.novaRecompensa(this.$keyMundo, recompensa)
+      .transaction(() => {},() => {})
+      .then(() => {
+        loading.dismiss();
+        this.navCtrl.removeView(this.navCtrl.getPrevious());
+        this.navCtrl.pop();
+      })
+      .catch(err => {
+        loading.dismiss();
+        console.log(err);
+        this.showToast("Ocorreu um erro... tente novamente")
+      });
+    }
   }
 
 }

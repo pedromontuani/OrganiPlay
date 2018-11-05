@@ -21,7 +21,7 @@
   <div [ngSwitch]="view" *ngIf="isGM">
     <ion-list *ngSwitchCase="'mundos'">
       <ion-list>
-        <button ion-item *ngFor="let mundo of (mundos | async)" (click)="onClickMundo(mundo)">
+        <button ion-item *ngFor="let mundo of (mundos | async)" (click)="onClickMundo(mundo)" (press)="onPressMundo(mundo)">
           <ion-avatar item-start>
             <img [src]="mundo.iconURL || 'assets/imgs/no-photo-world.jpg'">
           </ion-avatar>
@@ -32,7 +32,7 @@
 
     <ion-list *ngSwitchCase="'meusMundos'">
       <ion-list>
-        <button ion-item *ngFor="let mundoGM of (meusMundos | async)" (click)="onClickMundoGM(mundoGM)">
+        <button ion-item *ngFor="let mundoGM of (meusMundos | async)" (click)="onClickMundoGM(mundoGM)" (press)="onPressMundoGM(mundoGM)">
           <ion-icon [name]="mundoGM.icon || 'globe'" icon-only item-start></ion-icon>
           <h2>{{mundoGM.mundo}}</h2>
         </button>
@@ -41,7 +41,7 @@
   </div>
 
   <ion-list *ngIf="!isGM">
-    <button ion-item *ngFor="let mundo of (mundos | async)" (click)="onClickMundo(mundo)">
+    <button ion-item *ngFor="let mundo of (mundos | async)" (click)="onClickMundo(mundo)" (press)="onPressMundo(mundo)">
       <ion-icon [name]="mundo.icon || 'globe'" icon-only item-start></ion-icon>
       <h2>{{mundo.mundo}}</h2>
     </button>

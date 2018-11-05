@@ -9,6 +9,9 @@
       <ion-segment-button value="mundos">
         Mundos
       </ion-segment-button>
+      <ion-segment-button value="loja">
+        Loja
+      </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 
@@ -39,6 +42,10 @@
         {{mundo.name}}
       </button>
     </ion-list>
+
+    <ion-list *ngSwitchCase="'loja'">
+      
+    </ion-list>
   </div>
 
 </ion-content>
@@ -50,6 +57,10 @@
     </button>
 
     <button ion-fab (click)="addMundo()" *ngSwitchCase="'mundos'">
+      <ion-icon name="add"></ion-icon>
+    </button>
+
+    <button ion-fab (click)="addItemLoja()" *ngSwitchCase="'loja'">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>

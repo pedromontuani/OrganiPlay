@@ -43,3 +43,8 @@ a.item:not([detail-none]) .item-inner,
   .toolbar-ios .segment-ios {
     top: 15px;
 }
+
+.modal {
+  background: rgba(0, 0, 0, 0.5) !important;
+  padding: 20% 10%  !important;
+}

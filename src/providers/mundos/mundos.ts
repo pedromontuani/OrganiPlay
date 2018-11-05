@@ -76,7 +76,7 @@ export class MundosProvider extends BaseProvider {
       });
   }
 
-  getPlayersTarefas($keys: string[]): Observable<User[]>{
+  getPlayersByKeysArray($keys: string[]): Observable<User[]> {
     return this.mapListKeys(this.db.list<User>('/users',
       (ref: firebase.database.Reference) => ref.orderByChild('username')))
       .map((users: User[]) => {
@@ -123,7 +123,7 @@ export class MundosProvider extends BaseProvider {
   ): Promise<void> {
     return this.db.object(`/afazeres/mundos/${$keyMundo}/${$keyTarefa}/submissoes/${uid}`)
       .set(dados)
-      .catch(this.handlePromiseError);      
+      .catch(this.handlePromiseError);
   }
 
   enviarComprovacao(
@@ -135,11 +135,11 @@ export class MundosProvider extends BaseProvider {
     return firebase
       .storage()
       .ref()
-      .child(`/comprovacoes-mundo/${$keyMundo}/${$keyTarefa}/${userUid}.jpg`)
-      .putString(base64, 'base64', {contentType: 'image/jpeg'});
+      .child(`/mundos/${$keyMundo}/comprovacoes/${$keyTarefa}/${userUid}.jpg`)
+      .putString(base64, 'base64', { contentType: 'image/jpeg' });
   }
 
-  getSubmissaoTarefas($keyTarefa: string, $keyMundo: string, uid: string ): Observable<SubmissaoTarefa> {
+  getSubmissaoTarefas($keyTarefa: string, $keyMundo: string, uid: string): Observable<SubmissaoTarefa> {
     return this.mapObjectKey(
       this.db.object(`/afazeres/mundos/${$keyMundo}/${$keyTarefa}/submissoes/${uid}`)
     );
@@ -151,22 +151,84 @@ export class MundosProvider extends BaseProvider {
     );
   }
 
-  updateComprovacao($keyTarefa: string, $keyMundo: string, uid: string, dados: { verificado: boolean}): Promise<void>{
+  updateComprovacao($keyTarefa: string, $keyMundo: string, uid: string, dados: { verificado: boolean }): Promise<void> {
     return this.db.object(`/afazeres/mundos/${$keyMundo}/${$keyTarefa}/submissoes/${uid}`)
       .update(dados)
       .catch(this.handlePromiseError);
   }
 
-  deleteComprovacao($keyTarefa: string, $keyMundo: string, uid: string): Promise<void>{
+  deleteComprovacao($keyTarefa: string, $keyMundo: string, uid: string): Promise<void> {
     return this.db.object(`/afazeres/mundos/${$keyMundo}/${$keyTarefa}/submissoes/${uid}`)
       .remove()
       .catch(this.handlePromiseError);
   }
 
-  novaRecompensa($keyMundo: string, recompensa: RecompensaMundo): Promise<void> {
-    return this.db.object(`/recompensas/mundos/${$keyMundo}`)
-      .set(recompensa)
+  novaRecompensa($keyMundo: string, recompensa: RecompensaMundo): firebase.database.ThenableReference {
+    return this.db.list(`/recompensas/mundos/${$keyMundo}`)
+      .push(recompensa);
+  }
+
+  updateRecompensa($keyMundo: string, $keyRecompensa: string, data): Promise<void> {
+    return this.db.object(`/recompensas/mundos/${$keyMundo}/${$keyRecompensa}`)
+      .update(data)
       .catch(this.handlePromiseError);
   }
+
+  enviarFotoRecompensa(
+    $keyMundo: string,
+    $keyRecompensa: string,
+    base64: string,
+  ): Promise<void> {
+    return firebase
+      .storage()
+      .ref()
+      .child(`/mundos/${$keyMundo}/recompensas/${$keyRecompensa}.jpg`)
+      .putString(base64, 'base64', { contentType: 'image/jpeg' })
+      .then((snapshot) => {
+        this.updateRecompensa($keyMundo, $keyRecompensa, { photoUrl: snapshot.downloadURL })
+          .catch(err => {
+            console.log(err);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  getRecompensasMundo($keyMundo: string): Observable<RecompensaMundo[]> {
+    return this.mapListKeys(this.db.list(`/recompensas/mundos/${$keyMundo}`));
+  }
+
+  updateRecompensaMundo($keyMundo: string, $keyRecompensa: string, data): Promise<any> {
+    return this.db.object(`/recompensas/mundos/${$keyMundo}/${$keyRecompensa}`)
+      .update(data)
+      .catch(this.handlePromiseError);
+  }
+
+  excluirMundo($keyMundo): Promise<void> {
+    return this.db.object(`/afazeres/mundos/${$keyMundo}`).remove()
+      .then(() => {
+        return this.db.object(`/recompensas/mundos/${$keyMundo}`).remove()
+          .then(() => {
+            return firebase.storage().ref().child(`/mundos/${$keyMundo}`).delete()
+              .then(() => {
+                return this.db.object(`/mundos/${$keyMundo}`).remove()
+                  .catch(this.handlePromiseError);
+              })
+              .catch(err => {
+                if(err.code.indexOf("object-not-found") > -1){
+                  return this.db.object(`/mundos/${$keyMundo}`).remove()
+                    .catch(this.handlePromiseError);
+                } else {
+                  return this.handlePromiseError(err);
+                }
+              });
+          })
+          .catch(this.handlePromiseError);
+      })
+      .catch(this.handlePromiseError);
+  }
+
+
 
 }

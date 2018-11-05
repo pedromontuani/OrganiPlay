@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController } from 'ionic-angular';
 import { AdminProvider } from '../../providers/admin/admin';
 import { User } from '../../models/user.model';
 import { UserProvider } from '../../providers/user/user';
@@ -28,8 +28,9 @@ export class AdmEditarUsuarioPage extends BasePage{
       public userProvider: UserProvider,
       public alertController: AlertController,
       public loadingCtrl: LoadingController,
+      public toastCtrl: ToastController
     ) {
-      super(alertController, loadingCtrl, undefined);
+      super(alertController, loadingCtrl, toastCtrl);
   }
 
   ionViewWillLoad() {
@@ -47,7 +48,7 @@ export class AdmEditarUsuarioPage extends BasePage{
         this.navCtrl.pop();
       })
       .catch(() => {
-        this.showAlert("Ocorreu um erro. Tente novamente");
+        this.showToast("Ocorreu um erro. Tente novamente");
       });
   }
 

@@ -10,6 +10,7 @@ export class RecompensaMundo {
         public afazer: string,
         public moedas: number,
         public gemas: number,
-        public dinheiro: string
+        public dinheiro: string,
+        public portadores: string
     ) { }
 }

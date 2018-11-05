@@ -10,8 +10,9 @@ import { BasePage } from '../base/base';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
-import { SubmissaoTarefa } from '../../models/submissao-tarefa.model';
-import { Timestamp } from 'rxjs';
+import { RecompensaMundo } from '../../models/recompensa-mundo.model';
+import { Status } from '../../models/status.model';
+import { UserProvider } from '../../providers/user/user';
 
 
 @IonicPage()
@@ -26,7 +27,9 @@ export class AcessarMundoPage extends BasePage {
   mundoObject: Observable<Mundo>;
   playersList: Observable<User[]>;
   currentUserUID: string;
+  currentUser: User;
   tarefas: Observable<Afazer[]>;
+  recompensasList: Observable<RecompensaMundo[]>;
 
   constructor(
     public navCtrl: NavController,
@@ -39,11 +42,15 @@ export class AcessarMundoPage extends BasePage {
     public toastCtrl: ToastController,
     private camera: Camera,
     public loadingCtrl: LoadingController,
+    public userProvider: UserProvider,
     public androidPermissions: AndroidPermissions
   ) {
     super(alertCtrl, loadingCtrl, toastCtrl);
     this.mundo = navParams.get("mundo");
     this.currentUserUID = this.authProvider.userUID;
+    this.userProvider.currentUserObject.valueChanges().subscribe(user => {
+      this.currentUser = user;
+    });
     this.mundoObject = this.mundoProvider.getMundoObject(this.mundo.$key);
     this.mundoObject.subscribe((mundo: Mundo) => {
       this.mundo = mundo;
@@ -53,10 +60,7 @@ export class AcessarMundoPage extends BasePage {
       );
     });
     this.tarefas = this.mundoProvider.getTarefasMundo(this.mundo.$key);
-  }
-
-  ionViewDidLoad() {
-    
+    this.recompensasList = this.mundoProvider.getRecompensasMundo(this.mundo.$key);
   }
 
   onClickTarefa(tarefa: Afazer) {
@@ -123,7 +127,7 @@ export class AcessarMundoPage extends BasePage {
       })
       .catch((err) => {
         console.log(err);
-        this.showAlert("Ocorreu um erro... tente novamente.");
+        this.showToast("Ocorreu um erro... tente novamente.");
       });
   }
 
@@ -156,6 +160,7 @@ export class AcessarMundoPage extends BasePage {
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       sourceType: source == 'camera' ? this.camera.PictureSourceType.CAMERA : this.camera.PictureSourceType.PHOTOLIBRARY,
+      correctOrientation: true,
       targetHeight: 1920,
       targetWidth: 1080
     }
@@ -171,7 +176,7 @@ export class AcessarMundoPage extends BasePage {
           }, (error: Error) => {
             console.log(error);
             loading.dismiss();
-            this.showAlert("Ocorreu um erro... tente novamente");
+            this.showToast("Ocorreu um erro... tente novamente");
           }, () => {
             let photoUrl: string = uploadTask.snapshot.downloadURL;
             loading.dismiss();
@@ -220,6 +225,131 @@ export class AcessarMundoPage extends BasePage {
         }
       ]
     }).present();
+  }
+
+  showAlertRecompensa(recompensa: RecompensaMundo) {
+    let requisitos: string = "";
+    let mensagem: string = "";
+    if(recompensa.moedas) {
+      requisitos += `Moedas: ${recompensa.moedas}<br>`;
+    }
+    if(recompensa.gemas) {
+      requisitos += `Gemas: ${recompensa.gemas}<br>`;
+    }
+    if(recompensa.nivel) {
+      requisitos += `Nível: ${recompensa.nivel}<br>`;
+    }
+    if(recompensa.dinheiro) {
+      requisitos += `Dinheiro: R$ ${recompensa.dinheiro}<br>`;
+    }
+    if(recompensa.afazer) {
+      this.tarefas.first().subscribe(afazer => {
+        afazer.forEach(afazer => {
+          if(afazer.$key == recompensa.afazer) {
+            requisitos += `Tarefa: ${afazer.afazer}<br>`;
+          }
+        });
+      });
+    }
+
+    if(recompensa.descricao) {
+      mensagem = recompensa.descricao + "<br><br>";
+    }
+
+    mensagem += `Requisitos:<br>${requisitos}`;
+
+    this.alertCtrl.create({
+      title: "Obter recompensa?",
+      message: `<b>${recompensa.recompensa}</b><br>${mensagem}`,
+        buttons: [
+          {
+            text: "Obter",
+            handler: () => {
+              this.redeemRecompensa(recompensa);
+            }
+          },
+          {
+            text: "Cancelar"
+          }
+        ]
+      }).present();
+  }
+
+  redeemRecompensa(recompensa: RecompensaMundo) {
+    let loading = this.showLoading();
+    let canRedeem: boolean = true;
+    let userStatus: Status = this.currentUser.status;
+
+    if(recompensa.moedas) {
+      if(userStatus.coins >= recompensa.moedas) {
+        userStatus.coins -= recompensa.moedas
+      } else {
+        canRedeem = false;
+      }
+    }
+
+    if(recompensa.gemas) {
+      if(userStatus.gems >= recompensa.gemas) {
+        userStatus.gems -= recompensa.gemas
+      } else {
+        canRedeem = false;
+      }
+    }
+
+    if(recompensa.afazer) {
+      this.tarefas.first().subscribe(tarefas => {
+        tarefas.forEach(tarefa => {
+          if(recompensa.afazer == tarefa.$key) {
+            if(!this.isComprovada(tarefa)){
+              canRedeem = false;
+            }
+          }
+        });
+      });
+    }
+
+    if(canRedeem) {
+      let portadores: string;
+      if(recompensa.portadores) {
+        let usersUID: string[] = recompensa.portadores.split(" ");
+        usersUID.push(this.currentUserUID);
+        portadores = usersUID.join(" ");
+      } else {
+        portadores = this.currentUserUID
+      }
+      this.mundoProvider.updateRecompensaMundo(
+        this.mundo.$key, 
+        recompensa.$key,
+        {portadores: portadores})
+      .then(() => {
+        userStatus.xp += 50;
+        this.userProvider.updateStatus(userStatus, this.currentUserUID)
+          .then(() => {
+            this.showToast("Parabéns! Você obteve sua recompensa e um bônus de 50XP!");
+          })
+          .catch(err => {
+            console.log(err);
+            this.showToast("Ocorreu um erro... contate um administrador");
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        this.showToast("Ocorreu um erro... tente novamete");
+      });
+    } else {
+      this.showToast("Você ainda não pode obter esta recompensa... verifique os requisitos");
+    }
+    loading.dismiss();
+  }
+
+  isPortador(recompensa: RecompensaMundo): boolean {
+    if(recompensa.portadores) {
+      return recompensa.portadores
+      .split(" ")
+      .indexOf(this.currentUserUID) != -1;  
+    } else {
+      return false;
+    }
   }
 
 

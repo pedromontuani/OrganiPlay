@@ -75,8 +75,22 @@
     </div>
 
     <div *ngSwitchCase="'recompensas'">
-      <ion-list>
-
+      <ion-list *ngIf="recompensasList">
+        <div *ngFor="let recompensa of (recompensasList | async)">
+          <button ion-item (click)="onClickRecompensa(recompensa)">
+            <ion-icon *ngIf="!recompensa.photoUrl" [name]="recompensa.icon" item-start></ion-icon>
+            <ion-avatar item-start *ngIf="recompensa.photoUrl">
+              <img class="round" [src]="recompensa.photoUrl">
+            </ion-avatar>
+            <h2>{{recompensa.recompensa}}</h2>
+            <p>{{recompensa.descricao}}</p>
+            <ion-icon class="icon tarefa" name="list" large *ngIf="recompensa.afazer" item-end></ion-icon>
+            <ion-icon class="icon moedas" name="cash" large *ngIf="recompensa.moedas" item-end></ion-icon>
+            <ion-icon class="icon gemas" name="snow" large *ngIf="recompensa.gemas" item-end></ion-icon>
+            <ion-icon class="icon dinheiro" name="cash" large *ngIf="recompensa.dinheiro" item-end></ion-icon>
+            <ion-icon class="icon podium" name="podium" large *ngIf="recompensa.nivel" item-end></ion-icon>
+          </button>
+        </div>
       </ion-list>
     </div>
   </div>

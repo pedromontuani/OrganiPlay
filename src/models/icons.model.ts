@@ -325,7 +325,7 @@ export class IconsList {
         "trending-up",
         "trophy",
         "logo-tumblr",
-        "tux",
+        "logo-tux",
         "logo-twitch",
         "logo-twitter",
         "umbrella",

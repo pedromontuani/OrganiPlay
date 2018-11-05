@@ -5,7 +5,7 @@ import { CadastrarPage } from '../cadastrar/cadastrar';
 import { TabsPage } from '../tabs/tabs';
 import { AuthProvider } from '../../providers/auth/auth';
 import { UserProvider } from '../../providers/user/user';
-import { AdminPage } from '../admin/admin';
+import { AdminPage } from '../Administrador/admin/admin';
 import { User } from '../../models/user.model';
 import { AdminProvider } from '../../providers/admin/admin';
 import { BasePage } from '../base/base';

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { User } from '../../../models/user.model';
 import { Afazer } from '../../../models/afazer.model';
 import { Observable } from 'rxjs';
@@ -32,9 +32,10 @@ export class GerenciarTarefaPage extends BasePage {
     public userProvider: UserProvider,
     public admProvider: AdminProvider,
     public alertCtrl: AlertController,
-    private photoViewer: PhotoViewer
+    private photoViewer: PhotoViewer,
+    public toastCtrl: ToastController
   ) {
-    super(alertCtrl, undefined, undefined);
+    super(alertCtrl, undefined, toastCtrl);
     this.tarefa = this.navParams.get('tarefa');
     this.mundo = this.navParams.get('mundo');
     this.submissoesTarefa = this.mundoProvider.getSubmissoesTarefas(this.tarefa.$key, this.mundo.$key);
@@ -43,7 +44,7 @@ export class GerenciarTarefaPage extends BasePage {
       submissoes.forEach(element => {
         $keys.push(element.$key);
       });
-      this.playersList = this.mundoProvider.getPlayersTarefas($keys);
+      this.playersList = this.mundoProvider.getPlayersByKeysArray($keys);
     });
     this.submissoesTarefa.subscribe((submissoes) => {
       this.submissoesTarefaVec = submissoes;
@@ -53,7 +54,7 @@ export class GerenciarTarefaPage extends BasePage {
   getPhotoSrc(player: User): string {
     let url: string;
     this.submissoesTarefaVec.forEach(element => {
-      if(player.$key == element.$key){
+      if (player.$key == element.$key) {
         url = element.photoUrl;
       }
     });
@@ -67,35 +68,7 @@ export class GerenciarTarefaPage extends BasePage {
         {
           text: "Sim",
           handler: () => {
-            let status: Status = player.status;
-            let peso: number;
-            let moedas: number = 20;
-            let xp: number = 10;
-            if (this.tarefa.nivel == "Fácil") {
-              peso = 1;
-            } else if (this.tarefa.nivel == "Médio") {
-              peso = 2;
-            } else {
-              peso = 3;
-            }
-
-            status.coins = moedas * peso;
-            status.xp = moedas * peso;
-            status.hp = player.status.hp;
-            status.gems = player.status.gems;
-
-            this.mundoProvider.updateComprovacao(
-              this.tarefa.$key,
-              this.mundo.$key,
-              player.$key,
-              { verificado: true }
-            ).then(() => {
-              this.userProvider.updateStatus(status, player.$key);
-              document.getElementById(player.$key).style.display = "none";
-            })
-              .catch((err) => {
-                console.log(err);
-              });
+            this.atualizarStatus(player);
           }
         },
         {
@@ -117,13 +90,13 @@ export class GerenciarTarefaPage extends BasePage {
               this.mundo.$key,
               player.$key
             )
-            .then(() => {
-              document.getElementById(player.$key).style.display = "none";
-            })
-            .catch((err) => {
-              console.log(err);
-              this.showAlert("Ocorreu um erro... tente novamene");
-            });
+              .then(() => {
+                document.getElementById(player.$key).style.display = "none";
+              })
+              .catch((err) => {
+                console.log(err);
+                this.showToast("Ocorreu um erro... tente novamene");
+              });
           }
         },
         {
@@ -136,7 +109,7 @@ export class GerenciarTarefaPage extends BasePage {
   comprovado(player: User): boolean {
     let estado: boolean;
     this.submissoesTarefaVec.forEach(element => {
-      if(player.$key == element.$key){
+      if (player.$key == element.$key) {
         estado = element.verificado;
       }
     });
@@ -145,6 +118,37 @@ export class GerenciarTarefaPage extends BasePage {
 
   pickImage(player: User) {
     this.photoViewer.show(this.getPhotoSrc(player));
+  }
+
+  atualizarStatus(player: User) {
+    let status: Status = player.status;
+    let peso: number;
+    let moedas: number = 20;
+    let xp: number = 10;
+    if (this.tarefa.nivel == "Fácil") {
+      peso = 1;
+    } else if (this.tarefa.nivel == "Médio") {
+      peso = 2;
+    } else {
+      peso = 3;
+    }
+
+    status.coins = moedas * peso;
+    status.xp *= peso;
+    status.gems += peso - 1;
+
+    this.mundoProvider.updateComprovacao(
+      this.tarefa.$key,
+      this.mundo.$key,
+      player.$key,
+      { verificado: true }
+    ).then(() => {
+      this.userProvider.updateStatus(status, player.$key);
+      document.getElementById(player.$key).style.display = "none";
+    })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
 }

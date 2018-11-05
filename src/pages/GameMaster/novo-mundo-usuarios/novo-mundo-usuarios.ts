@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../../../models/user.model';
 import { MundosProvider } from '../../../providers/mundos/mundos';
@@ -24,7 +24,8 @@ export class NovoMundoUsuariosPage extends BasePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public mundosProvider: MundosProvider,
-    alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController
   ) {
     super(alertCtrl, undefined, undefined);
     this.uid = this.navParams.get("uid");
@@ -96,7 +97,7 @@ export class NovoMundoUsuariosPage extends BasePage {
     ).then(() => {
       this.navCtrl.pop();
     }).catch(() => {
-      this.showAlert("Ocorreu um erro... Tente novamente");
+      this.showToast("Ocorreu um erro... Tente novamente");
     })
   }
 

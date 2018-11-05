@@ -1,12 +1,18 @@
 page-nova-recompensa-mundo {
-    .icon-images {
-        font-size: 4.5em;
+    .icon-image {
+        font-size: 4.1em;
     }
 
     .icon-add {
         position: relative;
         right: 0;
         bottom: 0;
+    }
+
+    img {
+        height: 4.1em;
+        width: 4.1em;
+        border-radius: 50%;
     }
     
 }

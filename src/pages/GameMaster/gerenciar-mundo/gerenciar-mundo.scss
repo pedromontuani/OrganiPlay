@@ -16,6 +16,26 @@ page-gerenciar-mundo {
             text-decoration: line-through;
         }
     }
+
+    .recompensa{
+        color: rgb(204, 41, 0);
+    }
+
+    .dinheiro {
+        color: green;
+    }
+
+    .moedas {
+        color: rgb(255, 217, 0);
+    }
+
+    .gemas {
+        color: rgb(0, 152, 190);
+    }
+
+    .podium {
+        color: map-get($colors, primary);
+    }
       
     
     

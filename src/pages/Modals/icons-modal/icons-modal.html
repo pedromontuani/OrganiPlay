@@ -1,0 +1,11 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let icon of icons" col-3>
+        <button ion-button clear class="button-icon" (click)="getIcon(icon)">
+          <ion-icon [name]="icon"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

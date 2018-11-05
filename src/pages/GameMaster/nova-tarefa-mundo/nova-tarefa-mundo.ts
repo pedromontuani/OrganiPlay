@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { BasePage } from '../../base/base';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Afazer } from '../../../models/afazer.model';
@@ -40,9 +40,10 @@ export class NovaTarefaMundoPage extends BasePage {
     public formBuilder: FormBuilder,
     public mundoProvider: MundosProvider,
     public alertCtrl: AlertController,
-    public authProvider: AuthProvider
+    public authProvider: AuthProvider,
+    public toastCtrl: ToastController
   ) {
-    super(alertCtrl, undefined, undefined);
+    super(alertCtrl, undefined, toastCtrl);
     if (this.edit) {
       this.novaTarefaForm = this.formBuilder.group({
         afazer: [this.afazer.afazer, [Validators.required]],
@@ -75,7 +76,7 @@ export class NovaTarefaMundoPage extends BasePage {
       .then(() => {
         this.navCtrl.pop();
       }).catch(() => {
-        this.showAlert("Ocorreu um erro... Tente novamente");
+        this.showToast("Ocorreu um erro... Tente novamente");
       });
   }
 

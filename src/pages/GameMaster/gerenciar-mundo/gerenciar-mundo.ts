@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController, Platform, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, Platform, AlertController, ToastController } from 'ionic-angular';
 import { Mundo } from '../../../models/mundo.model';
 import { Observable } from 'rxjs';
 import { MundosProvider } from '../../../providers/mundos/mundos';
@@ -11,6 +11,8 @@ import { NovaTarefaMundoPage } from '../nova-tarefa-mundo/nova-tarefa-mundo';
 import { Afazer } from '../../../models/afazer.model';
 import { GerenciarTarefaPage } from '../gerenciar-tarefa/gerenciar-tarefa';
 import { NovaRecompensaMundoPage } from '../nova-recompensa-mundo/nova-recompensa-mundo';
+import { RecompensaMundo } from '../../../models/recompensa-mundo.model';
+import { UsuariosRecompensasPage } from '../usuarios-recompensas/usuarios-recompensas';
 
 
 @IonicPage()
@@ -27,6 +29,7 @@ export class GerenciarMundoPage extends BasePage {
   playersList: Observable<User[]>;
   currentUserUID: string;
   tarefas: Observable<Afazer[]>;
+  recompensasList: Observable<RecompensaMundo[]>
 
   constructor(
     public navCtrl: NavController,
@@ -35,9 +38,10 @@ export class GerenciarMundoPage extends BasePage {
     public authProvider: AuthProvider,
     public actionSheetCtrl: ActionSheetController,
     public platform: Platform,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController
   ) {
-    super(alertCtrl, undefined, undefined);
+    super(alertCtrl, undefined, toastCtrl);
     this.mundo = navParams.get("mundo");
     this.gmsUID = this.mundo.gmUID.split(" ");
     this.currentUserUID = this.authProvider.userUID;
@@ -50,11 +54,9 @@ export class GerenciarMundoPage extends BasePage {
       );
     });
     this.tarefas = this.mundoProvider.getTarefasMundo(this.mundo.$key);
+    this.recompensasList = this.mundoProvider.getRecompensasMundo(this.mundo.$key);
   }
 
-  ionViewWillLoad() {
-
-  }
 
   showActionSheetPlayer(player: User) {
     this.actionSheetCtrl.create({
@@ -75,7 +77,7 @@ export class GerenciarMundoPage extends BasePage {
                       this.mundo.$key,
                       this.mundo.players
                     ).catch(() => {
-                      this.showAlert("Ocorreu um erro... Tente novamente");
+                      this.showToast("Ocorreu um erro... Tente novamente");
                     })
                   }
                 },
@@ -135,6 +137,14 @@ export class GerenciarMundoPage extends BasePage {
     this.navCtrl.push(
       GerenciarTarefaPage,
       { tarefa: tarefa, mundo: this.mundo },
+      { animate: true, animation: 'slide', direction: 'forward' }
+    );
+  }
+
+  onClickRecompensa(recompensa: RecompensaMundo) {
+    this.navCtrl.push(
+      UsuariosRecompensasPage,
+      { playersKeys: recompensa.portadores, recompensa: recompensa.recompensa },
       { animate: true, animation: 'slide', direction: 'forward' }
     );
   }

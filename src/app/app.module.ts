@@ -12,7 +12,7 @@ import { HabitosPage } from '../pages/habitos/habitos';
 import { AfazeresPage } from '../pages/afazeres/afazeres';
 import { RecompensasPage } from '../pages/recompensas/recompensas';
 import { TabsPage } from '../pages/tabs/tabs';
-import { AdminPage } from '../pages/admin/admin';
+import { AdminPage } from '../pages/Administrador/admin/admin';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -48,6 +48,11 @@ import { NovaTarefaMundoPage } from '../pages/GameMaster/nova-tarefa-mundo/nova-
 import { AcessarMundoPage } from '../pages/acessar-mundo/acessar-mundo';
 import { GerenciarTarefaPage } from '../pages/GameMaster/gerenciar-tarefa/gerenciar-tarefa';
 import { NovaRecompensaMundoPage } from '../pages/GameMaster/nova-recompensa-mundo/nova-recompensa-mundo';
+import { IconsModalPage } from '../pages/Modals/icons-modal/icons-modal';
+import { UsuariosRecompensasPage } from '../pages/GameMaster/usuarios-recompensas/usuarios-recompensas';
+import { NovaPocaoPage } from '../pages/Administrador/nova-pocao/nova-pocao';
+import { NovoTemaPage } from '../pages/Administrador/novo-tema/novo-tema';
+import { NovoAvatarPage } from '../pages/Administrador/novo-avatar/novo-avatar';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -85,7 +90,12 @@ const firebaseAppConfig: FirebaseAppConfig = {
     NovaTarefaMundoPage,
     AcessarMundoPage,
     GerenciarTarefaPage,
-    NovaRecompensaMundoPage
+    NovaRecompensaMundoPage,
+    IconsModalPage,
+    UsuariosRecompensasPage,
+    NovaPocaoPage,
+    NovoTemaPage,
+    NovoAvatarPage
   ],
   imports: [
     HttpModule,
@@ -119,7 +129,12 @@ const firebaseAppConfig: FirebaseAppConfig = {
     NovaTarefaMundoPage,
     AcessarMundoPage,
     GerenciarTarefaPage,
-    NovaRecompensaMundoPage
+    NovaRecompensaMundoPage,
+    IconsModalPage,
+    UsuariosRecompensasPage,
+    NovaPocaoPage,
+    NovoTemaPage,
+    NovoAvatarPage
   ],
   providers: [
     StatusBar,

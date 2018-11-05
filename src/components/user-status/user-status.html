@@ -12,7 +12,7 @@
     <ion-icon name="star" color="xp" item-start></ion-icon>
     <div class="progress-outer" id="xp">
       <div class="progress-inner" [style.width]="status.xp + '%'">
-        {{ status.xp }}%
+        lvl. {{ getNivel(status.xp) }}
       </div>
     </div>
     <div item-end>

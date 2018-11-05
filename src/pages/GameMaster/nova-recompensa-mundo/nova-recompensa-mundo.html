@@ -15,12 +15,10 @@
 
 <ion-content padding>
   <h1 text-center>
-    <div>
-      <ion-avatar (click)="showActionSheetFoto()">
-        <ion-icon *ngIf="!imagem" name="images" class="icon-images" color="primary"></ion-icon>
-        <img *ngIf="imagem" [src]="'data:image/jpeg;base64,' + imagem">
-        <ion-icon name="add-circle" class="icon-add" color="add"></ion-icon>
-      </ion-avatar>
+    <div (click)="showActionSheetFoto()">
+      <ion-icon *ngIf="!imagem" [name]="icone" class="icon-image" color="primary"></ion-icon>
+      <img *ngIf="imagem" [src]="'data:image/jpeg;base64,' + imagem">
+      <ion-icon name="add-circle" class="icon-add" color="add"></ion-icon>
     </div>
   </h1>
   <form (ngSubmit)="onSubmit(); $event.preventDefault()" [formGroup]="novaRecompensaForm">
@@ -34,7 +32,7 @@
     </ion-item>
     <ion-item>
       <ion-label>Quantidade</ion-label>
-      <ion-input type="number" formControlName="qtd" min="0"></ion-input>
+      <ion-input type="number" text-right formControlName="qtd" placeholder="∞"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Requisitos</ion-label>

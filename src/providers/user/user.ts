@@ -82,4 +82,19 @@ export class UserProvider extends BaseProvider {
         });
     });
   }
+
+  getNivel(xp: number): number {
+    let xpNecessario = 0;
+    let nivel = 1;
+    while (true) {
+      xpNecessario = (50 / 3 * (Math.pow(nivel, 3) - 6 * Math.pow(nivel, 2) + 17 * nivel - 12));
+      if (xp == xpNecessario) {
+        return nivel;
+      } else if (xp < xpNecessario) {
+        return nivel - 1;
+      } else {
+        nivel++;
+      }
+    }
+  }
 }
