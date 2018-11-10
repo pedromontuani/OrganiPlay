@@ -7,9 +7,10 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { UserProvider } from '../providers/user/user';
 import { AuthProvider } from '../providers/auth/auth';
-import { AdminPage } from '../pages/admin/admin';
+import { AdminPage } from '../pages/Administrador/admin/admin';
 import { AdminProvider } from '../providers/admin/admin';
 import { User } from '../models/user.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,6 +19,7 @@ export class MyApp {
   rootPage:any;
   currentUser: User;
   currentUserUid: string;
+
   constructor(
     platform: Platform, 
     statusBar: StatusBar, 
@@ -40,26 +42,20 @@ export class MyApp {
         });
         userProvider.currentUser.subscribe((user: User) => {
           this.currentUser = user;
-        });
-        platform.ready().then(() => {
-          // Okay, so the platform is ready and our plugins are available.
-          // Here you can do any higher level native things you might need.
-          statusBar.styleDefault();
-          splashScreen.hide();
+          platform.ready().then(() => {
+            statusBar.styleDefault();
+            splashScreen.hide();
+          });
         });
       } else {
         this.rootPage = LoginPage;
         platform.ready().then(() => {
-          // Okay, so the platform is ready and our plugins are available.
-          // Here you can do any higher level native things you might need.
           statusBar.styleDefault();
           splashScreen.hide();
         });
       }
     });    
-
-    
-
   }
+
 
 }

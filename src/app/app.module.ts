@@ -53,6 +53,9 @@ import { UsuariosRecompensasPage } from '../pages/GameMaster/usuarios-recompensa
 import { NovaPocaoPage } from '../pages/Administrador/nova-pocao/nova-pocao';
 import { NovoTemaPage } from '../pages/Administrador/novo-tema/novo-tema';
 import { NovoAvatarPage } from '../pages/Administrador/novo-avatar/novo-avatar';
+import { LojaProvider } from '../providers/loja/loja';
+import { SettingsProvider } from '../providers/settings/settings';
+import { SafePipe } from '../pipes/safe/safe';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -95,7 +98,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     UsuariosRecompensasPage,
     NovaPocaoPage,
     NovoTemaPage,
-    NovoAvatarPage
+    NovoAvatarPage,
+    SafePipe
   ],
   imports: [
     HttpModule,
@@ -150,7 +154,9 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AndroidPermissions,
     ImagePicker,
     PhotoViewer,
-    Camera
+    Camera,
+    LojaProvider,
+    SettingsProvider
   ]
 })
 export class AppModule {}

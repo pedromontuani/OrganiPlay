@@ -82,7 +82,7 @@ export class AdminPage {
         },
         {
           text: 'Novo tema',
-          icon: !this.platform.is('ios') ? 'collor-palette' : null,
+          icon: !this.platform.is('ios') ? 'color-palette' : null,
           handler: () => {
             this.navCtrl.push(NovoTemaPage);
           }

@@ -49,14 +49,15 @@ export class LoginPage extends BasePage{
         if(isLogged) {
           this.authProvider.setUid();
           this.userProvider.getUserById(this.authProvider.userUID);
-          loading.dismiss();
           this.userProvider.currentUser
             .first()
             .subscribe((user: User) =>{
               if(user.type == "adm"){
+                loading.dismiss();
                 this.navCtrl.setRoot(AdminPage);
                 this.adminProvider.getUsers();
               } else {
+                loading.dismiss();
                 this.navCtrl.setRoot(TabsPage);
               }
             });

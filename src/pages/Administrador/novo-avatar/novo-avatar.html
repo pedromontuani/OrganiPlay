@@ -1,5 +1,5 @@
 <!--
-  Generated template for the NovoAvatarPage page.
+  Generated template for the NovaRecompensaPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,12 +7,48 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>novo-avatar</ion-title>
+    <ion-title>Nova Poção</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <h1 text-center>
+    <div (click)="getPhotoPermission()">
+      <ion-icon *ngIf="!imagem" name="images" class="icon-image" color="primary"></ion-icon>
+      <img *ngIf="imagem" [src]="'data:image/jpeg;base64,' + imagem">
+      <ion-icon name="add-circle" class="icon-add" color="add"></ion-icon>
+    </div>
+  </h1>
+  <form (ngSubmit)="onSubmit(); $event.preventDefault()" [formGroup]="novoItemLojaForm">
+    <ion-item>
+      <ion-label>Avatar</ion-label>
+      <ion-input type="text" formControlName="nome"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Descrição</ion-label>
+      <ion-textarea formControlName="descricao"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>Quantidade</ion-label>
+      <ion-input type="number" text-right formControlName="qtd" placeholder="∞"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Nível mínimo</ion-label>
+      <ion-input type="number" text-right formControlName="nivel" placeholder="0"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Moedas</ion-label>
+      <ion-input type="number" text-right formControlName="moedas" placeholder="0"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Gemas</ion-label>
+      <ion-input type="number" text-right formControlName="gemas" placeholder="0"></ion-input>
+    </ion-item>
+    <br>
+    <br>
+    <button type="submit" ion-button block [disabled]="novoItemLojaForm.invalid || !imagem">Salvar</button>
 
+  </form>
 </ion-content>
