@@ -18,7 +18,7 @@ export class MyApp {
   rootPage:any;
   currentUser: User;
   currentUserUid: string;
-  currentTheme: string;
+  currentTheme: string = "dark-theme";
 
   constructor(
     platform: Platform, 

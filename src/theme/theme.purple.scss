@@ -1,0 +1,78 @@
+.purple-theme {
+	
+	//cor de destaque
+	.primary {
+
+	}
+
+	//cor secundária
+	.secondary {
+		
+	}
+
+	// conteúdo
+	ion-content {
+		background-color: #958BAD;
+		color: #dddddd;
+		ion-icon{
+			color:#ffffff;
+		} 
+	}
+	
+	//Fonte toolbar
+	.toolbar-title {
+		color: #dddddd;
+	}
+	
+	//Header
+	.header .toolbar-background {
+		border-color: #ffffff;
+		background-color: #A978A5;
+	}
+
+	//Tabs bar
+	.tabbar {
+		background-color: #F7F8FD !important;
+		
+		ion-icon {
+			color: #727270;			
+		}
+		.tab-button {
+			color: #727270;
+		}
+
+		
+	}
+
+	//Botões
+	button {
+		color: #dddddd;
+	}
+	
+	//Background ion-item
+	.item .item-content {
+		background-color: transparent !important;
+	}
+	
+	//Cor dos textos
+	span.text {
+		color: #dddddd
+	}
+
+	//cor das gemas
+	.op-diamond {
+
+	}
+
+	//cor das moedas
+	.op-coins {
+
+	}
+
+	//cor da fonte nos inputs
+	input {
+		color: #ffffff;
+	}
+	
+  
+  } 

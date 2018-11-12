@@ -9,7 +9,7 @@
   <ion-toolbar>
     <user-status [status]="user.status" *ngIf="!isMenu"></user-status>
     <div text-right>
-      <button ion-button (click)="novoHabito()" outline>Novo hábito</button>
+      <button ion-button (click)="novoHabito()" class ="primary" outline>Novo hábito</button>
     </div>
   </ion-toolbar>
 </ion-header>
@@ -22,10 +22,10 @@
         <ion-icon name="thumbs-up" color="info" large item-start></ion-icon>
         <h2 id="bom">{{habitoDesejavel.habito}}</h2>
         <p>{{habitoDesejavel.descricao}}</p>
-        <button id="botao" ion-button color="info" item-end icon-only small (click)="bonificar(habitoDesejavel)">
+        <button id="botao" ion-button color="info" class="secondary" item-end icon-only small (click)="bonificar(habitoDesejavel)">
           <ion-icon name="add-circle"></ion-icon>
         </button>
-        <button id="botao" ion-button color="danger" icon-only item-end small (click)="penalizar(habitoDesejavel)">
+        <button id="botao" ion-button color="danger" class="secondary" icon-only item-end small (click)="penalizar(habitoDesejavel)">
           <ion-icon name="remove-circle"></ion-icon>
         </button>
       </button>
