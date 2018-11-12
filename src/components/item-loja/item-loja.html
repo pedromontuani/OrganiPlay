@@ -31,8 +31,8 @@
       </ion-row>
     </ion-grid>
     <div text-right>
-      <button ion-button *ngIf="!isComprado">Comprar</button>
-      <button ion-button *ngIf="!isUsando && isComprado">Usar</button>
+      <button ion-button *ngIf="!isComprado" (click)="onClickComprar()">Comprar</button>
+      <button ion-button *ngIf="isComprado" [disabled]="isUsando" (click)="onClickUsar()">Usar</button>
     </div>
   </ion-card-content>
 </ion-card>

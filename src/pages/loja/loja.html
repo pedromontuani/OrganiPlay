@@ -54,7 +54,7 @@
 	</div>
 
 	<div [hidden]="view != 'wallpapers'">
-		<ion-list *ngIf="wallpapers">
+		<ion-list *ngIf="backgroundImgs">
 			<ion-grid *ngFor="let wppr of (backgroundImgs | async)">
 				<item-loja *ngIf="wppr.ativado && (wppr.qtd != 0)" 
 				[itemLoja]="wppr" [isComprado]="isComprado(wppr)" [isUsando]="isUsando(wppr)"></item-loja>

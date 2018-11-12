@@ -47,6 +47,10 @@ export class MyApp {
             splashScreen.hide();
           });
         });
+        userProvider.getUserSettings(authProvider.userUID)
+          .subscribe(settings => {
+            this.currentTheme = settings.currentTheme;
+          })
       } else {
         this.rootPage = LoginPage;
         platform.ready().then(() => {
@@ -54,7 +58,8 @@ export class MyApp {
           splashScreen.hide();
         });
       }
-    });    
+    });   
+    
   }
 
 

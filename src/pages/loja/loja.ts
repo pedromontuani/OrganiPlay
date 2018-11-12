@@ -33,13 +33,15 @@ export class LojaPage {
     public authProvider: AuthProvider,
     public userProvider: UserProvider
   ) {
+
     this.avatares = this.lojaProvider.getItensLoja("Avatar");
     this.pocoes = this.lojaProvider.getItensLoja("Pocao");
     this.lojaProvider.getItensUsuario(this.authProvider.userUID)
       .subscribe(itens => {
         this.itensUsuario = itens;
       });
-    
+    this.backgroundImgs = this.lojaProvider.getItensLoja("Wallpaper"); 
+
     this.userProvider.currentUserObject
       .valueChanges()
       .first()
@@ -50,25 +52,25 @@ export class LojaPage {
 
   isComprado(item: any): boolean {
     if (this.itensUsuario) {
-      if (this.itensUsuario.avatares && item.tipo=="Avatar") {
+      if (this.itensUsuario.avatares && item.tipo == "Avatar") {
         if (this.itensUsuario.avatares.split(" ").indexOf(item.$key) != -1) {
           return true;
         }
       }
 
-      if (this.itensUsuario.pocoes && item.tipo=="Pocao") {
+      if (this.itensUsuario.pocoes && item.tipo == "Pocao") {
         if (this.itensUsuario.pocoes.split(" ").indexOf(item.$key) != -1) {
           return true;
         }
       }
 
-      if (this.itensUsuario.temas && item.tipo=="Tema") {
+      if (this.itensUsuario.temas && item.tipo == "Tema") {
         if (this.itensUsuario.temas.split(" ").indexOf(item.$key) != -1) {
           return true;
         }
       }
 
-      if (this.itensUsuario.wallpapers && item.tipo=="Wallpaper") {
+      if (this.itensUsuario.wallpapers && item.tipo == "Wallpaper") {
         if (this.itensUsuario.wallpapers.split(" ").indexOf(item.$key) != -1) {
           return true;
         }
@@ -79,7 +81,7 @@ export class LojaPage {
 
   isUsando(item: any) {
     if (this.itensUsuario) {
-      if (this.userSettings.currentAvatar && this.userSettings.currentAvatar == item.$key) {
+      if (this.userSettings.currentAvatar && this.userSettings.currentAvatar == item.imgURL) {
         return true;
       }
 
@@ -87,7 +89,7 @@ export class LojaPage {
         return true;
       }
 
-      if (this.userSettings.currentWallpaper && this.userSettings.currentWallpaper == item.$key) {
+      if (this.userSettings.currentWallpaper && this.userSettings.currentWallpaper == item.imgURL) {
         return true;
       }
     }

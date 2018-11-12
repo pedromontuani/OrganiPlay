@@ -67,7 +67,8 @@ export class UserProvider extends BaseProvider {
   }
 
   updateStatus(status: Status, uid: string): Promise<void>{
-    return this.db.object(`/users/${uid}/status`).update(status);
+    return this.db.object(`/users/${uid}/status`).update(status)
+      .catch(this.handlePromiseError);
   }
 
   get isAdmin(): Promise<boolean> {
@@ -113,6 +114,19 @@ export class UserProvider extends BaseProvider {
     let nivel: number = this.getNivel(xp)+1;
     let porcentagem = (xp / (50 / 3 * (Math.pow(nivel, 3) - 6 * Math.pow(nivel, 2) + 17 * nivel - 12))) * 100;
     return porcentagem.toFixed(1);
+  }
+
+  getUserStatus(uid: string): Observable<Status> {
+    return this.db.object<Status>(`users/${uid}/status`).valueChanges();
+  }
+
+  getUserSettings(uid: string): Observable<UserSettings> {
+    return this.db.object<UserSettings>(`users/${uid}/settings`).valueChanges();
+  }
+
+  updateUserSettings(data: any, uid: string): Promise<void> {
+    return this.db.object(`users/${uid}/settings`).update(data)
+      .catch(this.handlePromiseError);
   }
   
 }
