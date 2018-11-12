@@ -51,11 +51,11 @@ import { NovaRecompensaMundoPage } from '../pages/GameMaster/nova-recompensa-mun
 import { IconsModalPage } from '../pages/Modals/icons-modal/icons-modal';
 import { UsuariosRecompensasPage } from '../pages/GameMaster/usuarios-recompensas/usuarios-recompensas';
 import { NovaPocaoPage } from '../pages/Administrador/nova-pocao/nova-pocao';
-import { NovoTemaPage } from '../pages/Administrador/novo-tema/novo-tema';
 import { NovoAvatarPage } from '../pages/Administrador/novo-avatar/novo-avatar';
 import { LojaProvider } from '../providers/loja/loja';
-import { SettingsProvider } from '../providers/settings/settings';
-import { SafePipe } from '../pipes/safe/safe';
+import { ItemLojaComponent } from '../components/item-loja/item-loja';
+import { LojaPage } from '../pages/loja/loja';
+import { NovoWallpaperPage } from '../pages/Administrador/novo-wallpaper/novo-wallpaper';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -97,9 +97,10 @@ const firebaseAppConfig: FirebaseAppConfig = {
     IconsModalPage,
     UsuariosRecompensasPage,
     NovaPocaoPage,
-    NovoTemaPage,
     NovoAvatarPage,
-    SafePipe
+    ItemLojaComponent,
+    LojaPage,
+    NovoWallpaperPage
   ],
   imports: [
     HttpModule,
@@ -137,8 +138,9 @@ const firebaseAppConfig: FirebaseAppConfig = {
     IconsModalPage,
     UsuariosRecompensasPage,
     NovaPocaoPage,
-    NovoTemaPage,
-    NovoAvatarPage
+    NovoAvatarPage,
+    LojaPage,
+    NovoWallpaperPage
   ],
   providers: [
     StatusBar,
@@ -155,8 +157,7 @@ const firebaseAppConfig: FirebaseAppConfig = {
     ImagePicker,
     PhotoViewer,
     Camera,
-    LojaProvider,
-    SettingsProvider
+    LojaProvider
   ]
 })
 export class AppModule {}

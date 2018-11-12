@@ -10,7 +10,6 @@ import { AuthProvider } from '../providers/auth/auth';
 import { AdminPage } from '../pages/Administrador/admin/admin';
 import { AdminProvider } from '../providers/admin/admin';
 import { User } from '../models/user.model';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,6 +18,7 @@ export class MyApp {
   rootPage:any;
   currentUser: User;
   currentUserUid: string;
+  currentTheme: string;
 
   constructor(
     platform: Platform, 

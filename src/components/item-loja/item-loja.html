@@ -1,4 +1,38 @@
-<!-- Generated template for the ItemLojaComponent component -->
-<div>
-  {{text}}
-</div>
+<ion-card>
+  <img [src]="itemLoja.imgURL" />
+  <ion-card-content>
+    <ion-card-title>
+      {{itemLoja.nome}}
+    </ion-card-title>
+    <p>
+      {{itemLoja.descricao}}
+    </p>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4>
+          <ion-item>
+            <ion-icon item-start name="op-coins" color="xp" class="op-coins">.</ion-icon>
+            <div>{{itemLoja.moedas}}</div>
+          </ion-item>
+        </ion-col>
+        <ion-col col-4>
+          <ion-item>
+            <ion-icon item-start name="op-diamond" color="gems" class="op-diamond">....</ion-icon>
+            <div>{{itemLoja.gemas}}</div>
+          </ion-item>
+        </ion-col>
+        <ion-col col-4>
+          <ion-item>
+            <ion-icon item-start name="star" color="xp" class="xp-bar"></ion-icon>
+            <div>lvl. {{itemLoja.nivel}}</div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div text-right>
+      <button ion-button *ngIf="!isComprado">Comprar</button>
+      <button ion-button *ngIf="!isUsando && isComprado">Usar</button>
+    </div>
+  </ion-card-content>
+</ion-card>

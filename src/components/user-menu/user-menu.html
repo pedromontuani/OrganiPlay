@@ -1,5 +1,5 @@
 <ion-content>
-    <user-info [user]="currentUser" [isMenu]="true"></user-info>
+  <user-info [user]="currentUser" [isMenu]="true"></user-info>
   <ion-list>
     <button ion-item icon-right detail-none menuClose="user-menu" (click)="onProfile()">
       Perfil
@@ -13,13 +13,13 @@
       Amigos
       <ion-icon name="people" item-right></ion-icon>
     </button>
-    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onProfile()">
+    <button ion-item icon-right detail-none menuClose="user-menu" (click)="onLoja()">
       Loja
       <ion-icon name="logo-usd" item-right></ion-icon>
     </button>
     <button ion-item icon-right detail-none menuClose="user-menu" (click)="onLogout()">
-        Sair
-        <ion-icon name="log-out" item-right></ion-icon>
+      Sair
+      <ion-icon name="log-out" item-right></ion-icon>
     </button>
   </ion-list>
 </ion-content>

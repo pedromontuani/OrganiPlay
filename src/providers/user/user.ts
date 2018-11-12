@@ -10,6 +10,7 @@ import { Status } from '../../models/status.model';
 import { HabitosPage } from '../../pages/habitos/habitos';
 import { AfazeresPage } from '../../pages/afazeres/afazeres';
 import { RecompensasPage } from '../../pages/recompensas/recompensas';
+import { UserSettings } from '../../models/user-settings.model';
 
 
 
@@ -35,7 +36,8 @@ export class UserProvider extends BaseProvider {
       user.username,
       user.email,
       "player",
-      new Status(0, 100, 100, 0)
+      new Status(0, 100, 100, 0),
+      new UserSettings('', '', '')
     );
     return this.db.object(`/users/${uid}`)
       .set(user)
@@ -97,4 +99,20 @@ export class UserProvider extends BaseProvider {
       }
     }
   }
+
+  getHPNivel(xp: number): number {
+    return (this.getNivel(xp) -8) * 15 + 190;
+  }
+
+  getHPPorcentagem(xp: number, hp: number) {
+    let porcentagem: number = (hp / this.getHPNivel(xp)) * 100;
+    return porcentagem.toFixed(1);
+  }
+
+  getXPPorcentagem(xp: number) {
+    let nivel: number = this.getNivel(xp)+1;
+    let porcentagem = (xp / (50 / 3 * (Math.pow(nivel, 3) - 6 * Math.pow(nivel, 2) + 17 * nivel - 12))) * 100;
+    return porcentagem.toFixed(1);
+  }
+  
 }

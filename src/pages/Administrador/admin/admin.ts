@@ -7,7 +7,7 @@ import { AdminProvider } from '../../../providers/admin/admin';
 import { AdmEditarUsuarioPage } from '../../adm-editar-usuario/adm-editar-usuario';
 import { NovaPocaoPage } from '../nova-pocao/nova-pocao';
 import { NovoAvatarPage } from '../novo-avatar/novo-avatar';
-import { NovoTemaPage } from '../novo-tema/novo-tema';
+import { NovoWallpaperPage } from '../novo-wallpaper/novo-wallpaper';
 
 /**
  * Generated class for the AdminPage page.
@@ -81,10 +81,10 @@ export class AdminPage {
           }
         },
         {
-          text: 'Novo tema',
-          icon: !this.platform.is('ios') ? 'color-palette' : null,
+          text: 'Novo papel de parede',
+          icon: !this.platform.is('ios') ? 'image' : null,
           handler: () => {
-            this.navCtrl.push(NovoTemaPage);
+            this.navCtrl.push(NovoWallpaperPage);
           }
         }
       ]

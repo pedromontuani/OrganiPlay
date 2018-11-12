@@ -2,22 +2,29 @@
   <ion-item>
     <ion-icon name="heart" color="danger" item-start></ion-icon>
     <div class="progress-outer" id="hp">
-      <div class="progress-inner" [style.width]="status.hp + '%'">
-        {{ status.hp }}%
+      <div class="progress-inner" [style.width]="getHPPorcentagem(status.xp, status.hp) + '%'">
+          {{getHPPorcentagem(status.xp, status.hp)}}%
       </div>
     </div>
   </ion-item>
 
   <ion-item>
-    <ion-icon name="star" color="xp" item-start></ion-icon>
-    <div class="progress-outer" id="xp">
-      <div class="progress-inner" [style.width]="status.xp + '%'">
-        lvl. {{ getNivel(status.xp) }}
+    <ion-icon name="star" color="xp" item-start class="xp-bar"></ion-icon>
+    <div class="progress-outer xp-bar" id="xp">
+      <div class="progress-inner" [style.width]="getXPPorcentagem(status.xp) + '%'">
+          {{getXPPorcentagem(status.xp)}}%
       </div>
     </div>
+    <div item-end><span class="text">lvl. {{ getNivel(status.xp) }} </span></div>
     <div item-end>
-      <ion-icon name="cash" id="icone-dinheiro" color="cash"> {{status.coins}} </ion-icon>
-      <ion-icon name="snow" color="gems"> {{status.gems}} </ion-icon>
+      <ion-icon name="op-coins" id="icone-dinheiro" color="xp" class="op-coins">.</ion-icon>
+      <span class="text">{{status.coins}}</span>
     </div>
+    <div item-end>
+      <ion-icon name="op-diamond" color="gems" class="op-diamond">....</ion-icon>
+      <span class="text">{{status.gems}}</span>
+    </div>
+    
+      
   </ion-item>
 </ion-list>

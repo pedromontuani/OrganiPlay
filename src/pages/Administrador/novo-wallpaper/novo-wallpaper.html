@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Nova Poção</ion-title>
+    <ion-title>Novo Wallpaper</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -23,19 +23,12 @@
   </h1>
   <form (ngSubmit)="onSubmit(); $event.preventDefault()" [formGroup]="novoItemLojaForm">
     <ion-item>
-      <ion-label>Avatar</ion-label>
+      <ion-label>Wallpaper</ion-label>
       <ion-input type="text" formControlName="nome"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Descrição</ion-label>
       <ion-textarea formControlName="descricao"></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <ion-label>Gênero</ion-label>
-      <ion-select formControlName="genero">
-        <ion-option value="f">Feminino</ion-option>
-        <ion-option value="m">Masculino</ion-option>
-      </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>Quantidade</ion-label>

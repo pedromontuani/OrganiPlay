@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the LojaPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { LojaProvider } from '../../providers/loja/loja';
+import { Observable } from 'rxjs';
+import { ItemLojaAvatar } from '../../models/item-loja-avatar.model';
+import { ItemLojaPocao } from '../../models/item-loja-pocao.model';
+import { ItemLojaTema } from '../../models/item-loja-tema.model';
+import { ItemLojaBackground } from '../../models/item-loja-background.model';
+import { ItensLojaUsuarios } from '../../models/itens-loja-usuarios.model';
+import { AuthProvider } from '../../providers/auth/auth';
+import { UserSettings } from '../../models/user-settings.model';
+import { UserProvider } from '../../providers/user/user';
 
 @IonicPage()
 @Component({
@@ -15,11 +18,80 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LojaPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  avatares: Observable<ItemLojaAvatar[]>;
+  pocoes: Observable<ItemLojaPocao[]>;
+  temas: ItemLojaTema[];
+  backgroundImgs: Observable<ItemLojaBackground[]>;
+  view: string = "avatares";
+  itensUsuario: ItensLojaUsuarios;
+  userSettings: UserSettings
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public lojaProvider: LojaProvider,
+    public authProvider: AuthProvider,
+    public userProvider: UserProvider
+  ) {
+    this.avatares = this.lojaProvider.getItensLoja("Avatar");
+    this.pocoes = this.lojaProvider.getItensLoja("Pocao");
+    this.lojaProvider.getItensUsuario(this.authProvider.userUID)
+      .subscribe(itens => {
+        this.itensUsuario = itens;
+      });
+    
+    this.userProvider.currentUserObject
+      .valueChanges()
+      .first()
+      .subscribe(user => {
+        this.userSettings = user.settings;
+      })
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LojaPage');
+  isComprado(item: any): boolean {
+    if (this.itensUsuario) {
+      if (this.itensUsuario.avatares && item.tipo=="Avatar") {
+        if (this.itensUsuario.avatares.split(" ").indexOf(item.$key) != -1) {
+          return true;
+        }
+      }
+
+      if (this.itensUsuario.pocoes && item.tipo=="Pocao") {
+        if (this.itensUsuario.pocoes.split(" ").indexOf(item.$key) != -1) {
+          return true;
+        }
+      }
+
+      if (this.itensUsuario.temas && item.tipo=="Tema") {
+        if (this.itensUsuario.temas.split(" ").indexOf(item.$key) != -1) {
+          return true;
+        }
+      }
+
+      if (this.itensUsuario.wallpapers && item.tipo=="Wallpaper") {
+        if (this.itensUsuario.wallpapers.split(" ").indexOf(item.$key) != -1) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  isUsando(item: any) {
+    if (this.itensUsuario) {
+      if (this.userSettings.currentAvatar && this.userSettings.currentAvatar == item.$key) {
+        return true;
+      }
+
+      if (this.userSettings.currentTheme && this.userSettings.currentTheme == item.$key) {
+        return true;
+      }
+
+      if (this.userSettings.currentWallpaper && this.userSettings.currentWallpaper == item.$key) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

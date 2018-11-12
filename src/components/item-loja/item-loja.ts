@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ItemLojaAvatar } from '../../models/item-loja-avatar.model';
+import { ItemLojaPocao } from '../../models/item-loja-pocao.model';
 
 /**
  * Generated class for the ItemLojaComponent component.
@@ -10,13 +12,17 @@ import { Component } from '@angular/core';
   selector: 'item-loja',
   templateUrl: 'item-loja.html'
 })
+
+
+
 export class ItemLojaComponent {
 
-  text: string;
+  @Input() itemLoja: any;
+  @Input() isComprado: boolean;
+  @Input() isUsando: boolean = false;
 
   constructor() {
-    console.log('Hello ItemLojaComponent Component');
-    this.text = 'Hello World';
+
   }
 
 }

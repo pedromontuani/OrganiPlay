@@ -13,6 +13,7 @@ import { ItemLojaComponent } from './item-loja/item-loja';
     MenuAdminComponent,
     AdminHeaderComponent,
     UserStatusComponent,
+    ItemLojaComponent,
     ItemLojaComponent],
 	imports: [],
 	exports: [CustomHeaderComponent,
@@ -21,6 +22,7 @@ import { ItemLojaComponent } from './item-loja/item-loja';
     MenuAdminComponent,
     AdminHeaderComponent,
     UserStatusComponent,
+    ItemLojaComponent,
     ItemLojaComponent]
 })
 export class ComponentsModule {}

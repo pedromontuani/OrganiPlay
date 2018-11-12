@@ -5,18 +5,19 @@ import { BasePage } from '../../base/base';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { LojaProvider } from '../../../providers/loja/loja';
-import { ItemLojaPocao } from '../../../models/item-loja-pocao.model';
+import { ItemLojaAvatar } from '../../../models/item-loja-avatar.model';
+import { ItemLojaBackground } from '../../../models/item-loja-background.model';
 
 @IonicPage()
 @Component({
-  selector: 'page-nova-pocao',
-  templateUrl: 'nova-pocao.html',
+  selector: 'page-novo-wallpaper',
+  templateUrl: 'novo-wallpaper.html',
 })
-export class NovaPocaoPage extends BasePage {
+export class NovoWallpaperPage extends BasePage {
 
   novoItemLojaForm: FormGroup;
   edit: boolean = false;
-  itemLoja: ItemLojaPocao;
+  itemLoja: ItemLojaBackground;
   imagem: string;
 
   constructor(
@@ -38,7 +39,6 @@ export class NovaPocaoPage extends BasePage {
         nome: [this.itemLoja.nome],
         descricao: [this.itemLoja.descricao],
         qtd: [this.itemLoja.qtd],
-        hp: [this.itemLoja.hp],
         nivel: [this.itemLoja.nivel, [Validators.required]],
         moedas: [this.itemLoja.moedas],
         gemas: [this.itemLoja.gemas]
@@ -49,7 +49,6 @@ export class NovaPocaoPage extends BasePage {
         nome: ['', [Validators.required]],
         descricao: [],
         qtd: [],
-        hp: ['', [Validators.required, Validators.min(1)]],
         nivel: [],
         moedas: [],
         gemas: []
@@ -105,8 +104,8 @@ export class NovaPocaoPage extends BasePage {
 
   onSubmit() {
     let loading = this.showLoading();
-    let itemLoja: ItemLojaPocao = this.novoItemLojaForm.value;
-    
+    let itemLoja: ItemLojaBackground = this.novoItemLojaForm.value;
+
     if(!itemLoja.moedas) {
       itemLoja.moedas = 0;
     }
@@ -120,7 +119,7 @@ export class NovaPocaoPage extends BasePage {
     }
 
     itemLoja.ativado = true;
-    itemLoja.tipo = "Pocao";
+    itemLoja.tipo = "Wallpaper";
     this.lojaProvider.addItemLojaComFoto(itemLoja, this.imagem)
       .then(() => {
         loading.dismiss();
@@ -132,5 +131,4 @@ export class NovaPocaoPage extends BasePage {
         this.showToast("Ocorreu um erro... tente novamente");
       });
   }
-
 }

@@ -14,6 +14,25 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+ion-icon {
+  &[class*="op-"] {
+      // Instead of using the font-based icons
+      // We're applying SVG masks
+      mask-size: contain;
+      mask-position: 50% 50%;
+      mask-repeat: no-repeat;
+      background: currentColor;
+  }
+  // custom icons
+  &[class*="op-coins"] {
+      mask-image: url(../assets/icons/op-coins.svg);
+  }
+  &[class*="op-diamond"] {
+      mask-image: url(../assets/icons/op-diamond.svg);
+  }
+}
+
 $icon-detail-push-background-svg:    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20'><path d='M2,20l-2-2l8-8L0,2l2-2l10,10L2,20z' fill='fg-color'/></svg>" !default;
 $item-md-detail-push-color:          $list-md-border-color !default;
 
@@ -47,4 +66,8 @@ a.item:not([detail-none]) .item-inner,
 .modal {
   background: rgba(0, 0, 0, 0.5) !important;
   padding: 20% 10%  !important;
+}
+
+span.text {
+  color: #333333;
 }

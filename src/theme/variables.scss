@@ -14,6 +14,7 @@ $app-direction: ltr;
 
 @import "ionic.globals";
 
+
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
@@ -41,10 +42,12 @@ $colors: (
   dark:       #222,
   
   add:        #43A047,
-  cash:       #1a9b00,
+  cash:       #ffae00,
   gems:       #00a2e2,
   xp:         #ffae00
 );
+
+
 
 
 
@@ -78,6 +81,12 @@ $colors: (
 // default are overridden.
 
 @import "ionic.theme.default";
+@import "theme.pink";
+@import "theme.yellow";
+@import "theme.purple";
+@import "theme.dark";
+
+$list-background-color: transparent;;
 
 
 // Ionicons

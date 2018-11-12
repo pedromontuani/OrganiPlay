@@ -46,6 +46,7 @@ export class NovoAvatarPage extends BasePage {
         nome: [this.itemLoja.nome],
         descricao: [this.itemLoja.descricao],
         qtd: [this.itemLoja.qtd],
+        genero: [this.itemLoja.genero],
         nivel: [this.itemLoja.nivel, [Validators.required]],
         moedas: [this.itemLoja.moedas],
         gemas: [this.itemLoja.gemas]
@@ -56,6 +57,7 @@ export class NovoAvatarPage extends BasePage {
         nome: ['', [Validators.required]],
         descricao: [],
         qtd: [],
+        genero: ['', [Validators.required]],
         nivel: [],
         moedas: [],
         gemas: []
@@ -112,6 +114,19 @@ export class NovoAvatarPage extends BasePage {
   onSubmit() {
     let loading = this.showLoading();
     let itemLoja: ItemLojaAvatar = this.novoItemLojaForm.value;
+
+    if(!itemLoja.moedas) {
+      itemLoja.moedas = 0;
+    }
+    
+    if(!itemLoja.gemas) {
+      itemLoja.gemas = 0;
+    }
+
+    if(!itemLoja.nivel) {
+      itemLoja.nivel = 0;
+    }
+
     itemLoja.ativado = true;
     itemLoja.tipo = "Avatar";
     this.lojaProvider.addItemLojaComFoto(itemLoja, this.imagem)
