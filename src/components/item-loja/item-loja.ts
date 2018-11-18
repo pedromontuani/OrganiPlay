@@ -7,6 +7,8 @@ import { UserProvider } from '../../providers/user/user';
 import { AuthProvider } from '../../providers/auth/auth';
 import { BasePage } from '../../pages/base/base';
 import { Status } from '../../models/status.model';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { ItensLojaUsuarios } from '../../models/itens-loja-usuarios.model';
 
 /**
  * Generated class for the ItemLojaComponent component.
@@ -26,6 +28,8 @@ export class ItemLojaComponent extends BasePage {
   @Input() itemLoja: any;
   @Input() isComprado: boolean;
   @Input() isUsando: boolean = false;
+  @Input() itensUsuario: ItensLojaUsuarios;
+  @Input() userStatus: Status;
 
   constructor(
     public lojaProvider: LojaProvider,
@@ -33,9 +37,14 @@ export class ItemLojaComponent extends BasePage {
     public alertCtrl: AlertController,
     public authProvider: AuthProvider,
     public toastCtrl: ToastController,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public photoViewer: PhotoViewer
   ) {
     super(alertCtrl, loadingCtrl, toastCtrl);
+  }
+
+  onClickImage(imgURL: string) {
+    this.photoViewer.show(imgURL);
   }
 
   onClickComprar() {
@@ -108,14 +117,58 @@ export class ItemLojaComponent extends BasePage {
 
   usar(item: any) {
     let loading = this.showLoading();
-    this.lojaProvider.usarItem(item, this.authProvider.userUID)
-      .then(() => {
+    let uid = this.authProvider.userUID;
+    if (item.tipo == "Pocao") {
+      let originalStatus = this.userStatus;
+      if (originalStatus) {
+        let newStatus = Object.assign({}, originalStatus);
+        console.log(newStatus.hp + item.hp);
+        if ((newStatus.hp + item.hp) > this.userProvider.getHPNivel(originalStatus.xp)) {
+          
+          newStatus.hp = this.userProvider.getHPNivel(originalStatus.xp)
+        } else {
+          newStatus.hp += item.hp;
+        }
+        this.userProvider.updateStatus(originalStatus, newStatus, uid)
+          .then(() => {
+            let pocoes: string[] = [];
+            this.itensUsuario.pocoes.split(" ").forEach(pocao => {
+              if (pocao != item.$key) {
+                pocoes.push(pocao);
+              }
+            })
+            this.lojaProvider.usarItem(item, uid, pocoes.join(" "))
+              .then(() => {
+                loading.dismiss();
+                this.showToast(`Você acabou de usar seu item "${item.nome}"`);
+              })
+              .catch(err => {
+                console.log(err);
+                loading.dismiss();
+                this.showToast("Ocorreu um erro... tente novamente ou contacte um administrador");
+              });
+          })
+          .catch(err => {
+            console.log(err);
+            loading.dismiss();
+            this.showToast("Ocorreu um erro... tente novamente ou contacte um administrador");
+          });
+      } else {
         loading.dismiss();
-        this.showToast(`Você acabou de usar seu item "${item.nome}"`);
-      })
-      .catch(err => {
-        console.log(err);
         this.showToast("Ocorreu um erro... tente novamente ou contacte um administrador");
-      })
+      }
+
+    } else {
+      this.lojaProvider.usarItem(item, uid, undefined)
+        .then(() => {
+          loading.dismiss();
+          this.showToast(`Você acabou de usar seu item "${item.nome}"`);
+        })
+        .catch(err => {
+          console.log(err);
+          this.showToast("Ocorreu um erro... tente novamente ou contacte um administrador");
+        });
+    }
+
   }
 }

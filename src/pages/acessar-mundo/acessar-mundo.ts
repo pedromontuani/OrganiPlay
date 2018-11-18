@@ -9,7 +9,6 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { BasePage } from '../base/base';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 import { RecompensaMundo } from '../../models/recompensa-mundo.model';
 import { Status } from '../../models/status.model';
 import { UserProvider } from '../../providers/user/user';
@@ -278,19 +277,20 @@ export class AcessarMundoPage extends BasePage {
   redeemRecompensa(recompensa: RecompensaMundo) {
     let loading = this.showLoading();
     let canRedeem: boolean = true;
-    let userStatus: Status = this.currentUser.status;
+    let newUserStatus: Status = this.currentUser.status;
+    let originalStatus = Object.assign({}, newUserStatus);
 
     if(recompensa.moedas) {
-      if(userStatus.coins >= recompensa.moedas) {
-        userStatus.coins -= recompensa.moedas
+      if(newUserStatus.coins >= recompensa.moedas) {
+        newUserStatus.coins -= recompensa.moedas
       } else {
         canRedeem = false;
       }
     }
 
     if(recompensa.gemas) {
-      if(userStatus.gems >= recompensa.gemas) {
-        userStatus.gems -= recompensa.gemas
+      if(newUserStatus.gems >= recompensa.gemas) {
+        newUserStatus.gems -= recompensa.gemas
       } else {
         canRedeem = false;
       }
@@ -322,8 +322,8 @@ export class AcessarMundoPage extends BasePage {
         recompensa.$key,
         {portadores: portadores})
       .then(() => {
-        userStatus.xp += 50;
-        this.userProvider.updateStatus(userStatus, this.currentUserUID)
+        newUserStatus.xp += 50;
+        this.userProvider.updateStatus(originalStatus, newUserStatus, this.currentUserUID)
           .then(() => {
             this.showToast("Parabéns! Você obteve sua recompensa e um bônus de 50XP!");
           })

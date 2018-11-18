@@ -11,7 +11,7 @@
   <ion-item>
     <ion-icon name="star" color="xp" item-start class="xp-bar"></ion-icon>
     <div class="progress-outer xp-bar" id="xp">
-      <div class="progress-inner" [style.width]="getXPPorcentagem(status.xp) + '%'">
+      <div class="progress-inner xp-bar" [style.width]="getXPPorcentagem(status.xp) + '%'">
           {{getXPPorcentagem(status.xp)}}%
       </div>
     </div>
@@ -24,7 +24,5 @@
       <ion-icon name="op-diamond" color="gems" class="op-diamond">....</ion-icon>
       <span class="text">{{status.gems}}</span>
     </div>
-    
-      
   </ion-item>
 </ion-list>

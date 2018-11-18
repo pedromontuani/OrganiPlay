@@ -3,7 +3,6 @@ import { MenuController, Tabs } from 'ionic-angular';
 import { HabitosPage } from '../habitos/habitos';
 import { AfazeresPage } from '../afazeres/afazeres';
 import { RecompensasPage } from '../recompensas/recompensas';
-import { UserProvider } from '../../providers/user/user';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -19,4 +18,5 @@ export class TabsPage {
   ) {
     menuCtrl.enable(true, "user-menu");
   }
+
 }

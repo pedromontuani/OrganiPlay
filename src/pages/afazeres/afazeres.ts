@@ -9,6 +9,8 @@ import { AfazeresProvider } from '../../providers/afazeres/afazeres';
 import { Observable } from 'rxjs/Observable';
 import { AuthProvider } from '../../providers/auth/auth';
 import { BasePage } from '../base/base';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { NotificationsProvider } from '../../providers/notifications/notifications';
 
 @IonicPage()
 @Component({
@@ -29,7 +31,9 @@ export class AfazeresPage extends BasePage {
     public afazeresProvider: AfazeresProvider,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public actionSheetCtrl: ActionSheetController
+    public actionSheetCtrl: ActionSheetController,
+    public localNotifications: LocalNotifications,
+    public notificationsProvider: NotificationsProvider
   ) {
     super(alertCtrl, undefined, toastCtrl);
   }
@@ -38,6 +42,31 @@ export class AfazeresPage extends BasePage {
     this.user = this.userProvider.userSubscribe;
     this.sync();
     this.afazeres = this.afazeresProvider.getAfazeresObservable(this.authProvider.userUID);
+  }
+
+  ionViewDidLoad() {
+    this.localNotifications.hasPermission()
+      .then(() => {
+        this.afazeres.subscribe(afazeres => {
+          if(afazeres) {
+            afazeres.forEach(afazer => {
+              this.localNotifications.getAll()
+                .then(notifications => {
+                  if(notifications) {
+                    console.log("Notificações", notifications);
+                    notifications.forEach(notification => {
+                      if((notification.title == afazer.afazer) && afazer.finalizado) {
+                        console.log("Notificação cancelada", notification);
+                        this.localNotifications.cancel(notification.id);
+                      }
+                    });
+                  }
+                });
+            });
+          }
+        }); 
+      });
+    
   }
 
   sync() {
@@ -72,7 +101,8 @@ export class AfazeresPage extends BasePage {
   }
 
   validarFinalizacao(afazer: Afazer): void {
-    let status: Status = this.user.status;
+    let newStatus: Status = this.user.status;
+    let originalStatus = Object.assign({}, newStatus);
     let xp: number;
     let coins: number;
     let hp;
@@ -108,26 +138,26 @@ export class AfazeresPage extends BasePage {
         console.log(dateNow);
 
       if(originalDate < dateNow) {
-        status.hp -= hp;
-        status.xp += xp/2;
-        status.coins += coins/2;
+        newStatus.hp -= hp;
+        newStatus.xp += xp/2;
+        newStatus.coins += coins/2;
         penalizacao = true;
       } else {
-        status.xp += xp;
-        status.coins += coins;
+        newStatus.xp += xp;
+        newStatus.coins += coins;
         penalizacao = false;
       }
     } else {
-      status.xp += xp;
-      status.coins += coins;
+      newStatus.xp += xp;
+      newStatus.coins += coins;
       penalizacao = false;
     }
 
-    if(status.hp < 0) {
-      status.hp = 0;
+    if(newStatus.hp < 0) {
+      newStatus.hp = 0;
     }
 
-    this.userProvider.updateStatus(status, this.authProvider.userUID)
+    this.userProvider.updateStatus(originalStatus, newStatus, this.authProvider.userUID)
       .then(() => {
         if(penalizacao) {
           this.showToast(`Você ganhou ${xp} XP e ${coins} moedas! Porém, perdeu ${hp} pontos de vida...`);
@@ -160,7 +190,10 @@ export class AfazeresPage extends BasePage {
                 {
                   text: "Sim",
                   handler: () => {
-                    this.afazeresProvider.deletarTarefa(afazer.$key, this.authProvider.userUID);
+                    this.afazeresProvider.deletarTarefa(afazer.$key, this.authProvider.userUID)
+                      .then(() => {
+                        this.notificationsProvider.cancelNotificationContainingString(afazer.afazer);
+                      });
                   }
                 },
                 {

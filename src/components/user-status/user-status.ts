@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Status } from '../../models/status.model';
+import { UserProvider } from '../../providers/user/user';
 
 @Component({
   selector: 'user-status',
@@ -9,22 +10,12 @@ export class UserStatusComponent {
 
   @Input() status: Status;
 
-
-  constructor() { }
+  constructor(
+    public userProvider: UserProvider
+  ) { }
 
   getNivel(xp: number): number {
-    let xpNecessario = 0;
-    let nivel = 1;
-    while (true) {
-      xpNecessario = (50 / 3 * (Math.pow(nivel, 3) - 6 * Math.pow(nivel, 2) + 17 * nivel - 12));
-      if (xp == xpNecessario) {
-        return nivel;
-      } else if (xp < xpNecessario) {
-        return nivel - 1;
-      } else {
-        nivel++;
-      }
-    }
+    return this.userProvider.getNivel(xp);
   }
 
   getHPNivel(xp: number): number {
@@ -32,14 +23,11 @@ export class UserStatusComponent {
   }
 
   getHPPorcentagem(xp: number, hp: number) {
-    let porcentagem: number = (hp / this.getHPNivel(xp)) * 100;
-    return porcentagem.toFixed(1);
+    return this.userProvider.getHPPorcentagem(xp, hp);
   }
 
   getXPPorcentagem(xp: number) {
-    let nivel: number = this.getNivel(xp)+1;
-    let porcentagem = (xp / (50 / 3 * (Math.pow(nivel, 3) - 6 * Math.pow(nivel, 2) + 17 * nivel - 12))) * 100;
-    return porcentagem.toFixed(1);
+    return this.userProvider.getXPPorcentagem(xp);
   }
 
 }

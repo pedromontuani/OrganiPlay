@@ -24,7 +24,7 @@ export class MundosProvider extends BaseProvider {
     public db: AngularFireDatabase,
     @Inject(FirebaseApp) public firebaseApp: any
   ) {
-    super();
+    super(db);
   }
 
   novoMundo(mundo: Mundo): Promise<void> {

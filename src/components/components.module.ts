@@ -6,6 +6,7 @@ import { MenuAdminComponent } from './menu-admin/menu-admin';
 import { AdminHeaderComponent } from './admin-header/admin-header';
 import { UserStatusComponent } from './user-status/user-status';
 import { ItemLojaComponent } from './item-loja/item-loja';
+import { AmigoComponent } from './amigo/amigo';
 @NgModule({
 	declarations: [CustomHeaderComponent,
     UserInfoComponent,
@@ -14,7 +15,8 @@ import { ItemLojaComponent } from './item-loja/item-loja';
     AdminHeaderComponent,
     UserStatusComponent,
     ItemLojaComponent,
-    ItemLojaComponent],
+    ItemLojaComponent,
+    AmigoComponent],
 	imports: [],
 	exports: [CustomHeaderComponent,
     UserInfoComponent,
@@ -23,6 +25,7 @@ import { ItemLojaComponent } from './item-loja/item-loja';
     AdminHeaderComponent,
     UserStatusComponent,
     ItemLojaComponent,
-    ItemLojaComponent]
+    ItemLojaComponent,
+    AmigoComponent]
 })
 export class ComponentsModule {}

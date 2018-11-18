@@ -4,8 +4,8 @@
 	.primary {
 	}
 	button.primary{
-		border-color: #000000;
-		color: #000000;
+		border-color: #333;
+		color: #333;
 	}
 
 	//cor secundária
@@ -16,29 +16,29 @@
 	// conteúdo
 	ion-content {
 		background-color: #F5C7C9;
-		color: #000000;
+		color: #333;
 	}
 	
 	//Fonte toolbar
 	.toolbar-title {
-		color: #000000;
+		color: #333;
 	}
 	
 	//Header
 	.header .toolbar-background {
-		border-color: #000000;
+		border-color: #333;
 		background-color: #FA9A82;
 	}
 
 	//Tabs bar
 	.tabbar {
-		background-color: #F7F8FD !important;
+		background-color: #FA9A82 !important;
 		
 		ion-icon {
-			color: #727270;			
+			color: #333;			
 		}
 		.tab-button {
-			color: #727270;
+			color: #333;
 		}
 
 		
@@ -46,7 +46,7 @@
 
 	//Botões
 	button {
-		color: #000000;
+		color: #333;
 	}
 	
 	//Background ion-item
@@ -56,7 +56,7 @@
 	
 	//Cor dos textos
 	span.text {
-		color: #000000;
+		color: #333;
 	}
 
 	//cor das gemas
@@ -71,7 +71,13 @@
 
 	//cor da fonte nos inputs
 	input {
-		color: #000000;
+		color: #333;
+	}
+
+	.habito-list {
+		h2 {
+			color: #333 !important;
+		}
 	}
 	
   

@@ -15,7 +15,7 @@ import { Observable } from 'rxjs/Observable';
 export class HabitosProvider extends BaseProvider{
 
   constructor(public http: Http, public db: AngularFireDatabase) {
-    super();
+    super(db);
   }
 
   novoHabito(habito: Habito, uid: string): Promise<void>{

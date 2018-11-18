@@ -16,7 +16,7 @@ import { Recompensa } from '../../models/recompensa.model';
 export class RecompensasProvider extends BaseProvider{
 
   constructor(public http: Http, public db: AngularFireDatabase) {
-    super();
+    super(db);
   }
 
   novaRecompensa(recompensa: Recompensa, uid: string): Promise<void>{

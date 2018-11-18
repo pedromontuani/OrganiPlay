@@ -9,6 +9,8 @@ import { HabitosProvider } from '../../providers/habitos/habitos';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Observable } from 'rxjs/Observable';
 import { BasePage } from '../base/base';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { NotificationsProvider } from '../../providers/notifications/notifications';
 
 /**
  * Generated class for the HabitosPage page.
@@ -35,7 +37,9 @@ export class HabitosPage extends BasePage {
     public authProvider: AuthProvider,
     public toastCtrl: ToastController,
     public actionSheetCtrl: ActionSheetController,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public localNotifications: LocalNotifications,
+    public notificationsProvider: NotificationsProvider
   ) {
     super(alertCtrl, undefined, toastCtrl);
   }
@@ -44,6 +48,51 @@ export class HabitosPage extends BasePage {
     this.user = this.userProvider.userSubscribe;
     this.sync();
     this.habitos = this.habitoProvider.getHabitosObservable(this.authProvider.userUID);
+  }
+
+  ionViewDidLoad() {
+    this.localNotifications.hasPermission()
+      .then(() => {
+        this.localNotifications.getAll()
+          .then(notifications => {
+            console.log(notifications);
+            notifications.forEach(notification => {
+              if (notification && notification.text.indexOf("hábitos") > -1) {
+                this.localNotifications.cancel(notification.id);
+              }
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+
+        let availableId = 0;
+
+        this.localNotifications.getIds()
+          .then(ids => {
+            if (ids.length > 0) {
+              availableId = ids[ids.length - 1];
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+
+        this.notificationsProvider.scheduleLocalNotification(
+          ++availableId,
+          "Gerencie seus hábitos",
+          "Você ainda não gerenciou seus hábitos hoje... Clique aqui para abrir o aplicativo e organizar suas ações do dia-a-dia!",
+          new Date(new Date().getTime() + 86400000));
+
+        this.notificationsProvider.scheduleLocalNotification(
+          ++availableId,
+          "Gerencie seus hábitos",
+          "Você ainda não gerenciou seus hábitos essa semana... Clique aqui para abrir o aplicativo e organizar suas ações do dia-a-dia!",
+          new Date(new Date().getTime() + (86400000 * 7)));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   sync() {
@@ -59,32 +108,33 @@ export class HabitosPage extends BasePage {
   }
 
   private bonificar(habito: Habito) {
-    let status: Status = this.user.status;
+    let newStatus: Status = this.user.status;
+    let originalStatus = Object.assign({}, newStatus);
     let xp: number;
     let coins: number;
 
     if (habito.nivel == "Fácil") {
-      status.xp += 10;
-      status.coins += 5;
+      newStatus.xp += 10;
+      newStatus.coins += 5;
       xp = 10;
       coins = 5;
     } else if (habito.nivel == "Médio") {
-      status.xp += 15;
-      status.coins += 10;
+      newStatus.xp += 15;
+      newStatus.coins += 10;
       xp = 15;
       coins = 10;
     } else {
-      status.xp += 30;
-      status.coins += 15;
+      newStatus.xp += 30;
+      newStatus.coins += 15;
       xp = 30;
       coins = 15;
     }
 
-    if (status.hp < 0) {
-      status.hp = 0;
+    if (newStatus.hp < 0) {
+      newStatus.hp = 0;
     }
 
-    this.userProvider.updateStatus(status, this.authProvider.userUID)
+    this.userProvider.updateStatus(originalStatus, newStatus, this.authProvider.userUID)
       .then(() => {
         this.showToast(`Você ganhou ${xp} XP e ${coins} moedas!`);
       })
@@ -94,21 +144,22 @@ export class HabitosPage extends BasePage {
   }
 
   private penalizar(habito: Habito) {
-    let status: Status = this.user.status;
+    let newStatus: Status = this.user.status;
+    let originalStatus = Object.assign({}, newStatus);
     let msg: number;
 
     if (habito.nivel == "Fácil") {
-      status.hp -= 5;
+      newStatus.hp -= 5;
       msg = 5;
     } else if (habito.nivel == "Médio") {
-      status.hp -= 10;
+      newStatus.hp -= 10;
       msg = 10;
     } else {
-      status.hp -= 15;
+      newStatus.hp -= 15;
       msg = 15;
     }
-
-    this.userProvider.updateStatus(status, this.authProvider.userUID)
+ 
+    this.userProvider.updateStatus(originalStatus, newStatus, this.authProvider.userUID)
       .then(() => {
         this.showToast(`Você perdeu ${msg} pontos de vida...`);
       })

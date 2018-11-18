@@ -15,7 +15,7 @@
 
 	// conteúdo
 	ion-content {
-		background-color: #FEC70B;
+		background-color: rgb(255, 198, 13);
 		color: #000000;
 	}
 	
@@ -32,13 +32,13 @@
 
 	//Tabs bar
 	.tabbar {
-		background-color: #F7F8FD !important;
+		background-color: #FF9B07 !important;
 		
 		ion-icon {
-			color: #727270;			
+			color: #333333;			
 		}
 		.tab-button {
-			color: #727270;
+			color: #333333;
 		}
 
 		
@@ -66,7 +66,17 @@
 
 	//cor das moedas
 	.op-coins {
+		color: #333333;
+	}
 
+	//cor da estrela xp
+	.xp-bar {
+		color: #03A9F4;
+	}
+
+	//cor da barra de xp
+	user-status #xp.progress-outer .progress-inner {
+		background-color: #03A9F4 !important;
 	}
 
 	//cor da fonte nos inputs

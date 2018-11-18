@@ -1,5 +1,9 @@
 <ion-content>
-  <user-info [user]="currentUser" [isMenu]="true"></user-info>
+  <ion-avatar class="custom-background">
+    <img class="round" [src]="'assets/imgs/no-photo.jpg'" *ngIf="currentUser">
+  </ion-avatar>
+  <h3 text-center *ngIf="currentUser">{{currentUser.name}}</h3>
+  <p text-center *ngIf="currentUser">@{{currentUser.username}}</p>
   <ion-list>
     <button ion-item icon-right detail-none menuClose="user-menu" (click)="onLogout()">
         Sair

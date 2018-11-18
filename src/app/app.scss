@@ -15,6 +15,16 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+#ion-nav {
+  ion-navbar{
+    padding-top: 25px !important;
+  }
+}
+
+.bar-button-menutoggle-md {
+  margin: 0px !important;
+}
+
 ion-icon {
   &[class*="op-"] {
       // Instead of using the font-based icons

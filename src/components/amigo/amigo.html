@@ -1,0 +1,14 @@
+<ion-item>
+  <ion-avatar item-start>
+    <img [src]="player.settings.currentAvatar || 'assets/imgs/no-photo.jpg'">
+  </ion-avatar>
+  <h2>{{player.username}}</h2>
+  <div>
+    <ion-icon name="heart" color="danger" item-start></ion-icon>
+      <div class="progress-outer" id="hp">
+        <div class="progress-inner" [style.width]="getHPPorcentagem(status.xp, status.hp) + '%'">
+        </div>
+      </div>
+  </div>
+  <div item-end><span class="text">lvl. {{ getNivel(player.status.xp) }} </span></div>
+</ion-item>

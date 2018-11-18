@@ -7,6 +7,10 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { Camera } from '@ionic-native/camera';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { Push } from '@ionic-native/push';
+import { AppMinimize } from '@ionic-native/app-minimize';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { HabitosPage } from '../pages/habitos/habitos';
 import { AfazeresPage } from '../pages/afazeres/afazeres';
@@ -56,6 +60,9 @@ import { LojaProvider } from '../providers/loja/loja';
 import { ItemLojaComponent } from '../components/item-loja/item-loja';
 import { LojaPage } from '../pages/loja/loja';
 import { NovoWallpaperPage } from '../pages/Administrador/novo-wallpaper/novo-wallpaper';
+import { NotificationsProvider } from '../providers/notifications/notifications';
+import { AmigoComponent } from '../components/amigo/amigo';
+import { AmigosPage } from '../pages/amigos/amigos';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -100,7 +107,9 @@ const firebaseAppConfig: FirebaseAppConfig = {
     NovoAvatarPage,
     ItemLojaComponent,
     LojaPage,
-    NovoWallpaperPage
+    NovoWallpaperPage,
+    AmigoComponent,
+    AmigosPage
   ],
   imports: [
     HttpModule,
@@ -109,8 +118,11 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     IonicModule.forRoot(MyApp, {
-      tabsHideOnSubPages: true
-    })
+      tabsHideOnSubPages: true,
+      mode: 'md',
+      swipeBackEnabled: true
+    }),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -140,7 +152,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     NovaPocaoPage,
     NovoAvatarPage,
     LojaPage,
-    NovoWallpaperPage
+    NovoWallpaperPage,
+    AmigosPage
   ],
   providers: [
     StatusBar,
@@ -157,7 +170,11 @@ const firebaseAppConfig: FirebaseAppConfig = {
     ImagePicker,
     PhotoViewer,
     Camera,
-    LojaProvider
+    LojaProvider,
+    NotificationsProvider,
+    Push,
+    AppMinimize,
+    LocalNotifications
   ]
 })
 export class AppModule {}

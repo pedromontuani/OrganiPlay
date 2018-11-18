@@ -98,23 +98,24 @@ export class RecompensasPage extends BasePage {
 
   private redeem(recompensa: Recompensa): void {
     let canRedeem: boolean = true;
-    let status = this.user.status;
+    let newStatus = this.user.status;
+    let originalStatus = Object.assign({}, newStatus);
     let xpBonus: number = 50;
 
     if ((recompensa.moedas || recompensa.gemas) && canRedeem) {
-      if (status.gems < recompensa.gemas || status.coins < recompensa.moedas) {
+      if (newStatus.gems < recompensa.gemas || newStatus.coins < recompensa.moedas) {
         canRedeem = false;
       }
     }
 
     if (canRedeem) {
       if (recompensa.moedas) {
-        status.coins -= recompensa.moedas;
+        newStatus.coins -= recompensa.moedas;
       }
       if (recompensa.gemas) {
-        status.gems -= recompensa.gemas;
+        newStatus.gems -= recompensa.gemas;
       }
-      status.xp += xpBonus;
+      newStatus.xp += xpBonus;
     }
 
     if (recompensa.afazer) {
@@ -124,7 +125,7 @@ export class RecompensasPage extends BasePage {
             canRedeem = false;
           }
           if (canRedeem) { // outro atraso necessário para recuperar os dados
-            this.userProvider.updateStatus(status, this.authProvider.userUID).then(() => {
+            this.userProvider.updateStatus(originalStatus, newStatus, this.authProvider.userUID).then(() => {
               this.recompensasProvider.excluirRecompensa(recompensa.$key, this.authProvider.userUID).then(() => {
                 this.showToast(`Parabéns! Você adquiriu sua recompensa + ${xpBonus} XP!`);
               }).catch(() => {
@@ -140,7 +141,7 @@ export class RecompensasPage extends BasePage {
         });
     } else {
       if (canRedeem) {
-        this.userProvider.updateStatus(status, this.authProvider.userUID).then(() => {
+        this.userProvider.updateStatus(originalStatus, newStatus, this.authProvider.userUID).then(() => {
           this.recompensasProvider.excluirRecompensa(recompensa.$key, this.authProvider.userUID).then(() => {
             this.showToast(`Parabéns! Você adquiriu sua recompensa + ${xpBonus} XP!`);
           }).catch(() => {

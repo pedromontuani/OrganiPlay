@@ -48,7 +48,7 @@
           <div *ngFor="let player of players" class="scroll-item">
             <div class="align-content">
               <ion-avatar>
-                <img [src]="player.photo || 'assets/imgs/no-photo.jpg'">
+                <img [src]="player.settings.currentAvatar || 'assets/imgs/no-photo.jpg'">
               </ion-avatar>
               <p>{{player.username}}</p>
             </div>

@@ -16,10 +16,10 @@
 
 
 <ion-content padding>
-  <ion-list>
+  <ion-list class="habito-list">
     <div *ngFor="let habitoDesejavel of (habitos | async)">
       <button *ngIf="habitoDesejavel.tipo == 'Desejável'" ion-item text-wrap (press)="showActionSheet(habitoDesejavel)">
-        <ion-icon name="thumbs-up" color="info" large item-start></ion-icon>
+        <ion-icon name="thumbs-up" color="info" class="icon-habito" large item-start></ion-icon>
         <h2 id="bom">{{habitoDesejavel.habito}}</h2>
         <p>{{habitoDesejavel.descricao}}</p>
         <button id="botao" ion-button color="info" class="secondary" item-end icon-only small (click)="bonificar(habitoDesejavel)">
@@ -31,10 +31,10 @@
       </button>
     </div>
   </ion-list>
-  <ion-list>
+  <ion-list class="habito-list">
     <div *ngFor="let habitoIndesejavel of (habitos | async)">
       <button *ngIf="habitoIndesejavel.tipo == 'Indesejável'" ion-item text-wrap (press)="showActionSheet(habitoIndesejavel)">
-        <ion-icon name="thumbs-down" color="danger" large item-start></ion-icon>
+        <ion-icon name="thumbs-down" color="danger" class="icon-habito" large item-start></ion-icon>
         <h2 id="ruim">{{habitoIndesejavel.habito}}</h2>
         <p>{{habitoIndesejavel.descricao}}</p>
         <button id="botao" ion-button color="danger" item-end icon-only small (click)="penalizar(habitoIndesejavel)">

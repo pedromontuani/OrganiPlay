@@ -1,6 +1,8 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { AngularFireList, AngularFireObject } from 'angularfire2/database';
+import { AngularFireList, AngularFireObject, AngularFireDatabase } from 'angularfire2/database';
+import { AuthProvider } from '../auth/auth';
+import { ErrorLog } from '../../models/error-log.model';
 
 const extractError = (error: Response | any): string => {
     // In a real world app, we might use a remote logging infrastructure
@@ -19,7 +21,16 @@ const extractError = (error: Response | any): string => {
 
 export abstract class BaseProvider {
 
+    constructor(
+        public db: AngularFireDatabase
+    ){}
+
     protected handlePromiseError(error: Response | any): Promise<any> {
+        let err: ErrorLog = new ErrorLog(
+            error,
+            Date.now()
+        );
+        this.db.list("/errors-logs/generated").push(err);
         return Promise.reject(extractError(error));
     }
 

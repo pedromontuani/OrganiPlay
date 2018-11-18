@@ -121,7 +121,8 @@ export class GerenciarTarefaPage extends BasePage {
   }
 
   atualizarStatus(player: User) {
-    let status: Status = player.status;
+    let newStatus: Status = player.status;
+    let originalStatus = Object.assign({}, newStatus);
     let peso: number;
     let moedas: number = 20;
     let xp: number = 10;
@@ -133,9 +134,9 @@ export class GerenciarTarefaPage extends BasePage {
       peso = 3;
     }
 
-    status.coins = moedas * peso;
-    status.xp *= peso;
-    status.gems += peso - 1;
+    newStatus.coins = moedas * peso;
+    newStatus.xp *= peso;
+    newStatus.gems += peso - 1;
 
     this.mundoProvider.updateComprovacao(
       this.tarefa.$key,
@@ -143,7 +144,7 @@ export class GerenciarTarefaPage extends BasePage {
       player.$key,
       { verificado: true }
     ).then(() => {
-      this.userProvider.updateStatus(status, player.$key);
+      this.userProvider.updateStatus(originalStatus, newStatus, player.$key);
       document.getElementById(player.$key).style.display = "none";
     })
       .catch((err) => {

@@ -4,6 +4,7 @@ import { Http } from '@angular/http';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { Afazer } from '../../models/afazer.model';
+import { AuthProvider } from '../auth/auth';
 
 /*
   Generated class for the AfazeresProvider provider.
@@ -14,8 +15,8 @@ import { Afazer } from '../../models/afazer.model';
 @Injectable()
 export class AfazeresProvider extends BaseProvider {
 
-  constructor(public http: Http, public db: AngularFireDatabase) {
-    super();
+  constructor(public http: Http, public db: AngularFireDatabase, public authService: AuthProvider) {
+    super(db);
   }
 
   novoAfazer(habito: Afazer, uid: string): Promise<void> {

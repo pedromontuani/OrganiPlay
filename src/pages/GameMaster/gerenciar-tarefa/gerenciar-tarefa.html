@@ -23,7 +23,7 @@
         <div *virtualItem="let player" style="width: 100%">
           <button ion-item *ngIf="comprovado(player) == false">
             <ion-avatar item-start>
-              <img class="round" [src]="player.photo || 'assets/imgs/no-photo.jpg'">
+              <img class="round" [src]="player.settings.currentAvatar || 'assets/imgs/no-photo.jpg'">
             </ion-avatar>
             <h2>{{player.username}}</h2>
             <p>{{player.name}}</p>
@@ -46,7 +46,7 @@
         <div *ngFor="let player of (playersList | async)" style="width: 100%" [id]="player.$key">
           <button ion-item *ngIf="comprovado(player) == true">
             <ion-avatar item-start>
-              <img class="round" [src]="player.photo || 'assets/imgs/no-photo.jpg'">
+              <img class="round" [src]="player.settings.currentAvatar || 'assets/imgs/no-photo.jpg'">
             </ion-avatar>
             <h2>{{player.username}}</h2>
             <p>{{player.name}}</p>

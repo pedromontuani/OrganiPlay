@@ -1,8 +1,12 @@
 page-habitos {
+    .icon-habito{
+        text-shadow: 2px 2px 1px rgb(113, 28, 128);
+    }
+
     #botao{
     	border: 2px;
     	border-style: solid;
-    	border-color: #9C27B0;
+    	border-color: rgba(155, 39, 176, 0.7);
     	border-radius: 15%;
     }
     #bom{

@@ -28,7 +28,7 @@
       <div *ngFor="let user of (users | async)">
         <button ion-item (click)="onUserClick(user)" detail-push>
           <ion-avatar item-start>
-            <img class="round" [src]="user.photo || 'assets/imgs/no-photo.jpg'">
+            <img class="round" [src]="user.settings.currentAvatar || 'assets/imgs/no-photo.jpg'">
           </ion-avatar>
           <h2>{{user.name}}</h2>
           <p>{{user.email}}</p>

@@ -10,18 +10,19 @@
 		
 	}
 
+	p {
+		color: #424242;
+	}
 	// conteúdo
 	ion-content {
 		background-color: #958BAD;
 		color: #dddddd;
-		ion-icon{
-			color:#ffffff;
-		} 
+		
 	}
 	
 	//Fonte toolbar
 	.toolbar-title {
-		color: #dddddd;
+		color: #eeeeee;
 	}
 	
 	//Header
@@ -32,13 +33,13 @@
 
 	//Tabs bar
 	.tabbar {
-		background-color: #F7F8FD !important;
+		background-color: #A978A5 !important;
 		
 		ion-icon {
-			color: #727270;			
+			color: #DDDDDD;			
 		}
 		.tab-button {
-			color: #727270;
+			color: #DDDDDD;
 		}
 
 		
@@ -56,7 +57,7 @@
 	
 	//Cor dos textos
 	span.text {
-		color: #dddddd
+		color: #dddddd;
 	}
 
 	//cor das gemas
@@ -70,8 +71,22 @@
 	}
 
 	//cor da fonte nos inputs
-	input {
+
+	ion-input {
 		color: #ffffff;
+		::placeholder{
+			color:#dddddd !important;
+		}
+	}
+
+	ion-label {
+		color: #dddddd !important;
+	}
+
+	.habito-list {
+		h2 {
+			color: #ffffff !important;
+		}
 	}
 	
   

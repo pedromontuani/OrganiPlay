@@ -48,6 +48,7 @@ $colors: (
 );
 
 
+$grid-padding-width: 0px;
 
 
 
@@ -86,7 +87,13 @@ $colors: (
 @import "theme.purple";
 @import "theme.dark";
 
-$list-background-color: transparent;;
+$list-background-color: transparent;
+$picker-ios-background-color: #fff;
+$picker-md-background-color: #fff;
+$picker-wp-background-color: #fff;
+$picker-ios-option-text-color: #323232;
+$picker-md-option-text-color: #323232;
+$picker-wp-option-text-color: #323232;
 
 
 // Ionicons

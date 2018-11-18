@@ -10,6 +10,7 @@ import { ItensLojaUsuarios } from '../../models/itens-loja-usuarios.model';
 import { AuthProvider } from '../../providers/auth/auth';
 import { UserSettings } from '../../models/user-settings.model';
 import { UserProvider } from '../../providers/user/user';
+import { Status } from '../../models/status.model';
 
 @IonicPage()
 @Component({
@@ -20,11 +21,12 @@ export class LojaPage {
 
   avatares: Observable<ItemLojaAvatar[]>;
   pocoes: Observable<ItemLojaPocao[]>;
-  temas: ItemLojaTema[];
+  temas: Observable<ItemLojaTema[]>;
   backgroundImgs: Observable<ItemLojaBackground[]>;
   view: string = "avatares";
   itensUsuario: ItensLojaUsuarios;
-  userSettings: UserSettings
+  userSettings: UserSettings;
+  userStatus: Status;
 
   constructor(
     public navCtrl: NavController,
@@ -41,13 +43,15 @@ export class LojaPage {
         this.itensUsuario = itens;
       });
     this.backgroundImgs = this.lojaProvider.getItensLoja("Wallpaper"); 
-
+    this.temas = this.lojaProvider.getItensLoja("Tema");
     this.userProvider.currentUserObject
       .valueChanges()
       .first()
       .subscribe(user => {
         this.userSettings = user.settings;
-      })
+        this.userStatus = user.status;
+    });
+
   }
 
   isComprado(item: any): boolean {

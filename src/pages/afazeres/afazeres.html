@@ -21,7 +21,7 @@
       <ion-icon class="main-icon" [name]="afazer.icon" icon-only item-start *ngIf="afazer.icon"></ion-icon>
       <h2>{{afazer.afazer}}</h2>
       <h2 *ngIf="afazer.dataFim">
-        <ion-icon name="calendar" icon-only large></ion-icon> {{afazer.dataFim | date: 'dd/MM/yyyy HH:mm'}} 
+        <ion-icon name="calendar" icon-only large></ion-icon> {{afazer.dataFim | date: 'dd/MM/yyyy'}} 
       </h2>
       <div item-end class="check-holder">
         <ion-icon name="checkmark" class="check" icon-only *ngIf="afazer.finalizado"></ion-icon>

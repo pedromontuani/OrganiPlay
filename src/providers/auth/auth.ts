@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { BaseProvider } from '../base/base';
 import { MenuController } from 'ionic-angular';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Injectable()
 export class AuthProvider extends BaseProvider{
 
   userUID: string;
 
-  constructor(public auth: AngularFireAuth, public http: Http, public menuCtrl: MenuController) {
-    super();
+  constructor(public auth: AngularFireAuth, public http: Http, public menuCtrl: MenuController, public db: AngularFireDatabase) {
+    super(db);
   }
 
   createAuthUser(user: {email: string, password: string}): Promise<any>{

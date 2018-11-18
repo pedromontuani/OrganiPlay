@@ -8,6 +8,8 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { AfazeresProvider } from '../../providers/afazeres/afazeres';
 import { Afazer } from '../../models/afazer.model';
 import { IconsList } from '../../models/icons.model';
+import { NotificationsProvider } from '../../providers/notifications/notifications';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @IonicPage()
 @Component({
@@ -28,7 +30,9 @@ export class NovoAfazerPage extends BasePage {
     public formBuilder: FormBuilder,
     public afazeresProvider: AfazeresProvider,
     public alertCtrl: AlertController,
-    public authProvider: AuthProvider
+    public authProvider: AuthProvider,
+    public notificacoesProvider: NotificationsProvider,
+    public localNotifications: LocalNotifications
   ) {
     super(alertCtrl, undefined, undefined);
     if (this.edit) {
@@ -57,18 +61,42 @@ export class NovoAfazerPage extends BasePage {
 
   onSubmit() {
     let value = this.novoAfazerForm.value;
-    let data = new Date(value.dataFim);
-    value.dataFim = new Date(
-      data.getFullYear(),
-      data.getMonth(),
-      data.getDate(),
-      data.getHours()+3,
-      data.getMinutes()
-    ).toISOString();
+    let data: Date
+    if(value.dataFim) {
+      data = new Date(value.dataFim);
+      value.dataFim = new Date(
+        data.getFullYear(),
+        data.getMonth(),
+        data.getDate(),
+        23, 59).toISOString();
+    }
     console.log(value.dataFim);
     console.log(new Date(Date.now()));
     this.afazeresProvider.novoAfazer(value, this.uid)
       .then(() => {
+        if(value.dataFim) {
+          let notificationDate = new Date (
+            data.getFullYear(),
+            data.getMonth(),
+            data.getDate()-1,
+            8, 0);
+            let availableId = 0;
+            this.localNotifications.getIds()
+              .then(ids => {
+                if (ids.length > 0) {
+                  availableId = ids[ids.length - 1];
+                }
+              })
+              .catch(err => {
+                console.log(err);
+            });
+          this.notificacoesProvider.scheduleLocalNotification(
+            ++availableId,
+            value.afazer,
+            "Você já finalizou sua tarefa? O prazo para terminá-la é amanhã! Clique aqui para abrir o aplicativo e gerenciar suas tarefas.",
+            notificationDate
+          )
+        }
         this.navCtrl.pop();
       })
       .catch((error: Error) => {
