@@ -5,7 +5,7 @@ import { User } from '../../../models/user.model';
 import { MundosProvider } from '../../../providers/mundos/mundos';
 
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-usuarios-recompensas',
   templateUrl: 'usuarios-recompensas.html',

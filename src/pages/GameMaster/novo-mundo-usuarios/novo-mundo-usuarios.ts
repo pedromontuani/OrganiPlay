@@ -6,7 +6,7 @@ import { MundosProvider } from '../../../providers/mundos/mundos';
 import { NovoMundoPage } from '../novo-mundo/novo-mundo';
 import { BasePage } from '../../base/base';
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-novo-mundo-usuarios',
   templateUrl: 'novo-mundo-usuarios.html',

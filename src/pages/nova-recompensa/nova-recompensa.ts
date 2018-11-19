@@ -17,7 +17,7 @@ import { IconsList } from '../../models/icons.model';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-nova-recompensa',
   templateUrl: 'nova-recompensa.html',

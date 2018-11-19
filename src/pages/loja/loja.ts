@@ -12,7 +12,7 @@ import { UserSettings } from '../../models/user-settings.model';
 import { UserProvider } from '../../providers/user/user';
 import { Status } from '../../models/status.model';
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-loja',
   templateUrl: 'loja.html',

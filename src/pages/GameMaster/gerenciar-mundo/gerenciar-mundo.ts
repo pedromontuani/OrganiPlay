@@ -15,7 +15,7 @@ import { RecompensaMundo } from '../../../models/recompensa-mundo.model';
 import { UsuariosRecompensasPage } from '../usuarios-recompensas/usuarios-recompensas';
 
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-gerenciar-mundo',
   templateUrl: 'gerenciar-mundo.html',

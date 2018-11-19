@@ -11,7 +11,7 @@ import { AcessarMundoPage } from '../acessar-mundo/acessar-mundo';
 import { BasePage } from '../base/base';
 
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-mundos',
   templateUrl: 'mundos.html',

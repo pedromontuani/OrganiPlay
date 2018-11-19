@@ -11,7 +11,7 @@ import { IconsList } from '../../models/icons.model';
 import { NotificationsProvider } from '../../providers/notifications/notifications';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-novo-afazer',
   templateUrl: 'novo-afazer.html',

@@ -157,7 +157,7 @@ export class MyApp {
             .first()
             .subscribe(topics => {
               if (topics && topics.topics) {
-                topics.topics.split(" ").forEach(topic => {
+                topics.topics.split(" ").filter(value => {return value!=" "}).forEach(topic => {
                   if (topic.length > 1) {
                     pushObject.unsubscribe(topic)
                       .then(() => {
@@ -168,7 +168,7 @@ export class MyApp {
                       });
                   }
                 });
-                settings.topics.split(" ").forEach(topic => {
+                settings.topics.split(" ").filter(value => {return value!=" "}).forEach(topic => {
                   if (topic.length > 1) {
                     pushObject.subscribe(topic)
                       .then(() => {

@@ -12,7 +12,7 @@ import { BasePage } from '../base/base';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-editar-perfil',
   templateUrl: 'editar-perfil.html',

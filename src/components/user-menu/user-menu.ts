@@ -7,6 +7,7 @@ import { AdmEditarUsuarioPage } from '../../pages/adm-editar-usuario/adm-editar-
 import { EditarPerfilPage } from '../../pages/editar-perfil/editar-perfil';
 import { MundosPage } from '../../pages/mundos/mundos';
 import { LojaPage } from '../../pages/loja/loja';
+import { AmigosPage } from '../../pages/amigos/amigos';
 
 /**
  * Generated class for the UserMenuComponent component.
@@ -47,5 +48,10 @@ export class UserMenuComponent extends BaseComponent{
   onLoja(){
     this.navCtrl = this.app.getActiveNavs()[0];
     this.navCtrl.push(LojaPage);
+  }
+
+  onAmigos(){
+    this.navCtrl = this.app.getActiveNavs()[0];
+    this.navCtrl.push(AmigosPage, {settings : this.currentUser.settings});
   }
 }

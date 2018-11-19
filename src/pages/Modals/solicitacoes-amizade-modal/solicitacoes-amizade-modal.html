@@ -1,0 +1,35 @@
+<!--
+  Generated template for the SolicitacoesAmizadeModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar [hideBackButton]="true">
+    <ion-title>Solicitações</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list *ngFor="let player of (players | async)">
+    <button ion-item (click)="showModalPlayer(player)">
+      <ion-avatar item-start>
+        <img [src]="player.settings.currentAvatar || '/assets/imgs/no-photo.jpg'">
+      </ion-avatar>
+      <h2>{{player.username}}</h2>
+      <p>{{player.name}}</p>
+      <button ion-button item-end (click)="aceitarSolicitacao(player)" class="btn">Aceitar</button>
+      <button ion-button clear icon-only item-end (click)="rejeitarSolicitacao(player)" class="btn">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </button>
+  </ion-list>
+</ion-content>

@@ -19,7 +19,7 @@ import { NotificationsProvider } from '../../providers/notifications/notificatio
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-habitos',
   templateUrl: 'habitos.html',

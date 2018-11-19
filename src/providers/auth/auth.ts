@@ -12,6 +12,7 @@ export class AuthProvider extends BaseProvider{
 
   constructor(public auth: AngularFireAuth, public http: Http, public menuCtrl: MenuController, public db: AngularFireDatabase) {
     super(db);
+    this.auth.auth.useDeviceLanguage();
   }
 
   createAuthUser(user: {email: string, password: string}): Promise<any>{

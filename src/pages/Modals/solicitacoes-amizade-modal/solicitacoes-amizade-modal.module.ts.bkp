@@ -1,0 +1,13 @@
+import { NgModule } from '@angular/core';
+import { IonicPageModule } from 'ionic-angular';
+import { SolicitacoesAmizadeModalPage } from './solicitacoes-amizade-modal';
+
+@NgModule({
+  declarations: [
+    SolicitacoesAmizadeModalPage,
+  ],
+  imports: [
+    IonicPageModule.forChild(SolicitacoesAmizadeModalPage),
+  ],
+})
+export class SolicitacoesAmizadeModalPageModule {}

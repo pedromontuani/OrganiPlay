@@ -14,7 +14,7 @@ import { Status } from '../../models/status.model';
 import { UserProvider } from '../../providers/user/user';
 
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-acessar-mundo',
   templateUrl: 'acessar-mundo.html',

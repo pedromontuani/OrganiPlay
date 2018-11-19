@@ -17,7 +17,7 @@ import { Observable } from 'rxjs/Observable';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-nova-tarefa-mundo',
   templateUrl: 'nova-tarefa-mundo.html',

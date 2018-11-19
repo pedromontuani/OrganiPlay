@@ -14,7 +14,7 @@ import { User } from '../../../models/user.model';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-novo-mundo',
   templateUrl: 'novo-mundo.html',

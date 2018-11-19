@@ -102,10 +102,10 @@
         <variable name="SENDER_ID" value="805916840528" />
     </plugin>
     <allow-navigation href="http://192.168.1.2:8100" />
-    <engine name="browser" spec="5.0.4" />
-    <engine name="ios" spec="4.5.5" />
     <plugin name="cordova-plugin-appminimize" spec="^1.0.0" />
     <plugin name="cordova-sqlite-storage" spec="^2.5.1" />
     <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.2" />
-    <engine name="android" spec="~7.0.0" />
+    <engine name="browser" spec="5.0.4" />
+    <engine name="ios" spec="4.5.5" />
+    <engine name="android" spec="7.0.0" />
 </widget>

@@ -19,7 +19,7 @@ import { AfazeresProvider } from '../../providers/afazeres/afazeres';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-recompensas',
   templateUrl: 'recompensas.html',

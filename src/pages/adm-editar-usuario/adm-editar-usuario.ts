@@ -12,7 +12,7 @@ import { BasePage } from '../base/base';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-adm-editar-usuario',
   templateUrl: 'adm-editar-usuario.html',

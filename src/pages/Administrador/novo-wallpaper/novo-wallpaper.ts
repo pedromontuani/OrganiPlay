@@ -8,7 +8,7 @@ import { LojaProvider } from '../../../providers/loja/loja';
 import { ItemLojaAvatar } from '../../../models/item-loja-avatar.model';
 import { ItemLojaBackground } from '../../../models/item-loja-background.model';
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-novo-wallpaper',
   templateUrl: 'novo-wallpaper.html',

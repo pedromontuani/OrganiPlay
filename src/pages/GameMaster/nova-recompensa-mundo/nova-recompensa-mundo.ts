@@ -19,7 +19,7 @@ import { IconsModalPage } from '../../Modals/icons-modal/icons-modal';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-nova-recompensa-mundo',
   templateUrl: 'nova-recompensa-mundo.html',

@@ -12,7 +12,7 @@ import { Status } from '../../../models/status.model';
 import { BasePage } from '../../base/base';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-gerenciar-tarefa',
   templateUrl: 'gerenciar-tarefa.html',

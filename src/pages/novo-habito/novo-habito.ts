@@ -13,7 +13,7 @@ import { Habito } from '../../models/habito.model';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-novo-habito',
   templateUrl: 'novo-habito.html',

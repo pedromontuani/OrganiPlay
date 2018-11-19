@@ -63,6 +63,9 @@ import { NovoWallpaperPage } from '../pages/Administrador/novo-wallpaper/novo-wa
 import { NotificationsProvider } from '../providers/notifications/notifications';
 import { AmigoComponent } from '../components/amigo/amigo';
 import { AmigosPage } from '../pages/amigos/amigos';
+import { AmigosProvider } from '../providers/amigos/amigos';
+import { SolicitacoesAmizadeModalPage } from '../pages/Modals/solicitacoes-amizade-modal/solicitacoes-amizade-modal';
+import { SingleSolicitacaoAmizadeModalPage } from '../pages/Modals/single-solicitacao-amizade-modal/single-solicitacao-amizade-modal';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -109,7 +112,9 @@ const firebaseAppConfig: FirebaseAppConfig = {
     LojaPage,
     NovoWallpaperPage,
     AmigoComponent,
-    AmigosPage
+    AmigosPage,
+    SolicitacoesAmizadeModalPage,
+    SingleSolicitacaoAmizadeModalPage
   ],
   imports: [
     HttpModule,
@@ -153,7 +158,9 @@ const firebaseAppConfig: FirebaseAppConfig = {
     NovoAvatarPage,
     LojaPage,
     NovoWallpaperPage,
-    AmigosPage
+    AmigosPage,
+    SolicitacoesAmizadeModalPage,
+    SingleSolicitacaoAmizadeModalPage
   ],
   providers: [
     StatusBar,
@@ -174,7 +181,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     NotificationsProvider,
     Push,
     AppMinimize,
-    LocalNotifications
+    LocalNotifications,
+    AmigosProvider
   ]
 })
 export class AppModule {}

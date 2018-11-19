@@ -7,7 +7,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { LojaProvider } from '../../../providers/loja/loja';
 import { ItemLojaPocao } from '../../../models/item-loja-pocao.model';
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-nova-pocao',
   templateUrl: 'nova-pocao.html',

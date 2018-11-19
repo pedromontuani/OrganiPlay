@@ -36,7 +36,8 @@ export class UserProvider extends BaseProvider {
       user.email,
       "player",
       new Status(0, 85, 0, 0),
-      new UserSettings('', '', '')
+      new UserSettings('', '', ''),
+      ""
     );
     return this.db.object(`/users/${uid}`)
       .set(user)

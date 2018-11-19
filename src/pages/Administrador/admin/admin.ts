@@ -16,7 +16,7 @@ import { NovoWallpaperPage } from '../novo-wallpaper/novo-wallpaper';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-admin',
   templateUrl: 'admin.html',

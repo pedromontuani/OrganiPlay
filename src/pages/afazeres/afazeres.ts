@@ -12,7 +12,7 @@ import { BasePage } from '../base/base';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { NotificationsProvider } from '../../providers/notifications/notifications';
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-afazeres',
   templateUrl: 'afazeres.html',

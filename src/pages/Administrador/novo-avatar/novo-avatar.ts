@@ -15,7 +15,7 @@ import { ItemLojaAvatar } from '../../../models/item-loja-avatar.model';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-novo-avatar',
   templateUrl: 'novo-avatar.html',

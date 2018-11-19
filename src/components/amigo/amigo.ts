@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { User } from '../../models/user.model';
 import { UserProvider } from '../../providers/user/user';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @Component({
   selector: 'amigo',
@@ -8,9 +9,9 @@ import { UserProvider } from '../../providers/user/user';
 })
 export class AmigoComponent {
 
-  player: User
+  @Input() amigo: User
 
-  constructor(public userProvider: UserProvider) {
+  constructor(public userProvider: UserProvider, public photoViewer: PhotoViewer) {
     
   }
 
@@ -28,6 +29,12 @@ export class AmigoComponent {
 
   getXPPorcentagem(xp: number) {
     return this.userProvider.getXPPorcentagem(xp);
+  }
+
+  onClickAvatar() {
+    if(this.amigo.settings.currentAvatar) {
+      this.photoViewer.show(this.amigo.settings.currentAvatar);
+    }
   }
 
 }
