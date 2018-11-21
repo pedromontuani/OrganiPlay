@@ -26,6 +26,7 @@
     "@ionic-native/app-minimize": "^4.17.0",
     "@ionic-native/camera": "^4.14.0",
     "@ionic-native/core": "4.11.0",
+    "@ionic-native/device": "^4.17.0",
     "@ionic-native/image-picker": "^4.15.0",
     "@ionic-native/local-notifications": "^4.17.0",
     "@ionic-native/photo-viewer": "^4.15.0",

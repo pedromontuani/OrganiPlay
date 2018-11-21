@@ -18,7 +18,7 @@ export class UserInfoComponent {
     console.log('Hello UserInfoComponent Component');
   }
 
-  getBgImgUrl(user: User) {
+  getBgImgUrl() {
     if(this.user && this.user.settings && this.user.settings.currentWallpaper) {
       return `url(${this.user.settings.currentWallpaper})`;
     } else {

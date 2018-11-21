@@ -57,25 +57,25 @@ export class LojaPage {
   isComprado(item: any): boolean {
     if (this.itensUsuario) {
       if (this.itensUsuario.avatares && item.tipo == "Avatar") {
-        if (this.itensUsuario.avatares.split(" ").indexOf(item.$key) != -1) {
+        if (this.itensUsuario.avatares.split(" ").filter(value => {return value != " "}).indexOf(item.$key) != -1) {
           return true;
         }
       }
 
       if (this.itensUsuario.pocoes && item.tipo == "Pocao") {
-        if (this.itensUsuario.pocoes.split(" ").indexOf(item.$key) != -1) {
+        if (this.itensUsuario.pocoes.split(" ").filter(value => {return value != " "}).indexOf(item.$key) != -1) {
           return true;
         }
       }
 
       if (this.itensUsuario.temas && item.tipo == "Tema") {
-        if (this.itensUsuario.temas.split(" ").indexOf(item.$key) != -1) {
+        if (this.itensUsuario.temas.split(" ").filter(value => {return value != " "}).indexOf(item.$key) != -1) {
           return true;
         }
       }
 
       if (this.itensUsuario.wallpapers && item.tipo == "Wallpaper") {
-        if (this.itensUsuario.wallpapers.split(" ").indexOf(item.$key) != -1) {
+        if (this.itensUsuario.wallpapers.split(" ").filter(value => {return value != " "}).indexOf(item.$key) != -1) {
           return true;
         }
       }

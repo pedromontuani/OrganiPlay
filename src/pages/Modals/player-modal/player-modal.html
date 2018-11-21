@@ -1,0 +1,48 @@
+<ion-header>
+
+  <ion-navbar [hideBackButton]="isModal">
+    <ion-title>{{player.username}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="closeModal()" *ngIf="isModal">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-avatar [style.backgroundImage]="getBgImgUrl(player)">
+    <img class="round" [src]="player.settings.currentAvatar || 'assets/imgs/no-photo.jpg'" *ngIf="player && player.settings">
+  </ion-avatar>
+  <h2 text-center>{{player.name}}</h2>
+  <p text-center>@{{player.username}}</p>
+
+  <ion-list no-lines>
+    <ion-item>
+      <ion-icon name="heart" color="danger" item-start class="icon-atributo"></ion-icon>
+      <div class="progress-outer" id="hp">
+        <div class="progress-inner" [style.width]="getHPPorcentagem(player.status.xp, player.status.hp) + '%'">
+          {{getHPPorcentagem(player.status.xp, player.status.hp)}}%
+        </div>
+      </div>
+      <div item-end><span class="text">{{player.status.hp}} / {{getHPNivel(player.status.xp)}}</span></div>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="star" color="xp" item-start class="xp-bar icon-atributo"></ion-icon>
+      <div class="progress-outer xp-bar" id="xp">
+        <div class="progress-inner xp-bar" [style.width]="getXPPorcentagem(player.status.xp) + '%'">
+          {{getXPPorcentagem(player.status.xp)}}%
+        </div>
+      </div>
+      <div item-end><span class="text">lvl. {{ getNivel(player.status.xp) }} </span></div>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="!isModal">
+    <button ion-button full [disabled]="player.status.hp > 0" (click)="reviverAmigo()">Reviver amigo</button>
+    <button ion-button full color="danger" (click)="desfazerAmizade()">Desfazer amizade</button>
+  </div>
+</ion-content>

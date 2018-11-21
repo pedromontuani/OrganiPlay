@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BaseProvider } from '../base/base';
+
 import { Http } from '@angular/http';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Habito } from '../../models/habito.model';
 import { Observable } from 'rxjs/Observable';
 import { Recompensa } from '../../models/recompensa.model';
+import { BaseProvider } from '../base/base';
+import { Device } from '@ionic-native/device';
 
 /*
   Generated class for the RecompensasProvider provider.
@@ -13,21 +15,21 @@ import { Recompensa } from '../../models/recompensa.model';
   and Angular DI.
 */
 @Injectable()
-export class RecompensasProvider extends BaseProvider{
+export class RecompensasProvider extends BaseProvider {
 
-  constructor(public http: Http, public db: AngularFireDatabase) {
-    super(db);
+  constructor(public http: Http, public db: AngularFireDatabase, public device: Device) {
+    super();
   }
 
-  novaRecompensa(recompensa: Recompensa, uid: string): Promise<void>{
-    return this.db.list(`/recompensas/${uid}`) 
-      .push(recompensa).transaction(() => {}, () => {})
-        .catch(this.handlePromiseError);
+  novaRecompensa(recompensa: Recompensa, uid: string): Promise<void> {
+    return this.db.list(`/recompensas/${uid}`)
+      .push(recompensa).transaction(() => { }, () => { })
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
   excluirRecompensa(key: string, uid: string): Promise<void> {
     return this.db.object(`/recompensas/${uid}/${key}`).remove()
-      .catch(this.handlePromiseError);
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
   getRecompensasObservable(uid: string): Observable<Recompensa[]> {

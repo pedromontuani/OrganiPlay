@@ -10,6 +10,7 @@ export class ItemLojaPocao {
         public gemas: number,
         public imgURL: string,
         public ativado: boolean,
+        public reviver: boolean,
         public hp: number
     ) {}
 }

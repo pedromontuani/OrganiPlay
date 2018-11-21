@@ -2,13 +2,14 @@ import { Http } from '@angular/http';
 import { Injectable, Inject } from '@angular/core';
 import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
-import { BaseProvider } from '../base/base';
+
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { ItensLojaUsuarios } from '../../models/itens-loja-usuarios.model';
 import { Status } from '../../models/status.model';
 import { UserProvider } from '../user/user';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { BaseProvider } from '../base/base';
+import { Device } from '@ionic-native/device';
 
 @Injectable()
 export class LojaProvider extends BaseProvider {
@@ -17,9 +18,10 @@ export class LojaProvider extends BaseProvider {
     public http: Http,
     public db: AngularFireDatabase,
     public userProvider: UserProvider,
+    public device: Device,
     @Inject(FirebaseApp) public firebaseApp: any
   ) {
-    super(db);
+    super();
   }
 
   addItemLojaComFoto(item: any, base64: string): Promise<void> {
@@ -40,15 +42,15 @@ export class LojaProvider extends BaseProvider {
             return this.updateItemLoja(item, { imgURL: snapshot.downloadURL })
               .catch(err => { return err });
           })
-          .catch(this.handlePromiseError);
+          .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
       })
-      .catch(this.handlePromiseError);
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
   updateItemLoja(item: any, data: any): Promise<void> {
     return this.db.object(`itens-loja/${item.tipo}/${item.$key}/`)
       .update(data)
-      .catch(this.handlePromiseError);
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
   getItensLoja(tipo: string): Observable<any> {
@@ -58,7 +60,7 @@ export class LojaProvider extends BaseProvider {
 
   updateItensUsuario(itensUsuario: any, uid: string): Promise<void> {
     return this.db.object(`inventario/${uid}`).update(itensUsuario)
-      .catch(this.handlePromiseError);
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
   getItensUsuario(uid: string): Observable<ItensLojaUsuarios> {
@@ -79,28 +81,28 @@ export class LojaProvider extends BaseProvider {
             if (item.tipo == "Avatar") {
               let itensVec: string[] = [];
               if (itensUsuario && itensUsuario.avatares) {
-                itensVec = itensUsuario.avatares.split(" ");
+                itensVec = itensUsuario.avatares.split(" ").filter(value => {return value != " "});
               }
               itensVec.push(item.$key);
               newItens.avatares = itensVec.join(" ");
             } else if (item.tipo == "Pocao") {
               let itensVec: string[] = [];
               if (itensUsuario && itensUsuario.pocoes) {
-                itensVec = itensUsuario.pocoes.split(" ");
+                itensVec = itensUsuario.pocoes.split(" ").filter(value => {return value != " "});
               }
               itensVec.push(item.$key);
               newItens.pocoes = itensVec.join(" ");
             } else if (item.tipo == "Tema") {
               let itensVec: string[] = [];
               if (itensUsuario && itensUsuario.temas) {
-                itensVec = itensUsuario.temas.split(" ");
+                itensVec = itensUsuario.temas.split(" ").filter(value => {return value != " "});
               }
               itensVec.push(item.$key);
               newItens.temas = itensVec.join(" ");
             } else if (item.tipo == "Wallpaper") {
               let itensVec: string[] = [];
               if (itensUsuario && itensUsuario.wallpapers) {
-                itensVec = itensUsuario.wallpapers.split(" ");
+                itensVec = itensUsuario.wallpapers.split(" ").filter(value => {return value != " "});
               }
               itensVec.push(item.$key);
               newItens.wallpapers = itensVec.join(" ");
@@ -108,14 +110,14 @@ export class LojaProvider extends BaseProvider {
             this.updateItensUsuario(newItens, uid);
           })
       })
-      .catch(this.handlePromiseError);
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
-  usarItem(item: any, uid: string, data:any): Promise<void> {
+  usarItem(item: any, uid: string, data: any): Promise<void> {
     if (item.tipo == "Avatar") {
       return this.userProvider.updateUserSettings({ currentAvatar: item.imgURL }, uid);
     } else if (item.tipo == "Pocao") {
-      return this.updateItensUsuario({ pocoes : data }, uid);
+      return this.updateItensUsuario({ pocoes : data ? data : "" }, uid);
     } else if (item.tipo == "Tema") {
       return this.userProvider.updateUserSettings({ currentTheme: item.$key }, uid);
     } else if (item.tipo == "Wallpaper") {

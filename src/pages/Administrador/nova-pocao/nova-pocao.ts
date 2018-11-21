@@ -18,6 +18,7 @@ export class NovaPocaoPage extends BasePage {
   edit: boolean = false;
   itemLoja: ItemLojaPocao;
   imagem: string;
+  reviver: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -121,6 +122,8 @@ export class NovaPocaoPage extends BasePage {
 
     itemLoja.ativado = true;
     itemLoja.tipo = "Pocao";
+    itemLoja.reviver = this.reviver;
+
     this.lojaProvider.addItemLojaComFoto(itemLoja, this.imagem)
       .then(() => {
         loading.dismiss();

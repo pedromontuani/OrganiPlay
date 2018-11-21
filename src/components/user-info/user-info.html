@@ -1,5 +1,5 @@
 <div *ngIf="user">
-  <ion-avatar [ngClass]="{'custom-background': isMenu}" [style.backgroundImage]="getBgImgUrl(user)">
+  <ion-avatar [ngClass]="{'custom-background': isMenu}" [style.backgroundImage]="getBgImgUrl()">
     <img class="round" [src]="user.settings.currentAvatar || 'assets/imgs/no-photo.jpg'" *ngIf="user && user.settings">
   </ion-avatar>
   <h2 text-center>{{user.name}}</h2>

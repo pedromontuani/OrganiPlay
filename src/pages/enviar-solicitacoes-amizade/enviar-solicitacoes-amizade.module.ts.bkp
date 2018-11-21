@@ -1,0 +1,13 @@
+import { NgModule } from '@angular/core';
+import { IonicPageModule } from 'ionic-angular';
+import { EnviarSolicitacoesAmizadePage } from './enviar-solicitacoes-amizade';
+
+@NgModule({
+  declarations: [
+    EnviarSolicitacoesAmizadePage,
+  ],
+  imports: [
+    IonicPageModule.forChild(EnviarSolicitacoesAmizadePage),
+  ],
+})
+export class EnviarSolicitacoesAmizadePageModule {}

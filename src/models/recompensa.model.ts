@@ -4,7 +4,7 @@ export class Recompensa {
         public recompensa: string,
         public descricao: string,
         public icon: string,
-        public nivel: string,
+        public nivel: number,
         public afazer: string,
         public moedas: number,
         public gemas: number,

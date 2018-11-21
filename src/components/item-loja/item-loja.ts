@@ -132,7 +132,7 @@ export class ItemLojaComponent extends BasePage {
         this.userProvider.updateStatus(originalStatus, newStatus, uid)
           .then(() => {
             let pocoes: string[] = [];
-            this.itensUsuario.pocoes.split(" ").forEach(pocao => {
+            this.itensUsuario.pocoes.split(" ").filter(value => {return value != " "}).forEach(pocao => {
               if (pocao != item.$key) {
                 pocoes.push(pocao);
               }

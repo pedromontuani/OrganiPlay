@@ -1,35 +1,49 @@
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { BaseProvider } from '../base/base';
+
 import { MenuController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { NotificationsProvider } from '../notifications/notifications';
+import { ErrorLog } from '../../models/error-log.model';
+import { BaseProvider } from '../base/base';
+import { Device } from '@ionic-native/device';
 
 @Injectable()
-export class AuthProvider extends BaseProvider{
+export class AuthProvider extends BaseProvider {
 
   userUID: string;
 
-  constructor(public auth: AngularFireAuth, public http: Http, public menuCtrl: MenuController, public db: AngularFireDatabase) {
-    super(db);
+  constructor(
+    public auth: AngularFireAuth,
+    public http: Http,
+    public menuCtrl: MenuController,
+    public db: AngularFireDatabase,
+    public notificationsProvider: NotificationsProvider,
+    public device: Device
+  ) {
+    super();
     this.auth.auth.useDeviceLanguage();
   }
 
-  createAuthUser(user: {email: string, password: string}): Promise<any>{
+  createAuthUser(user: { email: string, password: string }): Promise<any> {
     return this.auth.auth.createUserWithEmailAndPassword(user.email, user.password)
-      .catch(this.handlePromiseError);
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
-  signInWithEmail(user: {email: string, password: string}): Promise<any> {
+  signInWithEmail(user: { email: string, password: string }): Promise<any> {
     return this.auth.auth.signInWithEmailAndPassword(user.email, user.password)
-      .then(()=>{
+      .then(() => {
         return this.auth.auth.currentUser != null;
-      }).catch(this.handlePromiseError);
+      }).catch(err => {
+        return this.handlePromiseError(err, this.db, this.device);
+      });
   }
 
-  logout(): Promise<void>{
+  logout(): Promise<void> {
     this.menuCtrl.enable(false, "user-menu");
     this.menuCtrl.enable(false, "menu-admin");
+    this.notificationsProvider.pushObject.unregister();
     return this.auth.auth.signOut();
   }
 
@@ -42,7 +56,7 @@ export class AuthProvider extends BaseProvider{
       this.auth.authState
         .first()
         .subscribe((authState) => {
-          if(authState){
+          if (authState) {
             resolve(true);
           } else {
             reject(false);

@@ -11,6 +11,7 @@ import { Push } from '@ionic-native/push';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { IonicStorageModule } from '@ionic/storage';
+import { Device } from '@ionic-native/device';
 
 import { HabitosPage } from '../pages/habitos/habitos';
 import { AfazeresPage } from '../pages/afazeres/afazeres';
@@ -65,7 +66,8 @@ import { AmigoComponent } from '../components/amigo/amigo';
 import { AmigosPage } from '../pages/amigos/amigos';
 import { AmigosProvider } from '../providers/amigos/amigos';
 import { SolicitacoesAmizadeModalPage } from '../pages/Modals/solicitacoes-amizade-modal/solicitacoes-amizade-modal';
-import { SingleSolicitacaoAmizadeModalPage } from '../pages/Modals/single-solicitacao-amizade-modal/single-solicitacao-amizade-modal';
+import { PlayerModalPage } from '../pages/Modals/player-modal/player-modal';
+import { EnviarSolicitacoesAmizadePage } from '../pages/enviar-solicitacoes-amizade/enviar-solicitacoes-amizade';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -114,7 +116,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AmigoComponent,
     AmigosPage,
     SolicitacoesAmizadeModalPage,
-    SingleSolicitacaoAmizadeModalPage
+    PlayerModalPage,
+    EnviarSolicitacoesAmizadePage
   ],
   imports: [
     HttpModule,
@@ -160,7 +163,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     NovoWallpaperPage,
     AmigosPage,
     SolicitacoesAmizadeModalPage,
-    SingleSolicitacaoAmizadeModalPage
+    PlayerModalPage,
+    EnviarSolicitacoesAmizadePage
   ],
   providers: [
     StatusBar,
@@ -182,7 +186,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     Push,
     AppMinimize,
     LocalNotifications,
-    AmigosProvider
+    AmigosProvider,
+    Device
   ]
 })
 export class AppModule {}

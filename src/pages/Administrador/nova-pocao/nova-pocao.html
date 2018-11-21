@@ -50,6 +50,10 @@
       <ion-label>Gemas</ion-label>
       <ion-input type="number" text-right formControlName="gemas" placeholder="0"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label>Revive amigos?</ion-label>
+      <ion-toggle [(ngModel)]="reviver"></ion-toggle>
+    </ion-item>
     <br>
     <br>
     <button type="submit" ion-button block [disabled]="novoItemLojaForm.invalid || !imagem">Salvar</button>

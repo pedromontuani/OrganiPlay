@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { BaseProvider } from '../base/base';
+
 
 import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { User } from '../../models/user.model';
@@ -10,6 +10,8 @@ import { Status } from '../../models/status.model';
 import { UserSettings } from '../../models/user-settings.model';
 import { LojaProvider } from '../loja/loja';
 import { ItensLojaUsuarios } from '../../models/itens-loja-usuarios.model';
+import { BaseProvider } from '../base/base';
+import { Device } from '@ionic-native/device';
 
 
 
@@ -24,9 +26,10 @@ export class UserProvider extends BaseProvider {
   constructor(
     public db: AngularFireDatabase,
     public http: Http,
-    public authService: AuthProvider
+    public authService: AuthProvider,
+    public device: Device    
   ) {
-    super(db);
+    super();
   }
 
   create(user: User, uid: string): Promise<void> {
@@ -49,11 +52,11 @@ export class UserProvider extends BaseProvider {
               new UserSettings("purple-theme", "", ""),
               uid
             )
-            .catch(this.handlePromiseError);
+            .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
           })
-          .catch(this.handlePromiseError);
+          .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
       })
-      .catch(this.handlePromiseError);
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
   userExists(username: string): Observable<boolean> {
@@ -61,7 +64,7 @@ export class UserProvider extends BaseProvider {
     ).valueChanges()
       .map((users: User[]) => {
         return users.length > 0;
-      }).catch(this.handleObservableError);
+      }).catch(err => {         return this.handleObservableError(err, this.db, this.device);       });
   }
 
   getUserById(uid: string) {
@@ -75,7 +78,7 @@ export class UserProvider extends BaseProvider {
   editUser(user: User, uid: string): Promise<void> {
     return this.db.object(`/users/${uid}`)
       .update(user)
-      .catch(this.handlePromiseError);
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
   updateStatus(oldStatus: Status, newStatus: Status, uid: string): Promise<void> {
@@ -83,7 +86,7 @@ export class UserProvider extends BaseProvider {
       newStatus.hp = this.getHPNivel(newStatus.xp);
     }
     return this.db.object(`/users/${uid}/status`).update(newStatus)
-      .catch(this.handlePromiseError);
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
   get isAdmin(): Promise<boolean> {
@@ -142,7 +145,7 @@ export class UserProvider extends BaseProvider {
 
   updateUserSettings(data: any, uid: string): Promise<void> {
     return this.db.object(`users/${uid}/settings`).update(data)
-      .catch(this.handlePromiseError);
+      .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });
   }
 
 }

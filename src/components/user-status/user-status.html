@@ -1,6 +1,6 @@
 <ion-list no-lines>
   <ion-item>
-    <ion-icon name="heart" color="danger" item-start></ion-icon>
+    <ion-icon class="icon-atributo" name="heart" color="danger" item-start></ion-icon>
     <div class="progress-outer" id="hp">
       <div class="progress-inner" [style.width]="getHPPorcentagem(status.xp, status.hp) + '%'">
           {{getHPPorcentagem(status.xp, status.hp)}}%
@@ -9,7 +9,7 @@
   </ion-item>
 
   <ion-item>
-    <ion-icon name="star" color="xp" item-start class="xp-bar"></ion-icon>
+    <ion-icon name="star" color="xp" item-start class="icon-atributo xp-bar"></ion-icon>
     <div class="progress-outer xp-bar" id="xp">
       <div class="progress-inner xp-bar" [style.width]="getXPPorcentagem(status.xp) + '%'">
           {{getXPPorcentagem(status.xp)}}%

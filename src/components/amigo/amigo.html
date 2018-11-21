@@ -1,4 +1,4 @@
-<ion-item>
+<button ion-item>
   <ion-avatar item-start (click)="onClickAvatar()">
     <img [src]="amigo.settings.currentAvatar || 'assets/imgs/no-photo.jpg'">
   </ion-avatar>
@@ -15,10 +15,10 @@
             </div>
           </div>
         </ion-col>
-        <ion-col col-2 offset-1 align-self-end>
+        <ion-col col-3 align-self-end text-right>
           <span class="text">lvl. {{ getNivel(amigo.status.xp) }} </span>
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
-</ion-item>
+</button>

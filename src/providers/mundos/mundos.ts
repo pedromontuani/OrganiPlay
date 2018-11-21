@@ -1,6 +1,6 @@
 import { Http } from '@angular/http';
 import { Injectable, Inject } from '@angular/core';
-import { BaseProvider } from '../base/base';
+
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Mundo } from '../../models/mundo.model';
 import { Observable } from 'rxjs/Observable';
@@ -10,6 +10,8 @@ import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 import { SubmissaoTarefa } from '../../models/submissao-tarefa.model';
 import { RecompensaMundo } from '../../models/recompensa-mundo.model';
+import { BaseProvider } from '../base/base';
+import { Device } from '@ionic-native/device';
 /*
   Generated class for the MundosProvider provider.
 
@@ -22,22 +24,23 @@ export class MundosProvider extends BaseProvider {
   constructor(
     public http: Http,
     public db: AngularFireDatabase,
+    public device: Device,
     @Inject(FirebaseApp) public firebaseApp: any
   ) {
-    super(db);
+    super();
   }
 
   novoMundo(mundo: Mundo): Promise<void> {
     return this.db.list(`/mundos`)
       .push(mundo).transaction(() => { }, () => { })
-      .catch(this.handlePromiseError);
+      .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
   getMundosObservable(uid: string): Observable<Mundo[]> {
     return this.mapListKeys(this.db.list(`/mundos`, ref => ref.orderByChild('gmUID')))
       .map((mundos: Mundo[]) => {
         return mundos.filter(
-          (mundo: Mundo) => mundo.players.toString().split(" ").indexOf(uid) != -1
+          (mundo: Mundo) => mundo.players.toString().split(" ").filter(value => { return value != " " }).indexOf(uid) != -1
         );
       });
   }
@@ -87,25 +90,25 @@ export class MundosProvider extends BaseProvider {
   adicionarJogadores($keyMundo: string, players: string): Promise<void> {
     return this.db.object(`/mundos/${$keyMundo}`)
       .update({ players: players })
-      .catch(this.handlePromiseError);
+      .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
   excluirUsuario(userUid: string, $keyMundo: string, playersKeysString: string): Promise<void> {
     let tempPlayersKeys: string[] = [];
-    playersKeysString.split(" ").forEach(playerKey => {
+    playersKeysString.split(" ").filter(value => { return value != " " }).forEach(playerKey => {
       if (playerKey != userUid) {
         tempPlayersKeys.push(playerKey);
       }
     });
     return this.db.object(`/mundos/${$keyMundo}`)
       .update({ players: tempPlayersKeys.join(" ") })
-      .catch(this.handlePromiseError);
+      .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
   novaTarefa($keyMundo: string, tarefa: Afazer): Promise<void> {
     return this.db.list(`/afazeres/mundos/${$keyMundo}/`)
       .push(tarefa).transaction(() => { }, () => { })
-      .catch(this.handlePromiseError);
+      .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
   getTarefasMundo($keyMundo: string): Observable<Afazer[]> {
@@ -123,7 +126,7 @@ export class MundosProvider extends BaseProvider {
   ): Promise<void> {
     return this.db.object(`/afazeres/mundos/${$keyMundo}/${$keyTarefa}/submissoes/${uid}`)
       .set(dados)
-      .catch(this.handlePromiseError);
+      .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
   enviarComprovacao(
@@ -154,13 +157,13 @@ export class MundosProvider extends BaseProvider {
   updateComprovacao($keyTarefa: string, $keyMundo: string, uid: string, dados: { verificado: boolean }): Promise<void> {
     return this.db.object(`/afazeres/mundos/${$keyMundo}/${$keyTarefa}/submissoes/${uid}`)
       .update(dados)
-      .catch(this.handlePromiseError);
+      .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
   deleteComprovacao($keyTarefa: string, $keyMundo: string, uid: string): Promise<void> {
     return this.db.object(`/afazeres/mundos/${$keyMundo}/${$keyTarefa}/submissoes/${uid}`)
       .remove()
-      .catch(this.handlePromiseError);
+      .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
   novaRecompensa($keyMundo: string, recompensa: RecompensaMundo): firebase.database.ThenableReference {
@@ -171,7 +174,7 @@ export class MundosProvider extends BaseProvider {
   updateRecompensa($keyMundo: string, $keyRecompensa: string, data): Promise<void> {
     return this.db.object(`/recompensas/mundos/${$keyMundo}/${$keyRecompensa}`)
       .update(data)
-      .catch(this.handlePromiseError);
+      .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
   enviarFotoRecompensa(
@@ -202,7 +205,7 @@ export class MundosProvider extends BaseProvider {
   updateRecompensaMundo($keyMundo: string, $keyRecompensa: string, data): Promise<any> {
     return this.db.object(`/recompensas/mundos/${$keyMundo}/${$keyRecompensa}`)
       .update(data)
-      .catch(this.handlePromiseError);
+      .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
   excluirMundo($keyMundo): Promise<void> {
@@ -213,20 +216,20 @@ export class MundosProvider extends BaseProvider {
             return firebase.storage().ref().child(`/mundos/${$keyMundo}`).delete()
               .then(() => {
                 return this.db.object(`/mundos/${$keyMundo}`).remove()
-                  .catch(this.handlePromiseError);
+                  .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
               })
               .catch(err => {
-                if(err.code.indexOf("object-not-found") > -1){
+                if (err.code.indexOf("object-not-found") > -1) {
                   return this.db.object(`/mundos/${$keyMundo}`).remove()
-                    .catch(this.handlePromiseError);
+                    .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
                 } else {
-                  return this.handlePromiseError(err);
+                  return this.handlePromiseError(err, this.db, this.device);
                 }
               });
           })
-          .catch(this.handlePromiseError);
+          .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
       })
-      .catch(this.handlePromiseError);
+      .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
 

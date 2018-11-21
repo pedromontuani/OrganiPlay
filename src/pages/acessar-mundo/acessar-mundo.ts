@@ -54,7 +54,7 @@ export class AcessarMundoPage extends BasePage {
     this.mundoObject.subscribe((mundo: Mundo) => {
       this.mundo = mundo;
       this.playersList = this.mundoProvider.getPlayersMundo(
-        mundo.players.split(" "),
+        mundo.players.split(" ").filter(value => { return value != " " }),
         this.currentUserUID
       );
     });
@@ -103,7 +103,7 @@ export class AcessarMundoPage extends BasePage {
   finalizarTarefa(tarefa: Afazer, photoUrl: string) {
     let date = new Date(Date.now());;
     let submissao: any;
-    if(photoUrl != ""){
+    if (photoUrl != "") {
       submissao = {
         timestamp: date.getTime(),
         photoUrl: photoUrl,
@@ -115,15 +115,15 @@ export class AcessarMundoPage extends BasePage {
         verificado: false
       };
     }
-    
+
     this.mundoProvider.finalizarTarefa(
       tarefa.$key,
       this.mundo.$key,
       this.currentUserUID,
       submissao
     ).then(() => {
-        this.showToast("Sua submissão está sendo analizada");
-      })
+      this.showToast("Sua submissão está sendo analizada");
+    })
       .catch((err) => {
         console.log(err);
         this.showToast("Ocorreu um erro... tente novamente.");
@@ -131,24 +131,24 @@ export class AcessarMundoPage extends BasePage {
   }
 
   enviarComprovacao(tarefa: Afazer, source: string) {
-    if(this.platform.is('android')){
+    if (this.platform.is('android')) {
       this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA)
-      .then(success => {
-        this.tirarFoto(tarefa, source);
-      },
-        err => {
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
-            .then(() => {
-              this.enviarComprovacao(tarefa, source);
-            })
-            .catch(() => {
-              this.showAlert("Você deve conceder permissão ao uso da câmera");
-            })
-        });
+        .then(success => {
+          this.tirarFoto(tarefa, source);
+        },
+          err => {
+            this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
+              .then(() => {
+                this.enviarComprovacao(tarefa, source);
+              })
+              .catch(() => {
+                this.showAlert("Você deve conceder permissão ao uso da câmera");
+              })
+          });
     } else {
       this.tirarFoto(tarefa, source);
     }
-    
+
   }
 
   tirarFoto(tarefa: Afazer, source: string) {
@@ -165,22 +165,22 @@ export class AcessarMundoPage extends BasePage {
     }
     this.camera.getPicture(options).then((imageData) => {
       let base64: string = imageData;
-          let uploadTask = this.mundoProvider.enviarComprovacao(
-            tarefa.$key,
-            this.mundo.$key,
-            base64,
-            this.currentUserUID
-          );
-          uploadTask.on('state_changed', (snapshot: firebase.storage.UploadTaskSnapshot) => {
-          }, (error: Error) => {
-            console.log(error);
-            loading.dismiss();
-            this.showToast("Ocorreu um erro... tente novamente");
-          }, () => {
-            let photoUrl: string = uploadTask.snapshot.downloadURL;
-            loading.dismiss();
-            this.finalizarTarefa(tarefa, photoUrl);
-          });
+      let uploadTask = this.mundoProvider.enviarComprovacao(
+        tarefa.$key,
+        this.mundo.$key,
+        base64,
+        this.currentUserUID
+      );
+      uploadTask.on('state_changed', (snapshot: firebase.storage.UploadTaskSnapshot) => {
+      }, (error: Error) => {
+        console.log(error);
+        loading.dismiss();
+        this.showToast("Ocorreu um erro... tente novamente");
+      }, () => {
+        let photoUrl: string = uploadTask.snapshot.downloadURL;
+        loading.dismiss();
+        this.finalizarTarefa(tarefa, photoUrl);
+      });
     }, (err) => {
       console.log(err);
       loading.dismiss();
@@ -192,13 +192,13 @@ export class AcessarMundoPage extends BasePage {
   }
 
   isSubmetida(tarefa: Afazer) {
-    if(tarefa.submissoes){
+    if (tarefa.submissoes) {
       return Object.keys(tarefa.submissoes).indexOf(this.currentUserUID) != -1;
     }
   }
 
   isComprovada(tarefa: Afazer) {
-    if(this.isSubmetida(tarefa)){
+    if (this.isSubmetida(tarefa)) {
       return tarefa.submissoes[this.currentUserUID].verificado;
     }
   }
@@ -229,29 +229,33 @@ export class AcessarMundoPage extends BasePage {
   showAlertRecompensa(recompensa: RecompensaMundo) {
     let requisitos: string = "";
     let mensagem: string = "";
-    if(recompensa.moedas) {
+    let tarefas: Afazer[];
+    this.tarefas.first().subscribe(data => {
+      tarefas = data;
+    });
+    if (recompensa.moedas) {
       requisitos += `Moedas: ${recompensa.moedas}<br>`;
     }
-    if(recompensa.gemas) {
+    if (recompensa.gemas) {
       requisitos += `Gemas: ${recompensa.gemas}<br>`;
     }
-    if(recompensa.nivel) {
+    if (recompensa.nivel) {
       requisitos += `Nível: ${recompensa.nivel}<br>`;
     }
-    if(recompensa.dinheiro) {
+    if (recompensa.dinheiro) {
       requisitos += `Dinheiro: R$ ${recompensa.dinheiro}<br>`;
     }
-    if(recompensa.afazer) {
+    if (recompensa.afazer) {
       this.tarefas.first().subscribe(afazer => {
         afazer.forEach(afazer => {
-          if(afazer.$key == recompensa.afazer) {
+          if (afazer.$key == recompensa.afazer) {
             requisitos += `Tarefa: ${afazer.afazer}<br>`;
           }
         });
       });
     }
 
-    if(recompensa.descricao) {
+    if (recompensa.descricao) {
       mensagem = recompensa.descricao + "<br><br>";
     }
 
@@ -260,82 +264,88 @@ export class AcessarMundoPage extends BasePage {
     this.alertCtrl.create({
       title: "Obter recompensa?",
       message: `<b>${recompensa.recompensa}</b><br>${mensagem}`,
-        buttons: [
-          {
-            text: "Obter",
-            handler: () => {
-              this.redeemRecompensa(recompensa);
-            }
-          },
-          {
-            text: "Cancelar"
+      buttons: [
+        {
+          text: "Obter",
+          handler: () => {
+            this.redeemRecompensa(recompensa, tarefas);
           }
-        ]
-      }).present();
+        },
+        {
+          text: "Cancelar"
+        }
+      ]
+    }).present();
   }
 
-  redeemRecompensa(recompensa: RecompensaMundo) {
+  redeemRecompensa(recompensa: RecompensaMundo, tarefas: Afazer[]) {
     let loading = this.showLoading();
     let canRedeem: boolean = true;
     let newUserStatus: Status = this.currentUser.status;
     let originalStatus = Object.assign({}, newUserStatus);
 
-    if(recompensa.moedas) {
-      if(newUserStatus.coins >= recompensa.moedas) {
+    if (recompensa.moedas) {
+      if (newUserStatus.coins >= recompensa.moedas) {
         newUserStatus.coins -= recompensa.moedas
       } else {
         canRedeem = false;
       }
     }
 
-    if(recompensa.gemas) {
-      if(newUserStatus.gems >= recompensa.gemas) {
+    if (recompensa.gemas) {
+      if (newUserStatus.gems >= recompensa.gemas) {
         newUserStatus.gems -= recompensa.gemas
       } else {
         canRedeem = false;
       }
     }
 
-    if(recompensa.afazer) {
-      this.tarefas.first().subscribe(tarefas => {
-        tarefas.forEach(tarefa => {
-          if(recompensa.afazer == tarefa.$key) {
-            if(!this.isComprovada(tarefa)){
-              canRedeem = false;
-            }
+    if (recompensa.afazer) {
+
+      tarefas.forEach(tarefa => {
+        if (recompensa.afazer == tarefa.$key) {
+          if (!this.isComprovada(tarefa)) {
+            canRedeem = false;
           }
-        });
+        }
       });
+
     }
 
-    if(canRedeem) {
+    if(recompensa.nivel) {
+      if(recompensa.nivel > this.userProvider.getNivel(this.currentUser.status.xp)) {
+        canRedeem = false;
+      }
+    }
+
+    if (canRedeem) {
       let portadores: string;
-      if(recompensa.portadores) {
-        let usersUID: string[] = recompensa.portadores.split(" ");
+      if (recompensa.portadores) {
+        let usersUID: string[] = recompensa.portadores.split(" ").filter(value => { return value != " " });
         usersUID.push(this.currentUserUID);
         portadores = usersUID.join(" ");
       } else {
         portadores = this.currentUserUID
       }
       this.mundoProvider.updateRecompensaMundo(
-        this.mundo.$key, 
+        this.mundo.$key,
         recompensa.$key,
-        {portadores: portadores})
-      .then(() => {
-        newUserStatus.xp += 50;
-        this.userProvider.updateStatus(originalStatus, newUserStatus, this.currentUserUID)
-          .then(() => {
-            this.showToast("Parabéns! Você obteve sua recompensa e um bônus de 50XP!");
-          })
-          .catch(err => {
-            console.log(err);
-            this.showToast("Ocorreu um erro... contate um administrador");
-          });
-      })
-      .catch(err => {
-        console.log(err);
-        this.showToast("Ocorreu um erro... tente novamete");
-      });
+        { portadores: portadores })
+        .then(() => {
+          newUserStatus.xp += 50;
+          this.userProvider.updateStatus(originalStatus, newUserStatus, this.currentUserUID)
+            .then(() => {
+              this.showToast("Parabéns! Você obteve sua recompensa e um bônus de 50XP!");
+            })
+            .catch(err => {
+              console.log(err);
+              this.showToast("Ocorreu um erro... contate um administrador");
+            });
+        })
+        .catch(err => {
+          console.log(err);
+          this.showToast("Ocorreu um erro... tente novamete");
+        });
     } else {
       this.showToast("Você ainda não pode obter esta recompensa... verifique os requisitos");
     }
@@ -343,10 +353,10 @@ export class AcessarMundoPage extends BasePage {
   }
 
   isPortador(recompensa: RecompensaMundo): boolean {
-    if(recompensa.portadores) {
+    if (recompensa.portadores) {
       return recompensa.portadores
-      .split(" ")
-      .indexOf(this.currentUserUID) != -1;  
+        .split(" ").filter(value => { return value != " " })
+        .indexOf(this.currentUserUID) != -1;
     } else {
       return false;
     }

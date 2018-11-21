@@ -20,9 +20,9 @@
 
 <ion-content>
   <ion-list *ngFor="let player of (players | async)">
-    <button ion-item (click)="showModalPlayer(player)">
+    <button ion-item>
       <ion-avatar item-start>
-        <img [src]="player.settings.currentAvatar || '/assets/imgs/no-photo.jpg'">
+        <img [src]="player.settings.currentAvatar || '/assets/imgs/no-photo.jpg'" (click)="onClickAvatar(player)">
       </ion-avatar>
       <h2>{{player.username}}</h2>
       <p>{{player.name}}</p>

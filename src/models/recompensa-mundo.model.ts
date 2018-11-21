@@ -6,7 +6,7 @@ export class RecompensaMundo {
         public qtd: number,
         public icon: string,
         public photoUrl: string,
-        public nivel: string,
+        public nivel: number,
         public afazer: string,
         public moedas: number,
         public gemas: number,

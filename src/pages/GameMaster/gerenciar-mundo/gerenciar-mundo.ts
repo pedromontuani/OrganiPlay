@@ -43,14 +43,14 @@ export class GerenciarMundoPage extends BasePage {
   ) {
     super(alertCtrl, undefined, toastCtrl);
     this.mundo = navParams.get("mundo");
-    this.gmsUID = this.mundo.gmUID.split(" ");
+    this.gmsUID = this.mundo.gmUID.split(" ").filter(value => {return value != " "});
     this.currentUserUID = this.authProvider.userUID;
     this.mundoObject = this.mundoProvider.getMundoObject(this.mundo.$key);
     this.mundoObject.subscribe((mundo: Mundo) => {
       this.mundo = mundo;
-      this.gmsUID = this.mundo.gmUID.split(" ");
+      this.gmsUID = this.mundo.gmUID.split(" ").filter(value => {return value != " "});
       this.playersList = this.mundoProvider.getPlayersMundo(
-        mundo.players.split(" "), ""
+        mundo.players.split(" ").filter(value => {return value != " "}), ""
       );
     });
     this.tarefas = this.mundoProvider.getTarefasMundo(this.mundo.$key);

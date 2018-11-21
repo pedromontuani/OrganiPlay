@@ -108,6 +108,10 @@ export class RecompensasPage extends BasePage {
       }
     }
 
+    if(recompensa.nivel > this.userProvider.getNivel(this.user.status.xp)) {
+      canRedeem = false;
+    }
+
     if (canRedeem) {
       if (recompensa.moedas) {
         newStatus.coins -= recompensa.moedas;

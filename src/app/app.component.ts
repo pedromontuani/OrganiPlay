@@ -10,7 +10,6 @@ import { AuthProvider } from '../providers/auth/auth';
 import { AdminPage } from '../pages/Administrador/admin/admin';
 import { AdminProvider } from '../providers/admin/admin';
 import { User } from '../models/user.model';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { NotificationsProvider } from '../providers/notifications/notifications';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { LocalNotifications } from '@ionic-native/local-notifications';
@@ -35,7 +34,6 @@ export class MyApp {
     public userProvider: UserProvider,
     public authProvider: AuthProvider,
     public alertCtrl: AlertController,
-    public push: Push,
     public notificationsProvider: NotificationsProvider,
     public appMinimize: AppMinimize,
     public localNotifications: LocalNotifications,
@@ -68,6 +66,9 @@ export class MyApp {
           this.firstAccess();
           this.statusBar.overlaysWebView(true);
           splashScreen.hide();
+          if(this.platform.is('android')) {
+            this.ionNavId = "ion-nav";
+          }
         });
       }
     });
@@ -107,87 +108,7 @@ export class MyApp {
   }
 
   notificationSubscribe(uid: string): void {
-    this.push.hasPermission()
-      .then((res: any) => {
-        if (res.isEnabled) {
-          console.log('We have permission to send push notifications');
-        } else {
-          console.log('We do not have permission to send push notifications');
-        }
-      });
-
-    const options: PushOptions = {
-      android: { senderID: '805916840528', forceShow: true },
-      ios: {
-        alert: 'true',
-        badge: true,
-        sound: 'false'
-      },
-      windows: {},
-    };
-
-
-    let pushObject: PushObject = this.push.init(options);
-
-    pushObject.on('registration').subscribe((registration: any) => {
-      console.log('Device registered', registration)
-    });
-
-    pushObject.subscribe('global')
-      .then(() => {
-        console.log("Subscribed on global");
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    pushObject.subscribe(uid)
-      .then(() => {
-        console.log("Subscribed on user UID");
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    this.notificationsProvider
-      .getUserNotificationSettings(uid)
-      .subscribe(settings => {
-        if (settings && settings.topics) {
-          this.notificationsProvider.getAllTopics()
-            .first()
-            .subscribe(topics => {
-              if (topics && topics.topics) {
-                topics.topics.split(" ").filter(value => {return value!=" "}).forEach(topic => {
-                  if (topic.length > 1) {
-                    pushObject.unsubscribe(topic)
-                      .then(() => {
-                        console.log(`Unsubscribed on ${topic}`);
-                      })
-                      .catch(err => {
-                        console.log(err);
-                      });
-                  }
-                });
-                settings.topics.split(" ").filter(value => {return value!=" "}).forEach(topic => {
-                  if (topic.length > 1) {
-                    pushObject.subscribe(topic)
-                      .then(() => {
-                        console.log(`Subscribed on ${topic}`);
-                      })
-                      .catch(err => {
-                        console.log(err);
-                      });
-                  }
-                });
-              }
-            });
-        }
-      });
-
-    pushObject.on('error').subscribe(error => {
-      console.error('Error with Push plugin', error)
-    });
-
+    this.notificationsProvider.initPush(uid);
   }
 
   firstAccess(): void {
@@ -206,7 +127,7 @@ export class MyApp {
               .catch(err => {
                 console.log(err);
               });
-
+          
             this.localNotifications.requestPermission()
               .catch(err => {
                 console.log(err);

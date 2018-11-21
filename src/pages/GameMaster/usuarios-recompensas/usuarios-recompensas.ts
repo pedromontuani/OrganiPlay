@@ -22,7 +22,7 @@ export class UsuariosRecompensasPage {
     this.recompensa = this.navParams.get("recompensa");
     this.playersKeys = this.navParams.get("playersKeys");
     if(this.playersKeys){
-      this.playersList = this.mundoProvider.getPlayersByKeysArray(this.playersKeys.split(" "));
+      this.playersList = this.mundoProvider.getPlayersByKeysArray(this.playersKeys.split(" ").filter(value => {return value != " "}));
     }
   }
 

@@ -34,15 +34,12 @@ export class NovoMundoUsuariosPage extends BasePage {
       this.$keyMundo = this.navParams.get("keyMundo");
       this.$keysPlayersString = this.navParams.get("keysPlayers");
       this.players = this.mundosProvider.addUsersList(
-        this.$keysPlayersString.split(" "),
+        this.$keysPlayersString.split(" ").filter(value => {return value != " "}),
         this.uid
       );
     } else {
       this.players = this.mundosProvider.getUsersList(this.uid);
     }
-    console.log(this.uid);
-    console.log(this.$keyMundo);
-    console.log(this.$keysPlayersString);
   }
 
   ionViewWillLoad() {

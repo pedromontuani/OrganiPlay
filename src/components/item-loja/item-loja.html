@@ -5,7 +5,7 @@
       {{itemLoja.nome}}
     </ion-card-title>
     <p>
-      {{itemLoja.descricao}}
+      {{itemLoja.descricao}} <span class="text" *ngIf="itemLoja.revive">Pode reviver seus amigos.</span>
     </p>
 
     <ion-item>
@@ -23,31 +23,10 @@
       <div class="card-text">lvl. {{itemLoja.nivel}}</div>
     </ion-item>
 
-   <!-- <ion-grid>
-      <ion-row>
-        <ion-col col-4>
-          <ion-item>
-            <ion-icon item-start name="op-coins" color="xp" class="op-coins">.</ion-icon>
-            <div>{{itemLoja.moedas}}</div>
-          </ion-item>
-        </ion-col>
-        <ion-col col-4>
-          <ion-item>
-            <ion-icon item-start name="op-diamond" color="gems" class="op-diamond">....</ion-icon>
-            <div>{{itemLoja.gemas}}</div>
-          </ion-item>
-        </ion-col>
-        <ion-col col-4>
-          <ion-item>
-            <ion-icon item-start name="star" color="xp" class="xp-bar"></ion-icon>
-            <div>lvl. {{itemLoja.nivel}}</div>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid> -->
+   
     <div text-right>
       <button ion-button *ngIf="!isComprado" (click)="onClickComprar()">Comprar</button>
-      <button ion-button *ngIf="isComprado" [disabled]="isUsando" (click)="onClickUsar()">Usar</button>
+      <button ion-button color="btnUsar" *ngIf="isComprado" [disabled]="isUsando" (click)="onClickUsar()">Usar</button>
     </div>
   </ion-card-content>
 </ion-card>

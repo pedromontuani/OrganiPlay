@@ -7,6 +7,10 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { SolicitacoesAmizadeModalPage } from '../Modals/solicitacoes-amizade-modal/solicitacoes-amizade-modal';
 import { UserSettings } from '../../models/user-settings.model';
 import { SolicitacaoAmizade } from '../../models/solicitacao-amizade.model';
+import { PlayerModalPage } from '../Modals/player-modal/player-modal';
+import { ItemLojaPocao } from '../../models/item-loja-pocao.model';
+import { LojaProvider } from '../../providers/loja/loja';
+import { EnviarSolicitacoesAmizadePage } from '../enviar-solicitacoes-amizade/enviar-solicitacoes-amizade';
 
 
 //@IonicPage()
@@ -16,7 +20,7 @@ import { SolicitacaoAmizade } from '../../models/solicitacao-amizade.model';
 })
 export class AmigosPage {
 
-  amigosList: Observable<string>;
+  amigosList: string;
   amigos: Observable<User[]>;
   userSettings: UserSettings;
   solicitacoes: SolicitacaoAmizade[];
@@ -28,9 +32,9 @@ export class AmigosPage {
     public authProvider: AuthProvider,
     public modalCtrl: ModalController
   ) {
-    this.amigosList = this.amigosProvider.getAmigosList(this.authProvider.userUID);
-    this.amigosList.subscribe(amigos => {
-      this.amigos = this.amigosProvider.getPlayersObjs(amigos.split(" "));
+    this.amigosProvider.getAmigosList(this.authProvider.userUID).subscribe(amigos => {
+      this.amigosList = amigos;
+      this.amigos = this.amigosProvider.getPlayersObjs(amigos.split(" ").filter(value => {return value != " "}));
     });
     this.amigosProvider.getPlayerSolicitacoes(this.authProvider.userUID)
       .subscribe(solicitacoes => {
@@ -39,21 +43,35 @@ export class AmigosPage {
     this.userSettings = this.navParams.get('settings');
   }
 
-  ionViewDidLoad() {
-  }
-
   openSolicitacoesModal() {
-    let theme = this.userSettings.currentTheme ? this.userSettings.currentTheme : ""
+    let theme = this.userSettings.currentTheme ? this.userSettings.currentTheme : "";
     let modalIcons = this.modalCtrl.create(
       SolicitacoesAmizadeModalPage, 
 
       { solicitacoes : this.amigosProvider.getPlayerSolicitacoes(this.authProvider.userUID),
         amigos : this.amigosProvider.getAmigosList(this.authProvider.userUID),
-        playerUid: this.authProvider.userUID }, 
+        playerUid: this.authProvider.userUID,
+        theme : theme }, 
 
-      {cssClass : `modal ${theme}`});
+      { cssClass : `modal ${theme}`} );
       
     modalIcons.present();
   }
 
+  onClickAmigo(amigo: User) {
+    this.navCtrl.push(
+      PlayerModalPage,
+      { player : amigo, isModal : false }
+    );
+  }
+
+
+  addAmigos() {
+    this.navCtrl.push(
+      EnviarSolicitacoesAmizadePage,
+      { amigos : this.amigosList },
+      { animate: true, animation: 'slide', direction: 'forward' }
+    )
+  }
+ 
 }

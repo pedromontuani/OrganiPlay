@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs';
-import { BaseProvider } from '../base/base';
+
 import { firebase } from 'firebase/database';
 import { AuthProvider } from '../auth/auth';
+import { BaseProvider } from '../base/base';
+import { Device } from '@ionic-native/device';
 
 /*
   Generated class for the AdminProvider provider.
@@ -21,10 +23,10 @@ export class AdminProvider extends BaseProvider{
   constructor(
     public http: Http,
     public db: AngularFireDatabase,
-    public authService: AuthProvider
+    public authService: AuthProvider,  
+    public device: Device
   ) {
-    super(db);
-    console.log('Hello AdminProvider Provider');
+    super();
   }
 
   getUsers() {
