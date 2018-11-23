@@ -61,7 +61,7 @@ export class AmigosPage {
   onClickAmigo(amigo: User) {
     this.navCtrl.push(
       PlayerModalPage,
-      { player : amigo, isModal : false }
+      { player : amigo, isModal : false, isAmigo : true }
     );
   }
 

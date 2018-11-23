@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BasePage } from '../../base/base';
 import { MundosProvider } from '../../../providers/mundos/mundos';
 import { AuthProvider } from '../../../providers/auth/auth';
 import { IconsList } from '../../../models/icons.model';
 import { User } from '../../../models/user.model';
+import { IconsModalPage } from '../../Modals/icons-modal/icons-modal';
 
 /**
  * Generated class for the NovoMundoPage page.
@@ -25,27 +26,29 @@ export class NovoMundoPage extends BasePage{
   icons: any;
   players: User[];
   playersUidString: string = "";
+  icone: string = "images";
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     public mundosProvider: MundosProvider,
     public alertCtrl: AlertController,
-    public authProvider: AuthProvider
+    public authProvider: AuthProvider,
+    public modalCtrl: ModalController
   ) {
     super(alertCtrl, undefined, undefined);
     this.novoMundoForm = this.formBuilder.group({
       mundo: ['', [Validators.required]],
       descricao: [],
-      gmUID: [''],
-      icon: ['add', [Validators.required]]
+      gmUID: ['']
     });
   }
 
   ionViewWillLoad(){
     this.uid = this.navParams.get("uid");
     this.players = this.navParams.get("players");
-    this.icons = new IconsList().returnIcons();
+    this.icons = new IconsList().returnIcons(); 
     let playersUidsTemp: string[] = [];
     this.players.forEach(player => {
       playersUidsTemp.push(player.$key);
@@ -57,6 +60,7 @@ export class NovoMundoPage extends BasePage{
     let valores = this.novoMundoForm.value;
     valores.gmUID = this.uid;
     valores.players = this.playersUidString;
+    valores.icon = this.icone;
     this.mundosProvider.novoMundo(this.novoMundoForm.value)
       .then(() => {
         this.navCtrl.removeView(this.navCtrl.getPrevious());
@@ -69,6 +73,16 @@ export class NovoMundoPage extends BasePage{
 
   clickSubmit() {
     document.getElementById("submitBtn").click();
+  }
+
+  getIcon() {
+    let modalIcons = this.modalCtrl.create(IconsModalPage, {}, {cssClass : 'modal'});
+    modalIcons.onDidDismiss(data => {
+      if(data) {
+        this.icone = data.icon;
+      } 
+    });
+    modalIcons.present();
   }
 
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Habito } from '../../models/habito.model';
@@ -10,6 +10,7 @@ import { Afazer } from '../../models/afazer.model';
 import { IconsList } from '../../models/icons.model';
 import { NotificationsProvider } from '../../providers/notifications/notifications';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { IconsModalPage } from '../Modals/icons-modal/icons-modal';
 
 //@IonicPage()
 @Component({
@@ -23,6 +24,7 @@ export class NovoAfazerPage extends BasePage {
   edit: boolean = false;
   afazer: Afazer;
   icons: any;
+  icone: string = "images";
 
   constructor(
     public navCtrl: NavController,
@@ -32,13 +34,13 @@ export class NovoAfazerPage extends BasePage {
     public alertCtrl: AlertController,
     public authProvider: AuthProvider,
     public notificacoesProvider: NotificationsProvider,
-    public localNotifications: LocalNotifications
+    public localNotifications: LocalNotifications,
+    public modalCtrl: ModalController
   ) {
     super(alertCtrl, undefined, undefined);
     if (this.edit) {
       this.novoAfazerForm = this.formBuilder.group({
         afazer: [this.afazer.afazer, [Validators.required]],
-        icon: [this.afazer.icon, [Validators.required]],
         nivel: [this.afazer.nivel, [Validators.required]],
         dataFim: [this.afazer.dataFim]
       });
@@ -46,7 +48,6 @@ export class NovoAfazerPage extends BasePage {
     } else {
       this.novoAfazerForm = this.formBuilder.group({
         afazer: ['', [Validators.required]],
-        icon: ['add', [Validators.required]],
         nivel: ['Fácil', [Validators.required]],
         dataFim: []
       });
@@ -56,7 +57,7 @@ export class NovoAfazerPage extends BasePage {
 
   ionViewWillLoad(){
     this.uid = this.authProvider.userUID;
-    this.icons = new IconsList().returnIcons();
+    this.icons = new IconsList().returnIcons(); 
   }
 
   onSubmit() {
@@ -70,6 +71,7 @@ export class NovoAfazerPage extends BasePage {
         data.getDate(),
         23, 59).toISOString();
     }
+    value.icon = this.icone;
     console.log(value.dataFim);
     console.log(new Date(Date.now()));
     this.afazeresProvider.novoAfazer(value, this.uid)
@@ -102,6 +104,16 @@ export class NovoAfazerPage extends BasePage {
       .catch((error: Error) => {
         this.showAlert(error.message);
       });
+  }
+
+  getIcon() {
+    let modalIcons = this.modalCtrl.create(IconsModalPage, {}, {cssClass : 'modal'});
+    modalIcons.onDidDismiss(data => {
+      if(data) {
+        this.icone = data.icon;
+      } 
+    });
+    modalIcons.present();
   }
 
 }

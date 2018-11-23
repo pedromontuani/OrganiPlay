@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, ModalController } from 'ionic-angular';
 import { BasePage } from '../../base/base';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Afazer } from '../../../models/afazer.model';
@@ -9,6 +9,7 @@ import { IconsList } from '../../../models/icons.model';
 import { MundosProvider } from '../../../providers/mundos/mundos';
 import { NovaRecompensaMundoPage } from '../nova-recompensa-mundo/nova-recompensa-mundo';
 import { Observable } from 'rxjs/Observable';
+import { IconsModalPage } from '../../Modals/icons-modal/icons-modal';
 
 /**
  * Generated class for the NovaTarefaMundoPage page.
@@ -33,6 +34,7 @@ export class NovaTarefaMundoPage extends BasePage {
   recompensa: boolean;
   comprovacao: boolean = false;
   tarefas: Observable<Afazer[]>;
+  icone: string = "images";
 
   constructor(
     public navCtrl: NavController,
@@ -41,14 +43,14 @@ export class NovaTarefaMundoPage extends BasePage {
     public mundoProvider: MundosProvider,
     public alertCtrl: AlertController,
     public authProvider: AuthProvider,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public modalCtrl: ModalController
   ) {
     super(alertCtrl, undefined, toastCtrl);
     if (this.edit) {
       this.novaTarefaForm = this.formBuilder.group({
         afazer: [this.afazer.afazer, [Validators.required]],
         descricao: [this.afazer.descricao],
-        icon: [this.afazer.icon, [Validators.required]],
         nivel: [this.afazer.nivel, [Validators.required]],
         dataFim: [this.afazer.dataFim]
       });
@@ -57,7 +59,6 @@ export class NovaTarefaMundoPage extends BasePage {
       this.novaTarefaForm = this.formBuilder.group({
         afazer: ['', [Validators.required]],
         descricao: [],
-        icon: ['add', [Validators.required]],
         nivel: ['Fácil', [Validators.required]],
         dataFim: []
       });
@@ -67,11 +68,12 @@ export class NovaTarefaMundoPage extends BasePage {
 
   ionViewWillLoad(){
     this.uid = this.authProvider.userUID;
-    this.icons = new IconsList().returnIcons();
+    this.icons = new IconsList().returnIcons(); 
   }
 
   onSubmit() {
     this.novaTarefaForm.value.comprovacao = this.comprovacao;
+    this.novaTarefaForm.value.icon = this.icone;
     this.mundoProvider.novaTarefa(this.$keyMundo, this.novaTarefaForm.value)
       .then(() => {
         this.navCtrl.pop();
@@ -82,6 +84,16 @@ export class NovaTarefaMundoPage extends BasePage {
 
   novaTarefa() {
     document.getElementById("submitBtn").click();
+  }
+
+  getIcon() {
+    let modalIcons = this.modalCtrl.create(IconsModalPage, {}, {cssClass : 'modal'});
+    modalIcons.onDidDismiss(data => {
+      if(data) {
+        this.icone = data.icon;
+      } 
+    });
+    modalIcons.present();
   }
 
 }

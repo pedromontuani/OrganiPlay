@@ -4,6 +4,7 @@ import { AdminProvider } from '../../providers/admin/admin';
 import { User } from '../../models/user.model';
 import { UserProvider } from '../../providers/user/user';
 import { BasePage } from '../base/base';
+import { NotificationsProvider } from '../../providers/notifications/notifications';
 
 /**
  * Generated class for the AdmEditarUsuarioPage page.
@@ -28,9 +29,10 @@ export class EditarPerfilPage extends BasePage{
       public userProvider: UserProvider,
       public alertController: AlertController,
       public loadingCtrl: LoadingController,
-      public toastCtrl: ToastController
+      public toastCtrl: ToastController,
+      public notificationsProvider: NotificationsProvider
     ) {
-      super(alertController, loadingCtrl, undefined);
+      super(alertController, loadingCtrl, toastCtrl);
   }
 
   ionViewWillLoad() {

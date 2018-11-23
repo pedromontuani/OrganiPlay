@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { Recompensa } from '../../models/recompensa.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AfazeresProvider } from '../../providers/afazeres/afazeres';
@@ -9,6 +9,7 @@ import { RecompensasProvider } from '../../providers/recompensas/recompensas';
 import { Afazer } from '../../models/afazer.model';
 import { Observable } from 'rxjs/Observable';
 import { IconsList } from '../../models/icons.model';
+import { IconsModalPage } from '../Modals/icons-modal/icons-modal';
 
 /**
  * Generated class for the NovaRecompensaPage page.
@@ -33,6 +34,7 @@ export class NovaRecompensaPage extends BasePage {
   campoTarefas: boolean = false;
   campoValor: boolean = true;
   tarefas: Observable<Afazer[]>;
+  icone: string = "images";
 
   constructor(
     public navCtrl: NavController,
@@ -41,14 +43,14 @@ export class NovaRecompensaPage extends BasePage {
     public recompensasProvider: RecompensasProvider,
     public alertCtrl: AlertController,
     public authProvider: AuthProvider,
-    public afazeresProvider: AfazeresProvider
+    public afazeresProvider: AfazeresProvider,
+    public modalCtrl: ModalController
   ) {
     super(alertCtrl, undefined, undefined);
     if (this.edit) {
       this.novaRecompensaForm = this.formBuilder.group({
         recompensa: [this.recompensa.recompensa, [Validators.required]],
         descricao: [this.recompensa.descricao],
-        icon: [this.recompensa.icon, [Validators.required]],
         nivel: [this.recompensa.nivel, [Validators.required]],
         afazer: [this.recompensa.afazer],
         moedas: [this.recompensa.moedas],
@@ -60,7 +62,6 @@ export class NovaRecompensaPage extends BasePage {
       this.novaRecompensaForm = this.formBuilder.group({
         recompensa: ['', [Validators.required]],
         descricao: [],
-        icon: ['add', [Validators.required]],
         nivel: [],
         afazer: [],
         moedas: [],
@@ -71,7 +72,7 @@ export class NovaRecompensaPage extends BasePage {
     }
     this.uid = this.authProvider.userUID;
     this.tarefas = this.afazeresProvider.getAfazeresObservable(this.uid);
-    this.icons = new IconsList().returnIcons();
+    this.icons = new IconsList().returnIcons(); 
   }
 
   ionViewWillLoad(){
@@ -79,7 +80,9 @@ export class NovaRecompensaPage extends BasePage {
   }
 
   onSubmit() {
-    this.recompensasProvider.novaRecompensa(this.novaRecompensaForm.value, this.uid)
+    let value = this.novaRecompensaForm.value;
+    value.icon = this.icone;
+    this.recompensasProvider.novaRecompensa(value, this.uid)
       .then(() => {
         this.navCtrl.pop();
       })
@@ -106,6 +109,16 @@ export class NovaRecompensaPage extends BasePage {
     } else {
       this.campoValor = false;
     }
+  }
+
+  getIcon() {
+    let modalIcons = this.modalCtrl.create(IconsModalPage, {}, {cssClass : 'modal'});
+    modalIcons.onDidDismiss(data => {
+      if(data) {
+        this.icone = data.icon;
+      } 
+    });
+    modalIcons.present();
   }
 
   

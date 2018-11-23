@@ -11,6 +11,7 @@ import { AdminProvider } from '../../../providers/admin/admin';
 import { Status } from '../../../models/status.model';
 import { BasePage } from '../../base/base';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { NotificationsProvider } from '../../../providers/notifications/notifications';
 
 //@IonicPage()
 @Component({
@@ -33,7 +34,8 @@ export class GerenciarTarefaPage extends BasePage {
     public admProvider: AdminProvider,
     public alertCtrl: AlertController,
     private photoViewer: PhotoViewer,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public notificationsProvider: NotificationsProvider
   ) {
     super(alertCtrl, undefined, toastCtrl);
     this.tarefa = this.navParams.get('tarefa');
@@ -91,6 +93,11 @@ export class GerenciarTarefaPage extends BasePage {
               player.$key
             )
               .then(() => {
+                this.notificationsProvider.sendNotification(
+                  this.mundo.mundo,
+                  `Sua submissão na tarefa "${this.tarefa.afazer}" foi reprovada...`,
+                  player.$key
+                );
                 document.getElementById(player.$key).style.display = "none";
               })
               .catch((err) => {
@@ -144,12 +151,27 @@ export class GerenciarTarefaPage extends BasePage {
       player.$key,
       { verificado: true }
     ).then(() => {
+      this.notificationsProvider.sendNotification(
+        this.mundo.mundo,
+        `Sua submissão na tarefa "${this.tarefa.afazer}" foi aprovada!`,
+        player.$key
+      );
       this.userProvider.updateStatus(originalStatus, newStatus, player.$key);
       document.getElementById(player.$key).style.display = "none";
     })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  getTimestamp(player: User) {
+    let timestamp: number
+    this.submissoesTarefaVec.forEach(submissao => {
+      if(submissao.$key == player.$key) {
+        timestamp = submissao.timestamp;
+      }
+    });
+    return timestamp;
   }
 
 }

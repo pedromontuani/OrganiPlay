@@ -5,6 +5,7 @@ import { User } from '../../../models/user.model';
 import { MundosProvider } from '../../../providers/mundos/mundos';
 import { NovoMundoPage } from '../novo-mundo/novo-mundo';
 import { BasePage } from '../../base/base';
+import { NotificationsProvider } from '../../../providers/notifications/notifications';
 
 //@IonicPage()
 @Component({
@@ -25,7 +26,8 @@ export class NovoMundoUsuariosPage extends BasePage {
     public navParams: NavParams,
     public mundosProvider: MundosProvider,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public notificationsProvider: NotificationsProvider
   ) {
     super(alertCtrl, undefined, undefined);
     this.uid = this.navParams.get("uid");
@@ -92,6 +94,17 @@ export class NovoMundoUsuariosPage extends BasePage {
       this.$keyMundo,
       this.$keysPlayersString + " " + playersKeys
     ).then(() => {
+      this.mundosProvider.getMundoObject(this.$keyMundo)
+        .first()
+        .subscribe(mundo => {
+          playersUidsTemp.forEach(player => {
+            this.notificationsProvider.sendNotification(
+              mundo.mundo,
+              `Você foi adicionado(a) ao mundo "${mundo.mundo}"`,
+              player
+            );
+          })
+        });
       this.navCtrl.pop();
     }).catch(() => {
       this.showToast("Ocorreu um erro... Tente novamente");

@@ -19,7 +19,7 @@ export class UserInfoComponent {
   }
 
   getBgImgUrl() {
-    if(this.user && this.user.settings && this.user.settings.currentWallpaper) {
+    if(this.isMenu &&this.user && this.user.settings && this.user.settings.currentWallpaper) {
       return `url(${this.user.settings.currentWallpaper})`;
     } else {
       return '';

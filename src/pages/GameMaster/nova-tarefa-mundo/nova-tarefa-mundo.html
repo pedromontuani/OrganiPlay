@@ -15,7 +15,10 @@
 
 <ion-content padding>
   <h1 text-center>
-    <ion-icon name="list" class="icon-list" color="primary"></ion-icon>
+    <div (click)="getIcon()">
+      <ion-icon [name]="icone" class="icon-image" color="primary"></ion-icon>
+      <ion-icon name="add-circle" class="icon-add" color="add"></ion-icon>
+    </div>
   </h1>
   <form (ngSubmit)="onSubmit(); $event.preventDefault()" [formGroup]="novaTarefaForm">
     <ion-item>
@@ -25,14 +28,6 @@
     <ion-item>
       <ion-label>Descrição</ion-label>
       <ion-textarea formControlName="descricao"></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <ion-label>Icone</ion-label>
-      <ion-select formControlName="icon">
-        <ion-option *ngFor="let icon of icons" [value]="icon">
-          {{icon}}
-        </ion-option>
-      </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>Nível</ion-label>

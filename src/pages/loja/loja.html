@@ -28,6 +28,14 @@
 
 	<div [hidden]="view != 'avatares'">
 		<ion-list *ngIf="avatares">
+			<ion-item>
+				<ion-label>Filtrar por gênero</ion-label>
+				<ion-select [(ngModel)]="genero" (ionInput)="filterItens($event)">
+					<ion-option value="Todos" selected>Todos</ion-option>
+					<ion-option value="m">Masculino</ion-option>
+					<ion-option value="f">Feminino</ion-option>
+				</ion-select>
+			</ion-item>
 			<ion-grid>
 				<ion-row>
 					<ion-col col-6 *ngFor="let avatar of (avatares | async)">

@@ -71,5 +71,6 @@ export class LoginPage extends BasePage{
   onSignUp() {
     this.navCtrl.push(CadastrarPage);
   }
+  
 
 }

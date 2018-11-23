@@ -27,6 +27,7 @@ export class LojaPage {
   itensUsuario: ItensLojaUsuarios;
   userSettings: UserSettings;
   userStatus: Status;
+  genero: string;
 
   constructor(
     public navCtrl: NavController,
@@ -98,6 +99,21 @@ export class LojaPage {
       }
     }
     return false;
+  }
+
+  filterItens(event: any) {
+    let searchTerm: string = event.target.value;
+
+    if (searchTerm) {
+      if(searchTerm == "m" || searchTerm == "f") {
+        this.avatares = this.avatares.map(avatares => {
+          return avatares.filter(avatar => avatar.genero && avatar.genero == searchTerm)
+        });
+      }
+          
+    } else {
+      this.avatares = this.lojaProvider.getItensLoja("Avatar");
+    }
   }
 
 }

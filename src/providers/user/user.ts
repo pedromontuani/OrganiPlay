@@ -49,7 +49,7 @@ export class UserProvider extends BaseProvider {
           .set(new ItensLojaUsuarios("", "purple-theme", "", ""))
           .then(() => {
             return this.updateUserSettings(
-              new UserSettings("purple-theme", "", ""),
+              new UserSettings("purple-theme", "padrao", "padrao"),
               uid
             )
             .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });

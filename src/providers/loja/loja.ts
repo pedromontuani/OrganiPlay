@@ -10,6 +10,7 @@ import { Status } from '../../models/status.model';
 import { UserProvider } from '../user/user';
 import { BaseProvider } from '../base/base';
 import { Device } from '@ionic-native/device';
+import { NotificationsProvider } from '../notifications/notifications';
 
 @Injectable()
 export class LojaProvider extends BaseProvider {
@@ -19,6 +20,7 @@ export class LojaProvider extends BaseProvider {
     public db: AngularFireDatabase,
     public userProvider: UserProvider,
     public device: Device,
+    public notificationsProvider: NotificationsProvider,
     @Inject(FirebaseApp) public firebaseApp: any
   ) {
     super();
@@ -40,6 +42,23 @@ export class LojaProvider extends BaseProvider {
           .putString(base64, 'base64', { contentType: 'image/jpeg' })
           .then((snapshot) => {
             return this.updateItemLoja(item, { imgURL: snapshot.downloadURL })
+              .then(() => {
+                if(item.tipo == "Pocao") {
+                  this.notificationsProvider.sendNotification(
+                    "Nova poção",
+                    `A poção "${item.nome}" foi adicionada à loja`,
+                    "global"
+                  );
+                } else {
+                  let itemTipo: String = item.tipo;
+                  this.notificationsProvider.sendNotification(
+                    `Novo ${itemTipo.toLowerCase()}`,
+                    `O ${itemTipo.toLowerCase()} "${item.nome}" foi adicionada à loja`,
+                    "global"
+                  );
+                }
+                
+              })
               .catch(err => { return err });
           })
           .catch(err => {         return this.handlePromiseError(err, this.db, this.device);       });

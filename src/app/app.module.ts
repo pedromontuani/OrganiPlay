@@ -68,6 +68,7 @@ import { AmigosProvider } from '../providers/amigos/amigos';
 import { SolicitacoesAmizadeModalPage } from '../pages/Modals/solicitacoes-amizade-modal/solicitacoes-amizade-modal';
 import { PlayerModalPage } from '../pages/Modals/player-modal/player-modal';
 import { EnviarSolicitacoesAmizadePage } from '../pages/enviar-solicitacoes-amizade/enviar-solicitacoes-amizade';
+import { HelpPage } from '../pages/help/help';
 
 const firebaseAppConfig: FirebaseAppConfig = {
   apiKey: "AIzaSyA6IDVOXo4HoYvTx_JYSPI7xOZisI9c6gQ",
@@ -117,7 +118,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AmigosPage,
     SolicitacoesAmizadeModalPage,
     PlayerModalPage,
-    EnviarSolicitacoesAmizadePage
+    EnviarSolicitacoesAmizadePage,
+    HelpPage
   ],
   imports: [
     HttpModule,
@@ -164,7 +166,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AmigosPage,
     SolicitacoesAmizadeModalPage,
     PlayerModalPage,
-    EnviarSolicitacoesAmizadePage
+    EnviarSolicitacoesAmizadePage,
+    HelpPage
   ],
   providers: [
     StatusBar,

@@ -13,6 +13,7 @@ import { GerenciarTarefaPage } from '../gerenciar-tarefa/gerenciar-tarefa';
 import { NovaRecompensaMundoPage } from '../nova-recompensa-mundo/nova-recompensa-mundo';
 import { RecompensaMundo } from '../../../models/recompensa-mundo.model';
 import { UsuariosRecompensasPage } from '../usuarios-recompensas/usuarios-recompensas';
+import { NotificationsProvider } from '../../../providers/notifications/notifications';
 
 
 //@IonicPage()
@@ -39,7 +40,8 @@ export class GerenciarMundoPage extends BasePage {
     public actionSheetCtrl: ActionSheetController,
     public platform: Platform,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public notificationsProvider: NotificationsProvider
   ) {
     super(alertCtrl, undefined, toastCtrl);
     this.mundo = navParams.get("mundo");
@@ -76,7 +78,15 @@ export class GerenciarMundoPage extends BasePage {
                       player.$key,
                       this.mundo.$key,
                       this.mundo.players
-                    ).catch(() => {
+                    )
+                    .then(() => {
+                      this.notificationsProvider.sendNotification(
+                        this.mundo.mundo,
+                        `Você foi removido(a) do mundo "${this.mundo.mundo}"`,
+                        player.$key
+                      );
+                    })
+                    .catch(() => {
                       this.showToast("Ocorreu um erro... Tente novamente");
                     })
                   }

@@ -13,7 +13,7 @@
 
 
 <ion-content padding>
-  <ion-avatar [style.backgroundImage]="getBgImgUrl(player)">
+  <ion-avatar>
     <img class="round" [src]="player.settings.currentAvatar || 'assets/imgs/no-photo.jpg'" *ngIf="player && player.settings">
   </ion-avatar>
   <h2 text-center>{{player.name}}</h2>
@@ -42,7 +42,8 @@
   </ion-list>
 
   <div *ngIf="!isModal">
-    <button ion-button full [disabled]="player.status.hp > 0" (click)="reviverAmigo()">Reviver amigo</button>
-    <button ion-button full color="danger" (click)="desfazerAmizade()">Desfazer amizade</button>
+    <button ion-button full *ngIf="isAmigo" [disabled]="player.status.hp > 0" (click)="reviverAmigo()">Reviver amigo</button>
+    <button ion-button full color="danger" (click)="desfazerAmizade()" *ngIf="isAmigo">Desfazer amizade</button>
+    <button ion-button full color="danger" *ngIf="!isAmigo">Enviar solicitação de amizade</button>
   </div>
 </ion-content>

@@ -18,14 +18,6 @@
         required minlength="3">
       </ion-input>
     </ion-item>
-    
-    <ion-item>
-      <ion-input type="text" 
-        placeholder="Username" name="username" 
-        [(ngModel)]="user.username" 
-        required minlength="3">
-      </ion-input>
-    </ion-item>
     <br>
     <button ion-button block type="submit" [disabled]="profileForm.form.invalid">Salvar</button>
   </form>

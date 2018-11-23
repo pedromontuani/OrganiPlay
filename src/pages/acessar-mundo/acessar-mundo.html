@@ -52,7 +52,7 @@
 
     <div *ngSwitchCase="'jogadores'">
       <ion-list *ngIf="playersList">
-        <button ion-item *ngFor="let player of (playersList | async)">
+        <button ion-item *ngFor="let player of (playersList | async)" click="onClickPlayer(player)">
           <ion-avatar item-start>
             <img class="round" [src]="player.settings.currentAvatar || 'assets/imgs/no-photo.jpg'">
           </ion-avatar>

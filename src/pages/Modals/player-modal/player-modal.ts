@@ -9,6 +9,7 @@ import { BasePage } from '../../base/base';
 import { LojaProvider } from '../../../providers/loja/loja';
 import { ItemLojaPocao } from '../../../models/item-loja-pocao.model';
 import { Status } from '../../../models/status.model';
+import { NotificationsProvider } from '../../../providers/notifications/notifications';
 
 
 //@IonicPage()
@@ -23,6 +24,7 @@ export class PlayerModalPage extends BasePage {
   currentPlayerAmigos: string;
   pocoes: ItemLojaPocao[];
   currentPlayerPocoes: string;
+  isAmigo: boolean = true;
 
   constructor(
     public navCtrl: NavController, 
@@ -32,10 +34,12 @@ export class PlayerModalPage extends BasePage {
     public authProvider: AuthProvider,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public lojaProvider: LojaProvider
+    public lojaProvider: LojaProvider,
+    public notificationsProvider: NotificationsProvider
   ) {
     super(alertCtrl, undefined, toastCtrl);
     this.player = navParams.get('player');
+    this.isAmigo = navParams.get('isAmigo');
     this.amigosProvider.getAmigoObj(this.player.$key).subscribe(player => {
       this.player = player;
     });
@@ -55,14 +59,6 @@ export class PlayerModalPage extends BasePage {
       });
   }
 
-  
-  getBgImgUrl(player: User) {
-    if(player && player.settings && player.settings.currentWallpaper) {
-      return `url(${player.settings.currentWallpaper})`;
-    } else {
-      return '';
-    }
-  }
 
   getNivel(xp: number): number {
     return this.userProvider.getNivel(xp);
@@ -169,6 +165,15 @@ export class PlayerModalPage extends BasePage {
                   pocao,
                   this.currentPlayerPocoes
                 ).then(() => {
+                  this.amigosProvider.getPlayerObj(this.authProvider.userUID)
+                    .first()
+                    .subscribe(user => {
+                      this.notificationsProvider.sendNotification(
+                        "Seu avatar foi revivido",
+                        `"${user.username}" reviveu seu avatar!`,
+                        this.player.$key
+                      );
+                    }); 
                   this.showToast(`Parabéns! Você acabou de reviver "${this.player.username}"!`);
                 })
                 .catch(err => {

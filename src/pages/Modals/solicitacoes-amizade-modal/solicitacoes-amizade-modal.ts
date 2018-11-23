@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { BasePage } from '../../base/base';
 import { LojaPage } from '../../loja/loja';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { NotificationsProvider } from '../../../providers/notifications/notifications';
 
 
 //@IonicPage()
@@ -28,7 +29,8 @@ export class SolicitacoesAmizadeModalPage extends BasePage {
     public amigosProvider: AmigosProvider,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
-    public photoViewer: PhotoViewer
+    public photoViewer: PhotoViewer,
+    public notificationsProvider: NotificationsProvider
   ) {
 
     super(undefined, undefined, toastCtrl);
@@ -81,6 +83,15 @@ export class SolicitacoesAmizadeModalPage extends BasePage {
             this.amigosList ? this.amigosList : ""
           )
           .then(() => {
+            this.amigosProvider.getPlayerObj(this.playerUid)
+              .first()
+              .subscribe(currentPlayer => {
+                this.notificationsProvider.sendNotification(
+                    currentPlayer.username,
+                    `"${currentPlayer.username}" aceitou sua solicitação de amizade!`,
+                    player.$key
+                  );
+              })
             this.showToast(`Você adicionou '${player.username}' à sua lista de amigos`);
           })
           .catch(err => {

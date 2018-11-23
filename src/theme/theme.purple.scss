@@ -16,7 +16,7 @@
 	// conteúdo
 	ion-content {
 		background-color: #958BAD;
-		color: #dddddd;
+		color: #eeeeee;
 		
 	}
 	
@@ -36,10 +36,10 @@
 		background-color: #A978A5 !important;
 		
 		ion-icon {
-			color: #DDDDDD;			
+			color: #eeeeee;			
 		}
 		.tab-button {
-			color: #DDDDDD;
+			color: #eeeeee;
 		}
 
 		
@@ -47,7 +47,7 @@
 
 	//Botões
 	button {
-		color: #dddddd;
+		color: #eeeeee;
 	}
 	
 	//Background ion-item
@@ -57,7 +57,7 @@
 	
 	//Cor dos textos
 	span.text {
-		color: #dddddd;
+		color: #eeeeee;
 	}
 
 	//cor das gemas
@@ -75,12 +75,12 @@
 	ion-input {
 		color: #ffffff;
 		::placeholder{
-			color:#dddddd !important;
+			color:#eeeeee !important;
 		}
 	}
 
 	ion-label {
-		color: #dddddd !important;
+		color: #eeeeee !important;
 	}
 
 	.habito-list {
@@ -91,8 +91,12 @@
 
 	ion-label {
 		p {
-			color: #dddddd;
+			color: #eeeeee;
 		}
+	}
+
+	.datetime-placeholder {
+		color: #000 !important;
 	}
 	
   

@@ -12,6 +12,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { RecompensaMundo } from '../../models/recompensa-mundo.model';
 import { Status } from '../../models/status.model';
 import { UserProvider } from '../../providers/user/user';
+import { PlayerModalPage } from '../Modals/player-modal/player-modal';
 
 
 //@IonicPage()
@@ -52,11 +53,13 @@ export class AcessarMundoPage extends BasePage {
     });
     this.mundoObject = this.mundoProvider.getMundoObject(this.mundo.$key);
     this.mundoObject.subscribe((mundo: Mundo) => {
-      this.mundo = mundo;
-      this.playersList = this.mundoProvider.getPlayersMundo(
-        mundo.players.split(" ").filter(value => { return value != " " }),
-        this.currentUserUID
-      );
+      if(mundo) {
+        this.mundo = mundo;
+        this.playersList = this.mundoProvider.getPlayersMundo(
+          mundo.players.split(" ").filter(value => { return value != " " }),
+          this.currentUserUID
+        );
+      }
     });
     this.tarefas = this.mundoProvider.getTarefasMundo(this.mundo.$key);
     this.recompensasList = this.mundoProvider.getRecompensasMundo(this.mundo.$key);
@@ -362,5 +365,11 @@ export class AcessarMundoPage extends BasePage {
     }
   }
 
+  onClickPlayer(player: User) {
+    this.navCtrl.push(
+      PlayerModalPage,
+      { player : player, isModal : false, isAmigo : false }
+    );
+  }
 
 }

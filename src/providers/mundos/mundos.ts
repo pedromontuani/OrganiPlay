@@ -12,6 +12,7 @@ import { SubmissaoTarefa } from '../../models/submissao-tarefa.model';
 import { RecompensaMundo } from '../../models/recompensa-mundo.model';
 import { BaseProvider } from '../base/base';
 import { Device } from '@ionic-native/device';
+import { NotificationsProvider } from '../notifications/notifications';
 /*
   Generated class for the MundosProvider provider.
 
@@ -25,6 +26,7 @@ export class MundosProvider extends BaseProvider {
     public http: Http,
     public db: AngularFireDatabase,
     public device: Device,
+    public notificationsProvider: NotificationsProvider,
     @Inject(FirebaseApp) public firebaseApp: any
   ) {
     super();
@@ -32,7 +34,16 @@ export class MundosProvider extends BaseProvider {
 
   novoMundo(mundo: Mundo): Promise<void> {
     return this.db.list(`/mundos`)
-      .push(mundo).transaction(() => { }, () => { })
+      .push(mundo).transaction(() => { }, () => {})
+      .then(() => {
+        mundo.players.split(" ").filter(player => player != " ").forEach(player => {
+          this.notificationsProvider.sendNotification(
+            mundo.mundo,
+            `Você foi adicionado(a) ao mundo "${mundo.mundo}"`,
+            player
+          );
+        });
+      })
       .catch(err => { return this.handlePromiseError(err, this.db, this.device); });
   }
 
@@ -167,6 +178,15 @@ export class MundosProvider extends BaseProvider {
   }
 
   novaRecompensa($keyMundo: string, recompensa: RecompensaMundo): firebase.database.ThenableReference {
+    this.getMundoObject($keyMundo)
+      .first()
+      .subscribe(mundo => {
+        this.notificationsProvider.sendNotification(
+          mundo.mundo,
+          `Nova recompensa adicionada ao mundo ${mundo.mundo}`,
+          $keyMundo
+        );
+      });
     return this.db.list(`/recompensas/mundos/${$keyMundo}`)
       .push(recompensa);
   }
